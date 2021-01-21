@@ -21,6 +21,7 @@ Here is a description of this template p5 project.
 // // into constants
 // const NUM_CIRCLES = 10;
 
+
 // setup()
 //
 // Description of setup() goes here.
@@ -48,6 +49,7 @@ function draw() {
     },
     mode: CENTER
   }
+
   drawFancyRect(config);
 
 
@@ -63,6 +65,7 @@ function draw() {
 //   }
 } // draw end
 
+
 //OBJECT PARAMETERS////////////////////////////////////////////////////////////////////
 function drawFancyRect({ x, y, width, height, fillColor, mode }) {
   push();
@@ -71,3 +74,28 @@ function drawFancyRect({ x, y, width, height, fillColor, mode }) {
   rect(x, y, width, height);
   pop();
 }
+
+
+//FIRST-CLASS FUNCTIONS////////////////////////////////////////////////////////////////////
+//putting a function inside a variable
+let hello = function () {
+  alert(`Hello!`);
+};
+//hello and not hello() -> parentheses call the function immediately
+// setTimeout(hello, 5000);
+//OR
+//function inside function call
+setTimeout(function () {
+  alert(`Wassup`);
+}, 5000);
+
+//examples
+// let addingFunction = add;
+//
+// let result = add(1, 10);
+//
+// alert(`The result is ${result}!`);
+//
+// function add(a,b) {
+//   return a + b;
+// }
