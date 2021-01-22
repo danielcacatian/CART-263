@@ -17,8 +17,8 @@ let annoyingDogTimer = 0; //Timer for the dog to fall asleep
 let annoyingDogTimeout = 60 * 10; //Timer for the dog to fall asleep (60 * (the amount of seconds you wish))
 
 //Hint timer
-let hintTimer = 0;//Timer for the hint to popup
-let hintPopup = 60 * 20;//Hint pops up afte 20 secs
+let hintTimer = 0; //Timer for the hint to popup
+let hintPopup = 60 * 20; //Hint pops up afte 20 secs
 
 
 //State
@@ -37,50 +37,48 @@ function preload() {
 
 // setup()
 //
-// Description of setup() goes here.
+// setup() contains the canvas and spawning point of the AnnoyingDog.js class
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
   //Spawns the dog randomly everytime per refresh
-  let x = random(0, width-50);
-  let y = random(0, height-50);
+  let x = random(0, width - 50);
+  let y = random(0, height - 50);
   let annoyingDogImage = annoyingDogImageAwake;
   annoyingDog = new AnnoyingDog(x, y, annoyingDogImage);
-}//setup() end
+} //setup() end
 
 // draw()
 //
-// Description of draw() goes here.
+// draw() contains the states and background color
 function draw() {
   background(0);
 
-  if(state === `title`){
+  if (state === `title`) {
     title();
-  }
-  else if(state === `simulation`){
+  } else if (state === `simulation`) {
     simulation();
-  }
-  else if(state === `end`){
+  } else if (state === `end`) {
     caught();
   }
-}//draw() end
+} //draw() end
 
 //STATES FUNCTIONS//////////////////////////////////////////////////////////
 //Title state
-function title(){
+function title() {
   //Text
-  displayText(`CATCH THE ANNOYING DOG!`, width/2, height/2, 100, BOLD);
-  displayText(`Press 'any key' to start`, width/2, height/2+100, 50, NORMAL);
-  displayText(`Song: Toby Fox - Dogsong`, width/2, height-50, 25, NORMAL);
+  displayText(`CATCH THE ANNOYING DOG!`, width / 2, height / 2, 100, BOLD);
+  displayText(`Press 'any key' to start`, width / 2, height / 2 + 100, 50, NORMAL);
+  displayText(`Song: Toby Fox - Dogsong`, width / 2, height - 50, 25, NORMAL);
   //Song plays
-  if(!annoyingDogSong.isPlaying()){
+  if (!annoyingDogSong.isPlaying()) {
     annoyingDogSong.play();
     annoyingDogSong.loop();
   }
 }
 
 //Simulation state
-function simulation(){
+function simulation() {
   //Displays the dog
   annoyingDog.display();
   //Sleepy function
@@ -89,50 +87,50 @@ function simulation(){
   annoyingDogTimer++;
   //Hint pops up
   hintTimer++;
-  if(hintTimer > hintPopup){
-    displayText(`Hint: Wait for the dog to sleep...`, width/2, height-50, 25, NORMAL);
+  if (hintTimer > hintPopup) {
+    displayText(`Hint: Wait for the dog to sleep...`, width / 2, height - 50, 25, NORMAL);
   }
 }
 
 //End state
-function caught(){
+function caught() {
   //Text
-  displayText(`YOU CAUGHT THE ANNOYING DOG!`, width/2, height/2, 100, BOLD);
-  displayText(`Press 'ENTER' if you wish to restart`, width/2, height/2+100, 50, NORMAL);
+  displayText(`YOU CAUGHT THE ANNOYING DOG!`, width / 2, height / 2, 100, BOLD);
+  displayText(`Press 'ENTER' if you wish to restart`, width / 2, height / 2 + 100, 50, NORMAL);
 }
 
 //MISCELLANEOUS FUNCTION//////////////////////////////////////////////////////////
 //Mouse pressed function (user clicks on dog)
-function mousePressed(){
+function mousePressed() {
   annoyingDog.mousePressed();
 
   //User attempts to catch the dog while awake
-  if(annoyingDog.missed){
-    let x = random(0, width-50);
-    let y = random(0, height-50);
+  if (annoyingDog.missed) {
+    let x = random(0, width - 50);
+    let y = random(0, height - 50);
     let annoyingDogImage = annoyingDogImageAwake;
     annoyingDog = new AnnoyingDog(x, y, annoyingDogImage);
     //Reset timer
     annoyingDogTimer = 0;
     //Play sound effect
-    if(!annoyingDogBark.isPlaying()){
+    if (!annoyingDogBark.isPlaying()) {
       annoyingDogBark.play();
     }
   }
-  //Dog caught successfuly
-  else if(annoyingDog.caught && state === `simulation`){
+  //Dog caught asleep
+  else if (annoyingDog.caught && state === `simulation`) {
     state = `end`;
     //Play sound effect
-    if(!annoyingDogBark.isPlaying()){
+    if (!annoyingDogBark.isPlaying()) {
       annoyingDogBark.play();
     }
   }
 }
 
 //Dog falls asleep function
-function sleepy(){
+function sleepy() {
   //Dog sleeps in 10 secs
-  if(annoyingDogTimer === annoyingDogTimeout){
+  if (annoyingDogTimer === annoyingDogTimeout) {
     let annoyingDogImage = annoyingDogImageSleep;
     annoyingDog = new AnnoyingDog(annoyingDog.x, annoyingDog.y, annoyingDogImage);
     annoyingDog.asleep = true;
@@ -140,7 +138,7 @@ function sleepy(){
 }
 
 //Text function
-function displayText(string, x, y, size, style){
+function displayText(string, x, y, size, style) {
   push();
   textStyle(style);
   textAlign(CENTER, CENTER);
@@ -151,13 +149,13 @@ function displayText(string, x, y, size, style){
 }
 
 //Key presses to switch states
-function keyPressed(){
+function keyPressed() {
   //Press `any key to CONTINUE`
-  if (state === `title`){
+  if (state === `title`) {
     state = `simulation`;
   }
   //Press `any key` to restart the game
-  else if(state === `end` && keyCode === ENTER){
+  else if (state === `end` && keyCode === ENTER) {
     location.reload();
   }
 }
