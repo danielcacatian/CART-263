@@ -1,4 +1,4 @@
-class Dog {
+class AnnoyingDog {
 
   constructor(x, y, image){
     this.x = x;
@@ -13,7 +13,7 @@ class Dog {
   display(){
     push();
     imageMode(CENTER);
-    image(this.image, 0, 0);
+    image(this.image, this.x, this.y);
     pop();
   }
 
