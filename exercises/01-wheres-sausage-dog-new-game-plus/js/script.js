@@ -10,15 +10,25 @@ Here is a description of this template p5 project.
 //Dog variables
 let annoyingDogImageAwake = undefined; //Image of dog (not asleep)
 let annoyingDogImageSleep = undefined; //Image of dog asleep
+let annoyingDogBark = undefined; //Bark SFX
+let annoyingDogSong = undefined; //Dog Song
 let annoyingDog = undefined;
+let annoyingDogTimer = 0; //Timer for the dog to fall asleep
+let annoyingDogTimeout = 60 * 10; //Timer for the dog to fall asleep (60 * (the amount of seconds you wish))
 
-//States
+
+//State
 let state = `title`;
 
-//Preload images
+//Preload
 function preload() {
+  //Images
   annoyingDogImageAwake = loadImage(`assets/images/doggo.png`);
   annoyingDogImageSleep = loadImage(`assets/images/doggoSleep.png`);
+
+  //Sounds
+  annoyingDogBark = loadSound(`assets/sounds/bark.mp3`);
+  annoyingDogSong = loadSound(`assets/sounds/dogSong.mp3`);
 }
 
 // setup()
@@ -56,7 +66,13 @@ function draw() {
 function title(){
   //Text
   displayText(`CATCH THE ANNOYING DOG!`, width/2, height/2, 100, BOLD);
-  displayText(`Press 'any key' to start.`, width/2, height/2+100, 50, NORMAL);
+  displayText(`Press 'any key' to start`, width/2, height/2+100, 50, NORMAL);
+  displayText(`Song: Toby Fox - Dogsong`, width/2, height-50, 25, NORMAL);
+  //Song plays
+  if(!annoyingDogSong.isPlaying()){
+    annoyingDogSong.play();
+    annoyingDogSong.loop();
+  }
 }
 
 //Simulation state
@@ -65,13 +81,15 @@ function simulation(){
   annoyingDog.display();
   //Sleepy function
   sleepy();
+  //Dog timer goes up
+  annoyingDogTimer++;
 }
 
 //End state
 function caught(){
   //Text
   displayText(`YOU CAUGHT THE ANNOYING DOG!`, width/2, height/2, 100, BOLD);
-  displayText(`Press 'any key' if you wish to restart.`, width/2, height/2+100, 50, NORMAL);
+  displayText(`Press 'ENTER' if you wish to restart`, width/2, height/2+100, 50, NORMAL);
 }
 
 //MISCELLANEOUS FUNCTION//////////////////////////////////////////////////////////
@@ -79,24 +97,37 @@ function caught(){
 function mousePressed(){
   annoyingDog.mousePressed();
 
+  //User attempts to catch the dog while awake
   if(annoyingDog.missed){
     let x = random(0, width-50);
     let y = random(0, height-50);
     let annoyingDogImage = annoyingDogImageAwake;
     annoyingDog = new AnnoyingDog(x, y, annoyingDogImage);
+    //Reset timer
+    annoyingDogTimer = 0;
+    //Play sound effect
+    if(!annoyingDogBark.isPlaying()){
+      annoyingDogBark.play();
+    }
   }
-  else if(annoyingDog.caught){
+  //Dog caught successfuly
+  else if(annoyingDog.caught && state === `simulation`){
     state = `end`;
+    //Play sound effect
+    if(!annoyingDogBark.isPlaying()){
+      annoyingDogBark.play();
+    }
   }
 }
 
-//Dog falls asleep in 10secs
+//Dog falls asleep function
 function sleepy(){
-  setTimeout( function () {
+  //Dog sleeps in 10 secs
+  if(annoyingDogTimer === annoyingDogTimeout){
     let annoyingDogImage = annoyingDogImageSleep;
     annoyingDog = new AnnoyingDog(annoyingDog.x, annoyingDog.y, annoyingDogImage);
     annoyingDog.asleep = true;
-  }, 10000);
+  }
 }
 
 //Text function
@@ -110,12 +141,14 @@ function displayText(string, x, y, size, style){
   pop();
 }
 
+//Key presses to switch states
 function keyPressed(){
   //Press `any key to CONTINUE`
   if (state === `title`){
     state = `simulation`;
   }
-  else if(state === `end`){
+  //Press `any key` to restart the game
+  else if(state === `end` && keyCode === ENTER){
     location.reload();
   }
 }
