@@ -37,15 +37,27 @@ function draw() {
   background(0);
 
   annoyingDog.display();
-  setTimeout( function () {
-    let annoyingDogImage = annoyingDogImageSleep;
-    annoyingDog = new AnnoyingDog(annoyingDog.x, annoyingDog.y, annoyingDogImage);
-  }, 10000);
+  sleepy();
 
 }
 
 //EXTRA FUNCTIONS//////////////////////////////////////////////////////////
-//Mouse pressed function
+//Mouse pressed function (user clicks on dog)
 function mousePressed(){
   annoyingDog.mousePressed();
+
+  if(annoyingDog.missed){
+    let x = random(0, width-50);
+    let y = random(0, height-50);
+    let annoyingDogImage = annoyingDogImageAwake;
+    annoyingDog = new AnnoyingDog(x, y, annoyingDogImage);
+  }
+}
+
+//Dog falls asleep in 10secs
+function sleepy(){
+  setTimeout( function () {
+    let annoyingDogImage = annoyingDogImageSleep;
+    annoyingDog = new AnnoyingDog(annoyingDog.x, annoyingDog.y, annoyingDogImage);
+  }, 10000);
 }
