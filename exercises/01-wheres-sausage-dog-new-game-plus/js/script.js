@@ -16,6 +16,10 @@ let annoyingDog = undefined;
 let annoyingDogTimer = 0; //Timer for the dog to fall asleep
 let annoyingDogTimeout = 60 * 10; //Timer for the dog to fall asleep (60 * (the amount of seconds you wish))
 
+//Hint timer
+let hintTimer = 0;//Timer for the hint to popup
+let hintPopup = 60 * 20;//Hint pops up afte 20 secs
+
 
 //State
 let state = `title`;
@@ -83,6 +87,11 @@ function simulation(){
   sleepy();
   //Dog timer goes up
   annoyingDogTimer++;
+  //Hint pops up
+  hintTimer++;
+  if(hintTimer > hintPopup){
+    displayText(`Hint: Wait for the dog to sleep...`, width/2, height-50, 25, NORMAL);
+  }
 }
 
 //End state
