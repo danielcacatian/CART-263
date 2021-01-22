@@ -7,12 +7,13 @@ Here is a description of this template p5 project.
 
 "use strict";
 
-let annoyingDogImage = undefined; //Image of dog (not asleep)
+let annoyingDogImageAwake = undefined; //Image of dog (not asleep)
+let annoyingDogImageSleep = undefined; //Image of dog asleep
 let annoyingDog = undefined;
 
 function preload() {
-  annoyingDogImage = loadImage(`assets/images/doggo.png`);
-  loadImage(`assets/images/doggoSleep.png`);
+  annoyingDogImageAwake = loadImage(`assets/images/doggo.png`);
+  annoyingDogImageSleep = loadImage(`assets/images/doggoSleep.png`);
 }
 
 // setup()
@@ -21,8 +22,10 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  let x = random(0, width);
-  let y = random(0, height);
+  //Spawns the dog randomly everytime
+  let x = random(0, width-50);
+  let y = random(0, height-50);
+  let annoyingDogImage = annoyingDogImageAwake;
   annoyingDog = new AnnoyingDog(x, y, annoyingDogImage);
 
 }
@@ -34,5 +37,15 @@ function draw() {
   background(0);
 
   annoyingDog.display();
+  setTimeout( function () {
+    let annoyingDogImage = annoyingDogImageSleep;
+    annoyingDog = new AnnoyingDog(annoyingDog.x, annoyingDog.y, annoyingDogImage);
+  }, 10000);
 
+}
+
+//EXTRA FUNCTIONS//////////////////////////////////////////////////////////
+//Mouse pressed function
+function mousePressed(){
+  annoyingDog.mousePressed();
 }
