@@ -1,3 +1,3 @@
-# Template p5 project
+# Exercise 01: Where's Sausage Dog New Game+
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+This is the README file contains the link to the [Exercise 1](https://danielcacatian.github.io/CART-263/exercises/01-wheres-sausage-dog-new-game-plus/)
