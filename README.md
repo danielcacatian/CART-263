@@ -5,4 +5,4 @@ This README contains links to the numerous projects and works done for this clas
 
 Exercises
 
--[Exercise 1](https://danielcacatian.github.io/CART-263/exercises/01-wheres-sausage-dog-new-game-plus/)
+-[Exercise 1](https://danielcacatian.github.io/CART-263/exercises/exercise1/)
