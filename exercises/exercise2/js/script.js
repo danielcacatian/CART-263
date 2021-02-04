@@ -151,6 +151,8 @@ let currentAnimal = ``;
 let currentAnswer = ``;
 let score = 0;
 let correctSFX = undefined;
+let wrongSFX = undefined;
+
 
 let timeLimit = 60; //1min time limit
 let start = false;
@@ -160,6 +162,7 @@ let state = `title`;
 function preload() {
   //Sounds
   correctSFX = loadSound(`assets/sounds/correct.mp3`);
+  wrongSFX = loadSound(`assets/sounds/wrong.mp3`);
 }
 
 
@@ -226,9 +229,7 @@ function controls() {
 
 - To guess, say: "I think it is [animal name]"
 
-- Use 'mouse click' to either skip or move onto the next prompt
-
-- The timer will only go down when you're attempting a guess`, width / 2, 550, 32, NORMAL);
+- Use 'mouse click' to either skip or move onto the next prompt`, width / 2, 550, 32, NORMAL);
   //Instructions
   displayText(`Press 'any key' to START`, width / 2, height - 100, 32, NORMAL);
 
@@ -245,11 +246,6 @@ function simulation() {
   //Answer is correct!
   if (currentAnswer === currentAnimal && start) {
     fill(0, 255, 0); //Answer turns green
-    addScore();
-    //Play sound effect
-    if (!correctSFX.isPlaying()) {
-      correctSFX.play();
-    }
   }
   //Answer is wrong!
   else {
@@ -295,15 +291,29 @@ function mousePressed() {
 function skip() {
   currentAnimal = random(animals);
   let reverseAnimal = reverseString(currentAnimal);
-  responsiveVoice.speak(reverseAnimal, "UK English Male", {volume: 2});
-
-  loop();
+  responsiveVoice.speak(reverseAnimal, "UK English Male", {
+    volume: 2
+  });
 }
 
 //Ensures the answer is in lowercase
 function guessAnimal(animal) {
   currentAnswer = animal.toLowerCase();
   console.log(currentAnswer);
+  //If answer is CORRECT
+  if (currentAnswer === currentAnimal) {
+    score++;
+    //Play sound effect
+    if (!correctSFX.isPlaying()) {
+      correctSFX.play();
+    }
+  } else {
+    //If answer is WRONG
+    //Play sound effect
+    if (!wrongSFX.isPlaying()) {
+      wrongSFX.play();
+    }
+  }
 }
 
 //Function reverses the provided string
@@ -319,10 +329,10 @@ function reverseString(string) {
 }
 
 //Score function (adds points by 1)
-function addScore() {
-  noLoop();
-  score++;
-}
+// function addScore() {
+//   noLoop();
+//   score++;
+// }
 
 //Time goes down
 function timerDecrease() {
