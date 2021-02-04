@@ -295,7 +295,7 @@ function mousePressed() {
 function skip() {
   currentAnimal = random(animals);
   let reverseAnimal = reverseString(currentAnimal);
-  responsiveVoice.speak(reverseAnimal);
+  responsiveVoice.speak(reverseAnimal, "UK English Male", {volume: 2});
 
   loop();
 }
