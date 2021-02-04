@@ -1,3 +1,3 @@
-# Template p5 project
+# Exercise 02: Slamina+
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+This is the README file contains the link to [Exercise 2: Slamina+](https://danielcacatian.github.io/CART-263/exercises/exercise2/)
