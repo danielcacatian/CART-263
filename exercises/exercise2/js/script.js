@@ -145,6 +145,8 @@ const animals =  [
       "zebra"
 ];
 
+const BG_COLOR = `#119851`;
+
 let currentAnimal = ``;
 let currentAnswer = ``;
 let score = 0;
@@ -174,7 +176,7 @@ function setup() {
     annyang.addCommands(commands);
     annyang.start();
 
-    textSize(32);
+    textSize(74);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
   }
@@ -186,7 +188,7 @@ function setup() {
 //
 // draw() displays information on score and whether the player got the answer right or wrong
 function draw() {
-  background(0);
+  background(BG_COLOR);
 
   //States
   if(state === `title`){
