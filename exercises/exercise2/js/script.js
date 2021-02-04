@@ -147,10 +147,9 @@ const animals =  [
 
 let currentAnimal = ``;
 let currentAnswer = ``;
-let score = 0;
+let score = -1;
 
-// let currentTime = 0;
-// let timeLimit = 60 * 60;//1min time limit
+let timeLimit = 60;//1min time limit
 
 let state = `title`;
 
@@ -172,6 +171,7 @@ function setup() {
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
   }
+
 }//setup() end
 
 
@@ -241,7 +241,17 @@ function simulation(){
   text(currentAnswer, width/2, height/2);//Displays the guessed answer
 
   //Score
-  displayText(`Current score: `+score, 200, 100, 32, BOLD);
+  displayText(`Current score: `+score, 200, 100, 32, NORMAL);
+
+  //Timer
+  displayText(`Time: `+timeLimit, width-200, 100, 32, NORMAL);
+  if (frameCount % 60 == 0 && timeLimit > 0){
+    timeLimit --;
+  }
+  //Time's up
+  if (timeLimit === 0){
+    state = `end`;
+  }
 
 }
 
@@ -294,6 +304,11 @@ function reverseString(string){
 function addScore(){
   noLoop();
   score++;
+}
+
+//Time goes down
+function timerDecrease(){
+  timeLimit--;
 }
 
 //Text function
