@@ -145,10 +145,14 @@ const animals =  [
 
 let currentAnimal = ``;
 let currentAnswer = ``;
+let score = 0;
+
+let currentTime = 0;
+let timeLimit = 60 * 60;//1min time limit
 
 // setup()
 //
-// Description of setup() goes here.
+// setup() contains annyang commands
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
@@ -168,32 +172,49 @@ function setup() {
 
 // draw()
 //
-// Description of draw() goes here.
+// draw() displays information on score and whether the player got the answer right or wrong
 function draw() {
   background(0);
 
+  //Display answer
+  //Answer is correct!
   if (currentAnswer === currentAnimal) {
     fill(0, 255, 0);
+    addScore();
   }
+  //Answer is wrong!
   else {
     fill(255, 0, 0);
   }
   text(currentAnswer, width/2, height/2);
 
+  //Score
+  displayText(`Current score: `+score, 200, 100, 32, BOLD);
+
 }//draw() end
 
+//ADDITONAL FUNCTIONS////////////////////////////////////////////////////////////
+//User can click with the mouse to skip
 function mousePressed(){
+  skip();
+}
+
+//Function that skips the prompt
+function skip(){
   currentAnimal = random(animals);
   let reverseAnimal = reverseString(currentAnimal);
   responsiveVoice.speak(reverseAnimal);
+
+  loop();
 }
 
+//Ensures the answer is in lowercase
 function guessAnimal(animal){
   currentAnswer = animal.toLowerCase();
   console.log(currentAnswer);
 }
 
-//Reverse the provided string
+//Function reverses the provided string
 function reverseString(string){
   //Split the string into an array of characters
   let characters = string.split('');
@@ -203,4 +224,21 @@ function reverseString(string){
   let result = reverseCharacters.join('');
   //Return the result
   return result;
+}
+
+//Score function (adds points by 1)
+function addScore(){
+  noLoop();
+  score++;
+}
+
+//Text function
+function displayText(string, x, y, size, style) {
+  push();
+  textStyle(style);
+  textAlign(CENTER, CENTER);
+  textSize(size);
+  fill(255);
+  text(string, x, y);
+  pop();
 }
