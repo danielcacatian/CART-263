@@ -147,11 +147,18 @@ const animals =  [
 
 let currentAnimal = ``;
 let currentAnswer = ``;
-let score = -1;
+let score = 0;
+let correctSFX = undefined;
 
 let timeLimit = 60;//1min time limit
+let start = false;
 
 let state = `title`;
+
+function preload() {
+  //Sounds
+  correctSFX = loadSound(`assets/sounds/correct.mp3`);
+}
 
 
 // setup()
@@ -219,7 +226,9 @@ function controls(){
 
 - To guess, say: "I think it is [animal name]"
 
-- Use 'mouse click' to either skip or move onto the next prompt`
+- Use 'mouse click' to either skip or move onto the next prompt
+
+- The timer will only go down when you're attempting a guess`
 , width/2, 550, 32, NORMAL);
   //Instructions
   displayText(`Press 'any key' to START`, width/2, height-200, 32, NORMAL);
@@ -228,11 +237,20 @@ function controls(){
 
 //Simulation state////////////////////////////////////////////////////////////
 function simulation(){
+  //Click to begin
+  if (!start){
+  displayText(`Use 'mouse click' to begin!
+(listen carefully)`, width/2, height/2, 32, NORMAL);
+  }
   //Display answer
   //Answer is correct!
-  if (currentAnswer === currentAnimal) {
+  if (currentAnswer === currentAnimal && start ) {
     fill(0, 255, 0);//Answer turns green
     addScore();
+    //Play sound effect
+    if (!correctSFX.isPlaying()) {
+      correctSFX.play();
+    }
   }
   //Answer is wrong!
   else {
@@ -245,7 +263,7 @@ function simulation(){
 
   //Timer
   displayText(`Time: `+timeLimit, width-200, 100, 32, NORMAL);
-  if (frameCount % 60 == 0 && timeLimit > 0){
+  if (frameCount % 60 == 0 && timeLimit > 0 && start){
     timeLimit --;
   }
   //Time's up
@@ -270,6 +288,7 @@ function mousePressed(){
   //User skips prompt
   if(state === `simulation`){
     skip();
+    start = true;
   }
 }
 
