@@ -72,7 +72,8 @@ function nameInput(name) {
 
     //Response voice welcomes the user
     responsiveVoice.speak(`Welcome, ${spyProfile.name}. Or should I call you: Agent ${spyProfile.alias}.
-      Your mission... if you choose to accept it... is to ${spyProfile.task} at this location. ${spyProfile.location}`, "UK English Male", {
+      Your mission. If you choose to accept it. Is to ${spyProfile.task} at this location. ${spyProfile.location}.
+      Good luck, agent ${spyProfile.alias}`, "UK English Male", {
       pitch: 0.75,
       rate: 1
     });
