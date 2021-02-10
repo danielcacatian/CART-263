@@ -37,7 +37,7 @@ function preload() {
   actionData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/words/verbs.json`);
   countryData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/geography/countries.json`);
 
-}//preload() end
+} //preload() end
 
 
 /**SETUP()/////////////////////////////////////////////////////////////////////////
@@ -56,15 +56,15 @@ function setup() {
     annyang.start();
   }
 
-}//setup() end
+} //setup() end
 
 //SETUP FUNCTIONS//////////////////////////////////////////////////////////////
 
 //Input name with voice
-function nameInput(name){
+function nameInput(name) {
   //makes name uppercase
   spyProfile.name = name.toUpperCase();
-  if(state === `login` || state === `error`){
+  if (state === `login` || state === `error`) {
     state = `brief`;
 
     //Generates the brief
@@ -81,16 +81,16 @@ function nameInput(name){
 }
 
 //Inputs password with voice
-function passwordInput(password){
+function passwordInput(password) {
   //makes password lowercase
   spyProfile.password = password.toLowerCase();
   console.log(spyProfile.password);
-  if(state === `login` || state === `error`){
+  if (state === `login` || state === `error`) {
     state = `brief`;
 
     //Load localStorage
     let data = JSON.parse(localStorage.getItem(`spy-profile-data`));
-    if(spyProfile.password === data.password ){
+    if (spyProfile.password === data.password) {
       spyProfile.name = data.name;
       spyProfile.alias = data.alias;
       spyProfile.secretWeapon = data.secretWeapon;
@@ -103,8 +103,7 @@ function passwordInput(password){
         pitch: 0.75,
         rate: 1
       });
-    }
-    else {
+    } else {
       state = `error`;
       //ResponseVoice
       responsiveVoice.speak(`ERROR 4.O4. Password not registered. Please say a registered password. Or state your name`, "UK English Male", {
@@ -116,7 +115,7 @@ function passwordInput(password){
 }
 
 //Fills in the profile prompts with random data
-function generateSpyProfile(){
+function generateSpyProfile() {
 
   spyProfile.alias = random(nounData.personalNouns);
   spyProfile.secretWeapon = random(objectData.objects);
@@ -127,7 +126,7 @@ function generateSpyProfile(){
   spyProfile.password = random(card.keywords);
 
   //Store information
-  localStorage.setItem(`spy-profile-data`,JSON.stringify(spyProfile));
+  localStorage.setItem(`spy-profile-data`, JSON.stringify(spyProfile));
 }
 
 /**DRAW()/////////////////////////////////////////////////////////////////////////
@@ -136,34 +135,32 @@ Contains the states with functions that display everything that is needed
 function draw() {
   background(0);
 
-  if(state === `login`){
+  if (state === `login`) {
     login();
-  }
-  else if(state === `brief`){
+  } else if (state === `brief`) {
     brief();
-  }
-  else if(state === `error`){
+  } else if (state === `error`) {
     error();
   }
 
-}//draw() end
+} //draw() end
 
 //STATE FUNCTIONS////////////////////////////////////////////////////////////////
 
 //login-screen state//////////////////////////////////////////////////////////////
-function login(){
+function login() {
   //Say name
   displayText(`State your first name
-to receive briefing...`, width/2, height/2, 64, CENTER, CENTER);
+to receive briefing...`, width / 2, height / 2, 64, CENTER, CENTER);
   //Instructions
   displayText(`Say: 'my name is [name]'
 or
-'Password is [password]' to revisit a brief`, width/2, height/2+200, 32, CENTER, CENTER);
+'Password is [password]' to revisit a brief`, width / 2, height / 2 + 200, 32, CENTER, CENTER);
 
 }
 
 //Briefing document//////////////////////////////////////////////////////////////
-function brief(){
+function brief() {
   //Name
   displayText(`Welcome... ${spyProfile.name}`, 100, 100, 64, LEFT, TOP);
   //Alias
@@ -183,17 +180,17 @@ location: ${spyProfile.location}
 ${spyProfile.password}
 
 ...Good luck agent ${spyProfile.alias}.`,
-100, 300, 32, LEFT, TOP);
+    100, 300, 32, LEFT, TOP);
 }
 
 //Error state//////////////////////////////////////////////////////////////////////////
-function error(){
+function error() {
   //Error message
   displayText(`ERROR 404
-Password not registered`, width/2, height/2, 64, CENTER, CENTER);
+Password not registered`, width / 2, height / 2, 64, CENTER, CENTER);
   //Error subtext message
   displayText(`Please say a registered password
-or state your name`, width/2, height/2+200, 32, CENTER, CENTER);
+or state your name`, width / 2, height / 2 + 200, 32, CENTER, CENTER);
 }
 
 //EXTRA FUNCTIONS////////////////////////////////////////////////////////////////////
