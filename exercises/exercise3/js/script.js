@@ -16,17 +16,22 @@ let spyProfile = {
   task: `**REDACTED**`,
 };
 
-let instrumentData = undefined;
+let nounData = undefined;
 let objectData = undefined;
 let tarotData = undefined;
+let actionData = undefined;
+let countryData = undefined;
 
 /**
 Description of preload
 */
 function preload() {
-  instrumentData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/music/instruments.json`);
+  nounData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/words/personal_nouns.json`);
   objectData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/objects/objects.json`);
   tarotData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/divination/tarot_interpretations.json`);
+  actionData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/words/verbs.json`);
+  countryData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/geography/countries.json`);
+
 }//preload() end
 
 
@@ -36,29 +41,22 @@ Description of setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  let data = JSON.parse(localStorage.getItem(`spy-profile-data`));
-  if (data !== null) {
-    let password = prompt(`Agent! What is your password?!`);
-    if (password === data.password) {
-      spyProfile.name = data.name;
-      spyProfile.alias = data.alias;
-      spyProfile.secretWeapon = data.secretWeapon;
-      spyProfile.password = data.password;
-    }
-  }
-  else {
-    generateSpyProfile();
-  }
+
+  generateSpyProfile();
+
 }//setup() end
 
 //Fills in the profile prompts with random data
 function generateSpyProfile(){
+
   spyProfile.name = prompt(`Agent! What is your name?!`);
-  let instrument = random(instrumentData.instruments);
-  spyProfile.alias = `The ${instrument}`;
+  spyProfile.alias = random(nounData.personalNouns);
   spyProfile.secretWeapon = random(objectData.objects);
   let card = random(tarotData.tarot_interpretations);
   spyProfile.password = random(card.keywords);
+  let action = random(actionData.verbs);
+  spyProfile.task = action.present;
+  spyProfile.location = random(countryData.countries);
 
   localStorage.setItem(`spy-profile-data`,JSON.stringify(spyProfile));
 }
@@ -67,21 +65,38 @@ function generateSpyProfile(){
 Description of draw()
 */
 function draw() {
-  background(255);
+  background(0);
 
-  let profile = `** SPY PROFILE! DO NOT DISTRIBUTE! **
+  //Name
+  displayText(`Welcome... ${spyProfile.name}`, 100, 64);
+  //Alias
+  displayText(`Codename: Agent ${spyProfile.alias}`, 175, 32);
+  //Profile info
+  displayText(`BRIEFING
 
-Name: ${spyProfile.name}
-Alias: ${spyProfile.alias}
 Secret Weapon: ${spyProfile.secretWeapon}
-Password: ${spyProfile.password}`;
 
-  push();
-  textFont(`Courier, monospace`);
-  textSize(24);
-  textAlign(LEFT, TOP);
-  fill(0);
-  text(profile, 100, 100);
-  pop();
+Mission: Your mission, if you choose to accept it, is to ${spyProfile.task} at the location listed below.
+
+Location: ${spyProfile.location}
+
+
+
+...Good luck agent ${spyProfile.alias}.`,
+300, 32 )
+
 
 }//draw() end
+
+//EXTRA FUNCTIONS////////////////////////////////////////////////////////////////
+//Function to display text
+function displayText(string, y, size) {
+  push();
+  textFont(`Courier, monospace`);
+  textStyle(BOLD);
+  textAlign(LEFT, TOP);
+  textSize(size);
+  fill(255, 170, 0);
+  text(string, 100, y, width/2-50);
+  pop();
+}
