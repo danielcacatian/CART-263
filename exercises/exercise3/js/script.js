@@ -8,6 +8,8 @@ This exercise will mostly operate like the activity assigned
 by Pippin Barr with some modifications and improvements.
 */
 
+const GREEN_COLOR = `#34ff5d`;
+
 let spyProfile = {
   name: `**REDACTED**`,
   alias: `**REDACTED**`,
@@ -23,10 +25,10 @@ let tarotData = undefined;
 let actionData = undefined;
 let countryData = undefined;
 
-let state = `title`;
+let state = `login`;
 
 /**PRELOAD()/////////////////////////////////////////////////////////////////////////
-Description of preload
+Loads the raw JSON files via URL
 */
 function preload() {
   nounData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/words/personal_nouns.json`);
@@ -39,7 +41,7 @@ function preload() {
 
 
 /**SETUP()/////////////////////////////////////////////////////////////////////////
-Description of setup
+Contains the Annyang! commands
 */
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -57,19 +59,6 @@ function setup() {
 }//setup() end
 
 //SETUP FUNCTIONS//////////////////////////////////////////////////////////////
-//Fills in the profile prompts with random data
-function generateSpyProfile(){
-
-  spyProfile.alias = random(nounData.personalNouns);
-  spyProfile.secretWeapon = random(objectData.objects);
-  let action = random(actionData.verbs);
-  spyProfile.task = action.present;
-  spyProfile.location = random(countryData.countries);
-  let card = random(tarotData.tarot_interpretations);
-  spyProfile.password = random(card.keywords);
-
-  localStorage.setItem(`spy-profile-data`,JSON.stringify(spyProfile));
-}
 
 //Input name with voice
 function nameInput(name){
@@ -126,16 +115,28 @@ function passwordInput(password){
   }
 }
 
+//Fills in the profile prompts with random data
+function generateSpyProfile(){
+
+  spyProfile.alias = random(nounData.personalNouns);
+  spyProfile.secretWeapon = random(objectData.objects);
+  let action = random(actionData.verbs);
+  spyProfile.task = action.present;
+  spyProfile.location = random(countryData.countries);
+  let card = random(tarotData.tarot_interpretations);
+  spyProfile.password = random(card.keywords);
+
+  //Store information
+  localStorage.setItem(`spy-profile-data`,JSON.stringify(spyProfile));
+}
+
 /**DRAW()/////////////////////////////////////////////////////////////////////////
-Description of draw()
+Contains the states with functions that display everything that is needed
 */
 function draw() {
   background(0);
 
-  if(state === `title`){
-    title()
-  }
-  else if(state === `login`){
+  if(state === `login`){
     login();
   }
   else if(state === `brief`){
@@ -148,10 +149,7 @@ function draw() {
 }//draw() end
 
 //STATE FUNCTIONS////////////////////////////////////////////////////////////////
-//Title screen state//////////////////////////////////////////////////////////////
-function title(){
-  
-}
+
 //login-screen state//////////////////////////////////////////////////////////////
 function login(){
   //Say name
@@ -161,6 +159,7 @@ to receive briefing...`, width/2, height/2, 64, CENTER, CENTER);
   displayText(`Say: 'my name is [name]'
 or
 'Password is [password]' to revisit a brief`, width/2, height/2+200, 32, CENTER, CENTER);
+
 }
 
 //Briefing document//////////////////////////////////////////////////////////////
@@ -205,7 +204,7 @@ function displayText(string, x, y, size, align1, align2) {
   textStyle(BOLD);
   textAlign(align1, align2);
   textSize(size);
-  fill(52, 255, 90);
+  fill(GREEN_COLOR);
   text(string, x, y);
   pop();
 }
