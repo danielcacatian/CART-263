@@ -23,7 +23,7 @@ let tarotData = undefined;
 let actionData = undefined;
 let countryData = undefined;
 
-let state = `brief`;
+let state = `title`;
 
 /**PRELOAD()/////////////////////////////////////////////////////////////////////////
 Description of preload
@@ -75,11 +75,18 @@ function generateSpyProfile(){
 function nameInput(name){
   //makes name uppercase
   spyProfile.name = name.toUpperCase();
-  if(state === `start` || state === `error`){
+  if(state === `login` || state === `error`){
     state = `brief`;
 
     //Generates the brief
     generateSpyProfile();
+
+    //Response voice welcomes the user
+    responsiveVoice.speak(`Welcome, ${spyProfile.name}. Or should I call you: Agent ${spyProfile.alias}.
+      Your mission... if you choose to accept it... is to ${spyProfile.task} at this location. ${spyProfile.location}`, "UK English Male", {
+      pitch: 0.75,
+      rate: 1
+    });
 
   }
 }
@@ -89,7 +96,7 @@ function passwordInput(password){
   //makes password lowercase
   spyProfile.password = password.toLowerCase();
   console.log(spyProfile.password);
-  if(state === `start` || state === `error`){
+  if(state === `login` || state === `error`){
     state = `brief`;
 
     //Load localStorage
@@ -101,9 +108,20 @@ function passwordInput(password){
       spyProfile.task = data.task;
       spyProfile.location = data.location;
       spyProfile.password = data.password;
+
+      //Response voice welcomes back the user
+      responsiveVoice.speak(`Welcome back, Agent ${spyProfile.alias}.`, "UK English Male", {
+        pitch: 0.75,
+        rate: 1
+      });
     }
     else {
       state = `error`;
+      //ResponseVoice
+      responsiveVoice.speak(`ERROR 4.O4. Password not registered. Please say a registered password. Or state your name`, "UK English Male", {
+        pitch: 0.75,
+        rate: 1
+      });
     }
   }
 }
@@ -114,8 +132,11 @@ Description of draw()
 function draw() {
   background(0);
 
-  if(state === `start`){
-    start();
+  if(state === `title`){
+    title()
+  }
+  else if(state === `login`){
+    login();
   }
   else if(state === `brief`){
     brief();
@@ -127,8 +148,12 @@ function draw() {
 }//draw() end
 
 //STATE FUNCTIONS////////////////////////////////////////////////////////////////
-//Start-screen state//////////////////////////////////////////////////////////////
-function start(){
+//Title screen state//////////////////////////////////////////////////////////////
+function title(){
+  
+}
+//login-screen state//////////////////////////////////////////////////////////////
+function login(){
   //Say name
   displayText(`State your first name
 to receive briefing...`, width/2, height/2, 64, CENTER, CENTER);
@@ -136,7 +161,6 @@ to receive briefing...`, width/2, height/2, 64, CENTER, CENTER);
   displayText(`Say: 'my name is [name]'
 or
 'Password is [password]' to revisit a brief`, width/2, height/2+200, 32, CENTER, CENTER);
-
 }
 
 //Briefing document//////////////////////////////////////////////////////////////
@@ -161,7 +185,6 @@ ${spyProfile.password}
 
 ...Good luck agent ${spyProfile.alias}.`,
 100, 300, 32, LEFT, TOP);
-
 }
 
 //Error state//////////////////////////////////////////////////////////////////////////
@@ -169,7 +192,7 @@ function error(){
   //Error message
   displayText(`ERROR 404
 Password not registered`, width/2, height/2, 64, CENTER, CENTER);
-  //Error message
+  //Error subtext message
   displayText(`Please say a registered password
 or state your name`, width/2, height/2+200, 32, CENTER, CENTER);
 }
