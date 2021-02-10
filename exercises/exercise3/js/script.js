@@ -9,11 +9,11 @@ by Pippin Barr with some modifications and improvements.
 */
 
 let spyProfile = {
-  name: `**REDACTED**`,
-  password: `**REDACTED**`,
-  alias: `**REDACTED**`,
-  secretWeapon: `**REDACTED**`,
-  task: `**REDACTED**`,
+  name: ``,
+  alias: ``,
+  secretWeapon: ``,
+  task: ``,
+  password: ``,
 };
 
 let nounData = undefined;
@@ -21,6 +21,8 @@ let objectData = undefined;
 let tarotData = undefined;
 let actionData = undefined;
 let countryData = undefined;
+
+let state = `start`;
 
 /**
 Description of preload
@@ -41,6 +43,16 @@ Description of setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
+  //Annyang commands
+  if (annyang) {
+    let commands = {
+      'My name is *name': nameInput,
+    };
+    annyang.addCommands(commands);
+    annyang.start();
+
+  }
+
 
   generateSpyProfile();
 
@@ -49,7 +61,6 @@ function setup() {
 //Fills in the profile prompts with random data
 function generateSpyProfile(){
 
-  spyProfile.name = prompt(`Agent! What is your name?!`);
   spyProfile.alias = random(nounData.personalNouns);
   spyProfile.secretWeapon = random(objectData.objects);
   let card = random(tarotData.tarot_interpretations);
@@ -58,7 +69,7 @@ function generateSpyProfile(){
   spyProfile.task = action.present;
   spyProfile.location = random(countryData.countries);
 
-  localStorage.setItem(`spy-profile-data`,JSON.stringify(spyProfile));
+  // localStorage.setItem(`spy-profile-data`,JSON.stringify(spyProfile));
 }
 
 /**
@@ -67,36 +78,68 @@ Description of draw()
 function draw() {
   background(0);
 
+  if(state === `start`){
+    start();
+  }
+  else if(state === `brief`){
+    brief();
+  }
+
+}//draw() end
+
+//STATE FUNCTIONS////////////////////////////////////////////////////////////////
+//Start-screen state//////////////////////////////////////////////////////////////
+function start(){
+  //Say name
+  displayText(`State your name
+to receive briefing...`, width/2, height/2, 64, CENTER, CENTER)
+  //Instructions
+  displayText(`Say: my name is [name]...`, width/2, height/2+150, 32, CENTER, CENTER)
+
+}
+
+//Briefing document//////////////////////////////////////////////////////////////
+function brief(){
   //Name
-  displayText(`Welcome... ${spyProfile.name}`, 100, 64);
+  displayText(`Welcome... ${spyProfile.name}`, 100, 100, 64, LEFT, TOP);
   //Alias
-  displayText(`Codename: Agent ${spyProfile.alias}`, 175, 32);
+  displayText(`Codename: Agent ${spyProfile.alias}`, 100, 175, 32, LEFT, TOP);
   //Profile info
   displayText(`BRIEFING
 
 Secret Weapon: ${spyProfile.secretWeapon}
 
-Mission: Your mission, if you choose to accept it, is to ${spyProfile.task} at the location listed below.
+Mission: Your mission, if you choose to
+accept it, is to ${spyProfile.task} at the location
+listed below:
 
 Location: ${spyProfile.location}
 
-
+You can reconsult the briefing with this
+Password: ${spyProfile.password}
 
 ...Good luck agent ${spyProfile.alias}.`,
-300, 32 )
+100, 300, 32, LEFT, TOP);
+}
 
-
-}//draw() end
 
 //EXTRA FUNCTIONS////////////////////////////////////////////////////////////////
 //Function to display text
-function displayText(string, y, size) {
+function displayText(string, x, y, size, align1, align2) {
   push();
   textFont(`Courier, monospace`);
   textStyle(BOLD);
-  textAlign(LEFT, TOP);
+  textAlign(align1, align2);
   textSize(size);
   fill(255, 170, 0);
-  text(string, 100, y, width/2-50);
+  text(string, x, y);
   pop();
+}
+
+//Input name with voice (makes it uppercase)
+function nameInput(name){
+  spyProfile.name = name.toUpperCase();
+  if(state === `start`){
+    state = `brief`;
+  }
 }
