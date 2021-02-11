@@ -19,6 +19,13 @@ let spyProfile = {
   password: `**REDACTED**`,
 };
 
+let button = {
+  x: undefined,
+  y: undefined,
+  width: 300,
+  height: 100
+};
+
 let nounData = undefined;
 let objectData = undefined;
 let tarotData = undefined;
@@ -59,39 +66,43 @@ function setup() {
 } //setup() end
 
 //SETUP FUNCTIONS//////////////////////////////////////////////////////////////
-
 //Input name with voice
 function nameInput(name) {
+  if(state === `login` || state === `error`){
   //makes name uppercase
   spyProfile.name = name.toUpperCase();
-  if (state === `login` || state === `error`) {
-    state = `brief`;
 
-    //Generates the brief
-    generateSpyProfile();
+  //Generates the brief
+  state = `brief`;
+  generateSpyProfile();
 
-    //Response voice welcomes the user
-    responsiveVoice.speak(`Welcome, ${spyProfile.name}. Or should I call you: Agent ${spyProfile.alias}.
-      Your mission. If you choose to accept it. Is to ${spyProfile.task} at this location. ${spyProfile.location}.
-      Good luck, agent ${spyProfile.alias}`, "UK English Male", {
-      pitch: 0.75,
-      rate: 1
+  //Response voice welcomes the user
+  responsiveVoice.speak(`Welcome, ${spyProfile.name}. Or should I call you: Agent ${spyProfile.alias}.
+    Your mission. If you choose to accept it. Is to ${spyProfile.task} at this location. ${spyProfile.location}.
+    Good luck, agent ${spyProfile.alias}`, "UK English Male", {
+    pitch: 0.75,
+    rate: 1
     });
-
   }
 }
 
 //Inputs password with voice
 function passwordInput(password) {
-  //makes password lowercase
-  spyProfile.password = password.toLowerCase();
-  console.log(spyProfile.password);
   if (state === `login` || state === `error`) {
-    state = `brief`;
+    //makes password lowercase
+    spyProfile.password = password.toLowerCase();
+    console.log(spyProfile.password);
+
+    //If user attempts to say a password after cache has been cleared, they'll automatically be directed
+    //to the error page without any password confirmation
+    error404()
 
     //Load localStorage
     let data = JSON.parse(localStorage.getItem(`spy-profile-data`));
+    //Password exists
     if (spyProfile.password === data.password) {
+      state = `brief`;
+
       spyProfile.name = data.name;
       spyProfile.alias = data.alias;
       spyProfile.secretWeapon = data.secretWeapon;
@@ -104,13 +115,10 @@ function passwordInput(password) {
         pitch: 0.75,
         rate: 1
       });
-    } else {
-      state = `error`;
-      //ResponseVoice
-      responsiveVoice.speak(`ERROR 4.O4. Password not registered. Please say a registered password. Or state your name`, "UK English Male", {
-        pitch: 0.75,
-        rate: 1
-      });
+    }
+    //Doesn't exist
+    else{
+      error404();
     }
   }
 }
@@ -147,7 +155,6 @@ function draw() {
 } //draw() end
 
 //STATE FUNCTIONS////////////////////////////////////////////////////////////////
-
 //login-screen state//////////////////////////////////////////////////////////////
 function login() {
   //Say name
@@ -157,7 +164,6 @@ to receive briefing...`, width / 2, height / 2, 64, CENTER, CENTER);
   displayText(`Say: 'my name is [name]'
 or
 'Password is [password]' to revisit a brief`, width / 2, height / 2 + 200, 32, CENTER, CENTER);
-
 }
 
 //Briefing document//////////////////////////////////////////////////////////////
@@ -182,6 +188,11 @@ ${spyProfile.password}
 
 ...Good luck agent ${spyProfile.alias}.`,
     100, 300, 32, LEFT, TOP);
+
+  //Terminate contract button
+  button.x = width/8*6;
+  button.y = height/2;
+  displayButton(button.x, button.y);
 }
 
 //Error state//////////////////////////////////////////////////////////////////////////
@@ -205,4 +216,54 @@ function displayText(string, x, y, size, align1, align2) {
   fill(GREEN_COLOR);
   text(string, x, y);
   pop();
+}
+
+//Display a button to clear cache
+function displayButton(x, y){
+  push();
+  rectMode(CENTER);
+  strokeWeight(4);
+  stroke(GREEN_COLOR);
+  fill(0);
+  rect(x, y, button.width, button.height);
+  pop();
+
+  //text
+  displayText(`TERMINATE`, width/8*6, height/2, 32, CENTER, CENTER);
+}
+
+// Mouse click Function
+function mousePressed(){
+  //User terminates contract
+  if(mouseX >= button.x-button.width/2 &&
+    mouseX <= button.x+button.width/2 &&
+    mouseY >= button.y-button.height/2 &&
+    mouseY <= button.y+button.height/2 && state === `brief`){
+
+      //ResponsiveVoice
+      responsiveVoice.speak(`Terminating contract in Five... Four... Three... Two.... One...`, "UK English Male", {
+        pitch: 0.75,
+        rate: 1
+      });
+      // Terminates/Clear storage
+      setTimeout(terminate, 5000);
+  }
+}
+
+//Terminates/Clear cache
+function terminate(){
+  //Clears cache and reloads page
+  localStorage.removeItem(`spy-profile-data`);
+
+  location.reload();
+}
+
+//Function that leads to the error page
+function error404(){
+  state = `error`;
+  //ResponsiveVoice
+  responsiveVoice.speak(`ERROR 4.O4. Password not registered. Please say a registered password. Or state your name`, "UK English Male", {
+    pitch: 0.75,
+    rate: 1
+  });
 }
