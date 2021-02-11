@@ -255,7 +255,7 @@ function terminate(){
   //Clears cache and reloads page
   localStorage.removeItem(`spy-profile-data`);
 
-  location.reload();
+  state = `login`;
 }
 
 //Function that leads to the error page
