@@ -48,7 +48,7 @@ function setup() {
     flipHorizontal: true
   }, function() {
     console.log(`Model loaded.`);
-    // state = `title`;
+    state = `title`;
   });
 
   // Listen for predictions
@@ -138,7 +138,7 @@ function instructions(){
 - Pop 10 bubbles with your
 index finger to win
 
-- DONT pop the fish that
+- DONT pop the orange fish that
 swims across or you lose!`,
 25, height/2, 24, LEFT, CENTER, BOLD);
     //Cursor
