@@ -18,6 +18,8 @@ let predictions = [];
 let bubble = undefined;
 //The fish
 let fish = undefined;
+//Score
+let score = 10;
 
 /**
 Description of setup
@@ -62,10 +64,10 @@ function setup() {
     size: 50,
     maxSize: 100,
     minSize: 50,
-    vx: 2,
+    vx: 3,
     vy: 0,
-    maxSpeed: 4,
-    minSpeed: 2,
+    maxSpeed: 6,
+    minSpeed: 3,
   };
 
 }//setup()
@@ -93,8 +95,12 @@ function draw() {
     let d = dist(tipX, tipY, bubble.x, bubble.y);
     if (d < bubble.size/2) {
       bubbleReset();
+      score--;
     }
   }
+
+  // Score
+  displayText(`${score}`, width/2, height/2, 64, CENTER, CENTER)
 
   // Bubble
   displayBubble();
@@ -162,21 +168,31 @@ function velocity(){
   //Move the FISH
   fish.x += fish.vx;
   fish.y += fish.vy;
-
 }
 
 // Function that resets bubble
 function bubbleReset(){
-    bubble.x = random(width);
-    bubble.y = height+bubble.size/2;
-    bubble.size = random(bubble.minSize, bubble.maxSize);
-    bubble.vy = random(bubble.maxSpeed, bubble.minSpeed);
+  bubble.x = random(width);
+  bubble.y = height+bubble.size/2;
+  bubble.size = random(bubble.minSize, bubble.maxSize);
+  bubble.vy = random(bubble.maxSpeed, bubble.minSpeed);
 }
 
 // Function that resets fish
 function fishReset(){
-    fish.x = 0-fish.size/2;
-    fish.y = random(height);
-    fish.size = random(fish.minSize, fish.maxSize);
-    fish.vx = random(fish.minSpeed, fish.maxSpeed);
+  fish.x = 0-fish.size/2;
+  fish.y = random(height);
+  fish.size = random(fish.minSize, fish.maxSize);
+  fish.vx = random(fish.minSpeed, fish.maxSpeed);
+}
+
+//Function to easily add text
+function displayText(string, x, y, size, align1, align2) {
+  push();
+  textStyle(BOLD);
+  textAlign(align1, align2);
+  textSize(size);
+  fill(255);
+  text(string, x, y);
+  pop();
 }
