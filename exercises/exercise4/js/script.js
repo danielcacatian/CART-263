@@ -16,6 +16,8 @@ let handpose = undefined;
 let predictions = [];
 //The bubble
 let bubble = undefined;
+//The fish
+let fish = undefined;
 
 /**
 Description of setup
@@ -49,6 +51,15 @@ function setup() {
     vy: -2
   };
 
+  // Our fish
+  fish = {
+    x: 0,
+    y: random(height),
+    size: 50,
+    vx: 2,
+    vy: 0
+  };
+
 }//setup()
 
 
@@ -77,17 +88,22 @@ function draw() {
     }
   }
 
-  //Move the bubble
-  bubble.x += bubble.vx;
-  bubble.y += bubble.vy;
-
-  // Resets bubble if out of bounds
-  if (bubble.y < 0){
-    bubbleReset();
-  }
-
   // Bubble
   displayBubble();
+
+  // Fish
+  displayFish();
+
+  //Adds movement to objects
+  velocity()
+
+  // Resets bubble/fish if out of bounds
+  if (bubble.y < 0-bubble.size/2){
+    bubbleReset();
+  }
+  else if(fish.x > width+fish.size/2){
+    fishReset();
+  }
 
 }//draw()
 
@@ -119,8 +135,35 @@ function displayPin(baseX, baseY, tipX, tipY){
   pop();
 }
 
+// Function to display fish
+function displayFish(){
+  push();
+  fill(255,153,19);
+  noStroke();
+  ellipse(fish.x, fish.y, fish.size);
+  pop();
+}
+
+// Function to add movement to the fish/bubble
+function velocity(){
+  //Move the BUBBLE
+  bubble.x += bubble.vx;
+  bubble.y += bubble.vy;
+
+  //Move the FISH
+  fish.x += fish.vx;
+  fish.y += fish.vy;
+
+}
+
 // Function that resets bubble
 function bubbleReset(){
     bubble.x = random(width);
-    bubble.y = height;
+    bubble.y = height+bubble.size/2;
+}
+
+// Function that resets fish
+function fishReset(){
+    fish.x = 0-fish.size/2;
+    fish.y = random(height);
 }
