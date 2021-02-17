@@ -16,12 +16,22 @@ let handpose = undefined;
 let predictions = [];
 //The bubble
 let bubble = undefined;
+let bubbleSFX = undefined;
 //The fish
 let fish = undefined;
+let fishSFX = undefined;
 //Score
 let score = 11;
 
-let state = `win`;
+let state = `loading`;
+
+/**
+Description of preload()
+*/
+function preload() {
+  bubbleSFX = loadSound(`assets/sounds/pop.mp3`);
+  fishSFX = loadSound(`assets/sounds/stab.mp3`);
+}
 
 /**
 Description of setup
@@ -218,6 +228,10 @@ function displayPin(){
       else if(state === `simulation`){
         bubbleReset();
         score--;
+        //Play sound effect
+        if (!bubbleSFX.isPlaying()) {
+          bubbleSFX.play();
+        }
       }
     }
 
@@ -225,6 +239,10 @@ function displayPin(){
     let d2 = dist(tipX, tipY, fish.x, fish.y);
     if (d2 < fish.size/2) {
       state = `lose`;
+      //Play sound effect
+      if (!fishSFX.isPlaying()) {
+        fishSFX.play();
+      }
     }
 
   }
