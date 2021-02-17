@@ -47,8 +47,12 @@ function setup() {
     x: random(width),
     y: height,
     size: 100,
+    maxSize: 100,
+    minSize: 25,
     vx: 0,
-    vy: -2
+    vy: -2,
+    maxSpeed: -4,
+    minSpeed: -2
   };
 
   // Our fish
@@ -56,8 +60,12 @@ function setup() {
     x: 0,
     y: random(height),
     size: 50,
+    maxSize: 100,
+    minSize: 50,
     vx: 2,
-    vy: 0
+    vy: 0,
+    maxSpeed: 4,
+    minSpeed: 2,
   };
 
 }//setup()
@@ -67,7 +75,7 @@ function setup() {
 Description of draw()
 */
 function draw() {
-  background(0);
+  background(0, 119, 190);
 
   if (predictions.length > 0) {
     let hand = predictions[0];
@@ -111,8 +119,9 @@ function draw() {
 // Function to display bubble
 function displayBubble(){
   push();
-  fill(0, 100, 200);
-  noStroke();
+  noFill();
+  stroke(190, 231, 255);
+  strokeWeight(4);
   ellipse(bubble.x, bubble.y, bubble.size);
   pop();
 }
@@ -160,10 +169,14 @@ function velocity(){
 function bubbleReset(){
     bubble.x = random(width);
     bubble.y = height+bubble.size/2;
+    bubble.size = random(bubble.minSize, bubble.maxSize);
+    bubble.vy = random(bubble.maxSpeed, bubble.minSpeed);
 }
 
 // Function that resets fish
 function fishReset(){
     fish.x = 0-fish.size/2;
     fish.y = random(height);
+    fish.size = random(fish.minSize, fish.maxSize);
+    fish.vx = random(fish.minSpeed, fish.maxSpeed);
 }
