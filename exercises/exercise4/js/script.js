@@ -52,7 +52,7 @@ function setup() {
   });
 
   // Listen for predictions
-  handpose.on(`predict`, function (results){
+  handpose.on(`predict`, function(results) {
     console.log(results);
     predictions = results;
   });
@@ -83,7 +83,7 @@ function setup() {
     minSpeed: 3,
   };
 
-}//setup()
+} //setup()
 
 
 /**
@@ -92,46 +92,41 @@ Description of draw()
 function draw() {
   background(0, 119, 190);
 
-  if(state === `loading`){
+  if (state === `loading`) {
     loading();
-  }
-  else if(state === `title`){
+  } else if (state === `title`) {
     title();
-  }
-  else if(state === `instructions`){
+  } else if (state === `instructions`) {
     instructions();
-  }
-  else if(state === `simulation`){
+  } else if (state === `simulation`) {
     simulation();
-  }
-  else if(state === `win`){
+  } else if (state === `win`) {
     win();
-  }
-  else if(state === `lose`){
+  } else if (state === `lose`) {
     lose();
   }
 
-}//draw()
+} //draw()
 
 //STATE FUNCTIONS/////////////////////////////////////////////////////////
 //Loading state
-function loading(){
-  displayText(`Loading ml5 Handpose...`, width/2, height/2, 32, CENTER, CENTER, BOLD);
+function loading() {
+  displayText(`Loading ml5 Handpose...`, width / 2, height / 2, 32, CENTER, CENTER, BOLD);
 }
 
 //Title state
-function title(){
+function title() {
   //Bubble
-  bubble.x = width/2;
-  bubble.y = height/2;
+  bubble.x = width / 2;
+  bubble.y = height / 2;
   displayBubble();
   //Title
-  displayText(`Bubble Popper+`, width/2, height/2, 54, CENTER, CENTER, BOLD);
-  displayText(`Press 'SPACE' to continue`, width/2, height/2+100, 18, CENTER, CENTER, NORMAL);
+  displayText(`Bubble Popper+`, width / 2, height / 2, 54, CENTER, CENTER, BOLD);
+  displayText(`Press 'SPACE' to continue`, width / 2, height / 2 + 100, 18, CENTER, CENTER, NORMAL);
 }
 
 //Instructions state
-function instructions(){
+function instructions() {
   //Controls
   displayText(`INSTRUCTION:
 
@@ -140,21 +135,21 @@ index finger to win
 
 - DONT pop the orange fish that
 swims across or you lose!`,
-25, height/2, 24, LEFT, CENTER, BOLD);
-    //Cursor
-    displayPin();
-    displayText(`Pop to START`, width/4*3.25, height/4*2.75, 18, CENTER, CENTER, NORMAL);
-    //Bubble
-    bubble.x = width/4*3.25;
-    bubble.y = height/2;
-    displayBubble();
+    25, height / 2, 24, LEFT, CENTER, BOLD);
+  //Cursor
+  displayPin();
+  displayText(`Pop to START`, width / 4 * 3.25, height / 4 * 2.75, 18, CENTER, CENTER, NORMAL);
+  //Bubble
+  bubble.x = width / 4 * 3.25;
+  bubble.y = height / 2;
+  displayBubble();
 }
 
 //Simulation state
-function simulation(){
+function simulation() {
   // Score
-  displayText(`${score}`, width/2, height/2, 64, CENTER, CENTER, BOLD)
-  if(score === 0){
+  displayText(`${score}`, width / 2, height / 2, 64, CENTER, CENTER, BOLD)
+  if (score === 0) {
     state = `win`;
   }
 
@@ -168,32 +163,31 @@ function simulation(){
   velocity()
 
   // Resets bubble/fish if out of bounds
-  if (bubble.y < 0-bubble.size/2){
+  if (bubble.y < 0 - bubble.size / 2) {
     bubbleReset();
-  }
-  else if(fish.x > width+fish.size/2){
+  } else if (fish.x > width + fish.size / 2) {
     fishReset();
   }
 
 }
 
 //Win state
-function win(){
+function win() {
   //Text
-  displayText(`YOU WON!`, width/2, height/2, 64, CENTER, CENTER, BOLD);
-  displayText(`Press 'SPACE' to restart if you wish`, width/2, height/2+100, 18, CENTER, CENTER, NORMAL);
+  displayText(`YOU WON!`, width / 2, height / 2, 64, CENTER, CENTER, BOLD);
+  displayText(`Press 'SPACE' to restart if you wish`, width / 2, height / 2 + 100, 18, CENTER, CENTER, NORMAL);
 }
 
 //Lose state
-function lose(){
+function lose() {
   //Text
-  displayText(`YOU LOST!`, width/2, height/2, 64, CENTER, CENTER, BOLD);
-  displayText(`Press 'SPACE' to restart if you wish`, width/2, height/2+100, 18, CENTER, CENTER, NORMAL);
+  displayText(`YOU LOST!`, width / 2, height / 2, 64, CENTER, CENTER, BOLD);
+  displayText(`Press 'SPACE' to restart if you wish`, width / 2, height / 2 + 100, 18, CENTER, CENTER, NORMAL);
 }
 
 //ADDITIONAL FUNCTIONS/////////////////////////////////////////////////////////
 // Function to display pin
-function displayPin(){
+function displayPin() {
   if (predictions.length > 0) {
     let hand = predictions[0];
     let index = hand.annotations.indexFinger;
@@ -221,11 +215,10 @@ function displayPin(){
 
     // Check bubble popping
     let d = dist(tipX, tipY, bubble.x, bubble.y);
-    if (d < bubble.size/2) {
-      if(state === `instructions`){
+    if (d < bubble.size / 2) {
+      if (state === `instructions`) {
         state = `simulation`;
-      }
-      else if(state === `simulation`){
+      } else if (state === `simulation`) {
         bubbleReset();
         score--;
         //Play sound effect
@@ -237,7 +230,7 @@ function displayPin(){
 
     // Check fish getting pocked
     let d2 = dist(tipX, tipY, fish.x, fish.y);
-    if (d2 < fish.size/2) {
+    if (d2 < fish.size / 2) {
       state = `lose`;
       //Play sound effect
       if (!fishSFX.isPlaying()) {
@@ -249,7 +242,7 @@ function displayPin(){
 }
 
 // Function to display bubble
-function displayBubble(){
+function displayBubble() {
   push();
   noFill();
   stroke(190, 231, 255);
@@ -259,16 +252,16 @@ function displayBubble(){
 }
 
 // Function to display fish
-function displayFish(){
+function displayFish() {
   push();
-  fill(255,153,19);
+  fill(255, 153, 19);
   noStroke();
   ellipse(fish.x, fish.y, fish.size);
   pop();
 }
 
 // Function to add movement to the fish/bubble
-function velocity(){
+function velocity() {
   //Move the BUBBLE
   bubble.x += bubble.vx;
   bubble.y += bubble.vy;
@@ -279,16 +272,16 @@ function velocity(){
 }
 
 // Function that resets bubble
-function bubbleReset(){
+function bubbleReset() {
   bubble.x = random(width);
-  bubble.y = height+bubble.size/2;
+  bubble.y = height + bubble.size / 2;
   bubble.size = random(bubble.minSize, bubble.maxSize);
   bubble.vy = random(bubble.maxSpeed, bubble.minSpeed);
 }
 
 // Function that resets fish
-function fishReset(){
-  fish.x = 0-fish.size/2;
+function fishReset() {
+  fish.x = 0 - fish.size / 2;
   fish.y = random(height);
   fish.size = random(fish.minSize, fish.maxSize);
   fish.vx = random(fish.minSpeed, fish.maxSpeed);
@@ -306,18 +299,17 @@ function displayText(string, x, y, size, align1, align2, style) {
 }
 
 //Function that contains key presses
-function keyPressed(){
+function keyPressed() {
   //Press SPACE to continue
-  if(keyCode === 32 && state === `title`){
+  if (keyCode === 32 && state === `title`) {
     state = `instructions`;
-  }
-  else if(keyCode === 32 && state === `win` || state === `lose`){
+  } else if (keyCode === 32 && state === `win` || state === `lose`) {
     state = `instructions`;
     score = 11;
     //Reset everything
-    fish.x = 0-fish.size/2;
+    fish.x = 0 - fish.size / 2;
     fish.y = random(height);
     bubble.x = random(width);
-    bubble.y = height+bubble.size/2;
+    bubble.y = height + bubble.size / 2;
   }
 }
