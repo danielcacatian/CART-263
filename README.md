@@ -10,3 +10,5 @@ Exercises
 -[Exercise 2](https://danielcacatian.github.io/CART-263/exercises/exercise2/)
 
 -[Exercise 3](https://danielcacatian.github.io/CART-263/exercises/exercise3/)
+
+-[Exercise 4](https://danielcacatian.github.io/CART-263/exercises/exercise4/)
