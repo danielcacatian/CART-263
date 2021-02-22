@@ -11,10 +11,17 @@ individual feel like, the one, Neo.
 */
 
 //Inputs
-let currentInput = ``;
 let userName = ``;
+let currentInput = ``;
+let answer = undefined;
 
 let typewriter;
+
+let answers = [];
+let answerA = undefined;
+let answerB = undefined;
+let answerC = undefined;
+let answerD = undefined;
 
 //Colors
 let bg = 255;
@@ -36,6 +43,15 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   typewriter = new Typewriter();
+  //Multiple choice answers
+  answerA = new AnswerA(width/2-250, height/2-50);
+  answers.push(answerA);
+  answerB = new AnswerB(width/2-250, height/2+50);
+  answers.push(answerB);
+  answerC = new AnswerC(width/2-250, height/2+150);
+  answers.push(answerC);
+  answerD = new AnswerD(width/2-250, height/2+250);
+  answers.push(answerD);
 
 }//setup() end
 
@@ -46,6 +62,16 @@ Description of draw()
 function draw() {
   background(bg);
 
+  for (let i = 0; i < answers.length; i++){
+    let answer = answers[i];
+    answer.display();
+    answer.hover();
+
+    if(answerA.selected){
+      state = `2`;
+    }
+  }
+
   if(state === `1`){
     //What is your name
     displayText(`What is your name?`, width/2, height/4, 64, CENTER, CENTER, NORMAL)
@@ -55,7 +81,6 @@ function draw() {
   else if(state === `2`){
     typewriter.display();
   }
-
 
 }//draw() end
 
@@ -88,4 +113,11 @@ function keyPressed(){
     typewriter.typewrite(`Wake up, ${userName}...`, 200, 200);
     state = `2`;
   }
+}
+
+function mousePressed(){
+  answerA.mousePressed();
+  answerB.mousePressed();
+  answerC.mousePressed();
+  answerD.mousePressed();
 }
