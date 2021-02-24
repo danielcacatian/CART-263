@@ -16,18 +16,22 @@ class Typewriter {
     // The index of the next character to add to the displayed text
     this.nextChar = 0;
     // How often to add a character (milliseconds)
-    this.speed = 150;
+    this.speed = undefined;
     // The interval used to display the characters so we can cancel it
     this.interval = undefined;
     // The position to display the text at
     this.x = 0;
     this.y = 0;
+    // Text display attributes
+    this.textFill = 0;
+    this.textStyle = undefined;
+    this.size = undefined;
   }
 
   // typewrite(message,x,y)
   // The main method. Displays the message at the specified position using
   // a typewriter effect
-  typewrite(message, x, y) {
+  typewrite(message, x, y, speed, fill, size, style) {
     // First reset the typewriter for safety
     this.reset();
     // Set the text we're going to display
@@ -35,6 +39,12 @@ class Typewriter {
     // Set the position
     this.x = x;
     this.y = y;
+    // Set the speed
+    this.speed = speed;//(milliseconds)
+    // Set the attributes
+    this.textFill = fill;
+    this.style = style;
+    this.size = size;
     // Start our interval to call addNextCharacter repeatedly at the typewriter
     // speed so that we add characters to the displayed text over time
     this.interval = setInterval(this.addNextCharacter.bind(this), this.speed);
@@ -60,11 +70,11 @@ class Typewriter {
   // Display the current display text at the correct location
   display() {
     push();
-    fill(102, 255, 102);
+    fill(this.textFill);
     textFont(`Courier`);
-    textSize(32);
-    textStyle(BOLD);
-    textAlign(LEFT, BOTTOM);
+    textSize(this.size);
+    textStyle(this.style);
+    textAlign(CENTER, TOP);
     text(this.displayText, this.x, this.y);
     pop();
   }
