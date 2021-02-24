@@ -26,12 +26,13 @@ class Typewriter {
     this.textFill = 0;
     this.textStyle = undefined;
     this.size = undefined;
+    this.align = undefined;
   }
 
   // typewrite(message,x,y)
   // The main method. Displays the message at the specified position using
   // a typewriter effect
-  typewrite(message, x, y, speed, fill, size, style) {
+  typewrite(message, x, y, speed, fill, size, style, align) {
     // First reset the typewriter for safety
     this.reset();
     // Set the text we're going to display
@@ -45,6 +46,7 @@ class Typewriter {
     this.textFill = fill;
     this.style = style;
     this.size = size;
+    this.align = align;
     // Start our interval to call addNextCharacter repeatedly at the typewriter
     // speed so that we add characters to the displayed text over time
     this.interval = setInterval(this.addNextCharacter.bind(this), this.speed);
@@ -74,7 +76,7 @@ class Typewriter {
     textFont(`Courier`);
     textSize(this.size);
     textStyle(this.style);
-    textAlign(CENTER, TOP);
+    textAlign(this.align, TOP);
     text(this.displayText, this.x, this.y);
     pop();
   }
