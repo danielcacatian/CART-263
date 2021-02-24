@@ -31,7 +31,7 @@ let answerD = undefined;
 let answerDy = undefined;
 let answerDText = ``;
 
-let question = 5;
+let question = 7;
 
 //Morpheus lines
 let morpheusLine = 1;
@@ -100,6 +100,9 @@ function draw() {
   else if(state === `unknown`){
     unknown();
   }
+  else if(state === `end`){
+    end();
+  }
 
 }//draw() end
 
@@ -138,6 +141,11 @@ function questions(){
 function unknown(){
   typewriter.display();
   displayText(currentInput+`_`, 150, 180, 32, LEFT, TOP, BOLD, GREEN_COLOR);
+}
+
+//Finished quiz
+function end(){
+  typewriter.display();
 }
 
 /******************************************************************************
@@ -215,6 +223,24 @@ function answerText(){
     answerCText = `shark`;
     answerDText = `cat`;
   }
+  else if(question === 7.2){
+    answerAText = `nowhere`;
+    answerBText = `nowhere`;
+    answerCText = `nowhere`;
+    answerDText = `nowhere`;
+  }
+  else if(question === 8){
+    answerAText = `water`;
+    answerBText = `fire`;
+    answerCText = `earth`;
+    answerDText = `air`;
+  }
+  else if(question === 9 || question === 10 ){
+    answerAText = `yes`;
+    answerBText = `no`;
+    answerCText = `i don't know`;
+    answerDText = `maybe`;
+  }
 
 }
 
@@ -245,7 +271,7 @@ This questionnaire will determine
 if you're compliant. It is absolutely
 necessary for you to answer them correctly.
 
-Press 'ENTER' to begin.`, width/2, height/4, 75, 0, 54, NORMAL, CENTER);
+Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
   }
     // First question
     else if(state === `instructions`){
@@ -275,6 +301,13 @@ Press 'ENTER' to begin.`, width/2, height/4, 75, 0, 54, NORMAL, CENTER);
       question = 6;
       typewriter.typewrite(`Q6. How many hours are there in a day?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
     }
+    //Reply to unknown (line 4)
+    else if(state === `unknown` && morpheusLine === 4){
+      bg = 255;
+      state = `questions`;
+      question = 7.2;
+      typewriter.typewrite(`Where did you run off to?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+    }
   }
 }
 
@@ -294,7 +327,7 @@ function mousePressed(){
         typewriter.typewrite(`Q2. What color is the sky?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerD.selected){
-        state = `error`;
+        warning()
       }
     }
     //Question 2
@@ -304,7 +337,7 @@ function mousePressed(){
         typewriter.typewrite(`Q3. What matter is water?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
-        state = `error`;
+        warning()
       }
     }
     //Question 3
@@ -314,7 +347,7 @@ function mousePressed(){
         typewriter.typewrite(`Q4. What force brings objects to fall downwards?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
-        state = `error`;
+        warning()
       }
     }
     //Question 4
@@ -324,7 +357,7 @@ function mousePressed(){
         typewriter.typewrite(`Q5. What force brings objects to fall naturally?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       }
       else if(answerB.selected || answerC.selected || answerD.selected){
-        state = `error`;
+        warning()
       }
     }
     //Question 5
@@ -352,7 +385,7 @@ function mousePressed(){
         typewriter.typewrite(`Q7. What animal has claws and a long tail?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerC.selected || answerD.selected){
-        state = `error`;
+        warning()
       }
     }
     //Question 7
@@ -372,12 +405,62 @@ function mousePressed(){
 >`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
       }
       else if(answerA.selected || answerC.selected){
-        state = `error`;
+        warning()
+      }
+    }
+    //Question 7.2
+    else if(question === 7.2){
+      if(answerA.selected || answerB.selected || answerC.selected || answerD.selected){
+        question = 8;
+        typewriter.typewrite(`Q8. What do humans breath?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+      }
+    }
+    //Question 8
+    else if(question === 8){
+      if(answerD.selected){
+        question++;
+        typewriter.typewrite(`Q9. Do you believe you're dreaming?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+      }
+      else if(answerA.selected || answerB.selected || answerC.selected){
+        warning()
+      }
+    }
+    //Question 9
+    else if(question === 9){
+      if(answerB.selected){
+        question++;
+        typewriter.typewrite(`Q10. Do you believe everything around you is real?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+      }
+      else if(answerA.selected || answerC.selected || answerD.selected){
+        warning()
+      }
+    }
+    //Question 10
+    else if(question === 10){
+      if(answerA.selected){
+        state = `end`
+        typewriter.typewrite(`Congratulations!
+
+  You completed the questionnaire.
+  We have all the data we need.
+
+  You can freely go on about your day now.
+  Thank you :)`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
+      }
+      else if(answerB.selected){
+
+      }
+      else if(answerC.selected || answerD.selected){
+        warning()
       }
     }
   }
 }
 
+//Alert to say you picked the wrong answer
+function warning(){
+  alert(`Please pick the correct answer.`);
+}
 
 //Function to easily add text
 function displayText(string, x, y, size, align1, align2, style, color) {
