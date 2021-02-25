@@ -31,9 +31,12 @@ let answerD = undefined;
 let answerDy = undefined;
 let answerDText = ``;
 
-let question = 7;
+let question = 4;
 
-//Morpheus lines
+//Morpheus calls
+let call;
+let callImage = undefined;
+//Line #
 let morpheusLine = 1;
 
 let typewriter;
@@ -48,7 +51,7 @@ let state = `intro`;
 Description of preload
 *//////////////////////////////////////////////////////////////////////////////
 function preload() {
-
+  callImage = loadImage(`assets/images/call.jpg`);
 }//preload() end
 
 
@@ -58,20 +61,24 @@ Description of setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  answerSetup();
+  OOPSetup();
 
 }//setup() end
 
 // Position setup for the answers including the OOP
-function answerSetup(){
+function OOPSetup(){
+  //Answers positions
   answersX = width/2-250;
   answerAy = height/2-150;
   answerBy = height/2;
   answerCy = height/2+150;
   answerDy = height/2+300;
 
+  //Typewriter.js
   typewriter = new Typewriter();
-  //Multiple choice answers
+  //Call.js
+  call = new Call(width/2, height/2, callImage);
+  //Multiple choice answers (Answer.js)
   answerA = new AnswerA(answersX, answerAy);
   answers.push(answerA);
   answerB = new AnswerB(answersX, answerBy);
@@ -87,6 +94,8 @@ Description of draw()
 *//////////////////////////////////////////////////////////////////////////////
 function draw() {
   background(bg);
+
+  call.display();
 
   if(state === `intro`){
     intro();
@@ -157,7 +166,7 @@ display functions, etc.
 function answerSelection(){
   for (let i = 0; i < answers.length; i++){
     let answer = answers[i];
-    answer.update();
+    answer.display();
     answer.hover();
 
   }
@@ -241,6 +250,10 @@ function answerText(){
     answerCText = `i don't know`;
     answerDText = `maybe`;
   }
+}
+
+//Incoming call from an unknown
+function callIncoming(){
 
 }
 
@@ -313,6 +326,8 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
 
 //Mouse press function
 function mousePressed(){
+    call.mousePressed();
+
 // Answer selection
   if(state === `questions`){
     answerA.mousePressed();
@@ -327,7 +342,7 @@ function mousePressed(){
         typewriter.typewrite(`Q2. What color is the sky?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerD.selected){
-        warning()
+        warning();
       }
     }
     //Question 2
@@ -337,7 +352,7 @@ function mousePressed(){
         typewriter.typewrite(`Q3. What matter is water?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
-        warning()
+        warning();
       }
     }
     //Question 3
@@ -347,7 +362,7 @@ function mousePressed(){
         typewriter.typewrite(`Q4. What force brings objects to fall downwards?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
-        warning()
+        warning();
       }
     }
     //Question 4
@@ -357,7 +372,7 @@ function mousePressed(){
         typewriter.typewrite(`Q5. What force brings objects to fall naturally?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       }
       else if(answerB.selected || answerC.selected || answerD.selected){
-        warning()
+        warning();
       }
     }
     //Question 5
@@ -365,7 +380,11 @@ function mousePressed(){
       if(answerC.selected){
         question = 5.2;
         typewriter.typewrite(`Q6. How man̷̲͛ỵ̴͠ ̶̀`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        cursor('progress');
         setTimeout(noLoop, 500);
+      }
+      else if(answerA.selected || answerB.selected || answerD.selected){
+        warning();
       }
     }
     //Question 5.2
@@ -373,6 +392,7 @@ function mousePressed(){
       state = `unknown`;
       currentInput = ``;
       loop();
+      cursor(ARROW);
       bg = 0;
       typewriter.typewrite(`Hello, ${userName}...
 

@@ -10,10 +10,6 @@ class Answer {
     this.innerSize = 25;
   }
 
-  update(){
-    this.display();
-  }
-
   display(){
     //Outer circle
     push();

@@ -7,8 +7,8 @@ class AnswerD extends Answer {
     this.selected = false;
   }
 
-  update(){
-    super.update();
+  display(){
+    super.display();
   }
 
   hover(){
