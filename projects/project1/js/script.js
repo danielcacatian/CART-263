@@ -31,7 +31,7 @@ let answerD = undefined;
 let answerDy = undefined;
 let answerDText = ``;
 
-let question = 8;
+let question = 1;
 
 //Secret button
 let secretX = undefined;
@@ -43,7 +43,7 @@ let secretHeight = 100;
 let call;
 let callImage = undefined;
 //Line #
-let morpheusLine = 4;
+let morpheusLine = 1;
 //Morpheus
 let morpheusImage = undefined;
 let redPillImage = undefined;
@@ -63,6 +63,13 @@ const GREEN_COLOR = `#66ff66`;
 
 let state = `intro`;
 
+//Sounds
+let callSound = undefined;
+let callJoin = undefined;
+let callDisconnected = undefined;
+let digitalSound = undefined;
+
+
 /******************************************************************************
 Description of preload
 *//////////////////////////////////////////////////////////////////////////////
@@ -72,6 +79,12 @@ function preload() {
   morpheusImage = loadImage(`assets/images/morpheus.png`);
   redPillImage = loadImage(`assets/images/redPill.png`);
   bluePillImage = loadImage(`assets/images/bluePill.png`);
+
+  //Sounds
+  callSound = loadSound(`assets/sounds/callSFX.mp3`);
+  callJoin = loadSound(`assets/sounds/joinSFX.mp3`);
+  callDisconnected = loadSound(`assets/sounds/disconnectedSFX.mp3`);
+  digitalSound = loadSound(`assets/sounds/digitalSFX.mp3`);
 
 }//preload() end
 
@@ -169,13 +182,18 @@ function questions(){
   typewriter.display();
   answerSelection();
   answerText();
-  if(question === 10 && morpheusLine === 4){
+  if(question === 10 && morpheusLine === 5){
     timer++;
     if(timer >= 60){
       call.display();
+      //SFX
+      if(!callSound.isPlaying()){
+        callSound.play();
+        callSound.loop();
+      }
     }
   }
-  else if(question === 10 && morpheusLine === 6){
+  else if(question === 10 && morpheusLine === 7){
     theAnswer();
   }
 }
@@ -367,6 +385,8 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       typewriter.typewrite(`The Matrix has you...
 
 >`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+      //SFX
+      digitalSound.play();
     }
     //Reply to unknown (line 3)
     else if(state === `unknown` && morpheusLine === 2){
@@ -375,6 +395,8 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       typewriter.typewrite(`Follow the white rabbit.
 
 >`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+    //SFX
+    digitalSound.play();
     }
     //Back to question 6
     else if(state === `unknown` && morpheusLine === 3){
@@ -385,6 +407,16 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
     }
     //Reply to unknown (line 4)
     else if(state === `unknown` && morpheusLine === 4){
+      currentInput = ``;
+      morpheusLine++;
+      typewriter.typewrite(`But we will be in touch soon...
+
+>`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+    //SFX
+    digitalSound.play();
+    }
+    //Reply to unknown (line 5)
+    else if(state === `unknown` && morpheusLine === 5){
       bg = 255;
       state = `questions`;
       question = 7.2;
@@ -429,7 +461,8 @@ And I'll show you how deep the rabbit hole goes... The choice is yours.`,
     else if(morpheusLine === 11){
       typewriter.typewrite(`Q10. Do you believe everything around you is real?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
       question = 10;
-      state = `questions`
+      state = `questions`;
+      bg = 255;
     }
     //Picked the RED pill
     else if(morpheusLine === 12){
@@ -441,7 +474,7 @@ And I'll show you how deep the rabbit hole goes... The choice is yours.`,
 //Mouse press function
 function mousePressed(){
   // Call arrives
-    if(morpheusLine === 4){
+    if(morpheusLine === 5){
       call.mousePressed();
       //Answer the call
       if(call.callAccepted){
@@ -451,9 +484,15 @@ function mousePressed(){
           pitch: 0.75,
           rate: 1
         });
+        //Play SFX
+        callJoin.play();
+        callSound.stop();
       }
       else if(call.callDeclined){
         morpheusLine--;
+        //Play SFX
+        callDisconnected.play();
+        callSound.stop();
       }
     }
 
@@ -509,23 +548,21 @@ function mousePressed(){
       if(answerC.selected){
         question = 5.2;
         typewriter.typewrite(`Q6. How man̷̲͛ỵ̴͠ ̶̀`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
-        cursor('progress');
-        setTimeout(noLoop, 500);
       }
       else if(answerA.selected || answerB.selected || answerD.selected){
         warning();
       }
     }
-    //Question 5.2
+    //Question 5.2 (glitched)
     else if(question === 5.2){
       state = `unknown`;
       currentInput = ``;
-      loop();
-      cursor(ARROW);
       bg = 0;
       typewriter.typewrite(`Hello, ${userName}...
 
 >`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+      //SFX
+      digitalSound.play();
     }
     //Question 6
     else if(question === 6){
@@ -547,11 +584,12 @@ function mousePressed(){
         state = `unknown`;
         morpheusLine = 4;
         currentInput = ``;
-        loop();
         bg = 0;
         typewriter.typewrite(`We don't have much time. You're in danger...
 
 >`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+        //SFX
+        digitalSound.play();
       }
       else if(answerA.selected || answerC.selected){
         warning()
@@ -596,7 +634,7 @@ function mousePressed(){
   You can freely go on about your day now.
   Thank you :)`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       }
-      else if(answerB.selected && morpheusLine === 5){
+      else if(answerB.selected && morpheusLine === 6){
         morpheusLine++
         typewriter.typewrite(`That was not the correct answer...`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
         responsiveVoice.speak(`Good. Now, click on the word "answer" to find the answers that you seek.
@@ -615,7 +653,7 @@ function mousePressed(){
   if(mouseX >= secretX-secretWidth &&
     mouseX <= secretX+secretWidth &&
     mouseY >= secretY-secretHeight &&
-    mouseY <= secretY+secretHeight && morpheusLine === 6){
+    mouseY <= secretY+secretHeight && morpheusLine === 7){
     morpheusLine++
     state = `secret`;
     bg = 0;
@@ -653,6 +691,10 @@ about what the Matrix is.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
       });
     }
   }
+}
+
+//Typewriter function
+function typedText(string){
 }
 
 //Secret button
