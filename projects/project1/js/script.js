@@ -54,6 +54,19 @@ let bluePillImageOpacity = 0;
 
 let typewriter;
 
+//Matrix rain variables
+//by co-dart
+//https://github.com/co-dart/Matrix_Digital_Rain
+let cells = [];
+let drops = [];
+let cellSize = 15;
+let numRows;
+let numCols;
+let symbolSwapProb = 0.01;
+let dropTimeout = 2;
+let maxOffscreen = 100;
+let brightTime = 60;
+
 //Timer
 let timer = 0;
 
@@ -96,8 +109,27 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   OOPSetup();
+  matrixRainSetup();
 
 }//setup() end
+
+//Matrix rain setup by Emilie Xie
+function matrixRainSetup(){
+  numRows = ceil(height / cellSize);
+  numCols = ceil(width / cellSize);
+
+  for (let i = 0; i < numRows; i++){
+    let newRow = [];
+    for (let j = 0; j < numCols; j++) {
+      newRow.push(new Cell(j * cellSize, i * cellSize));
+    }
+    cells.push(newRow);
+  }
+
+  for (let j = 0; j < numCols; j++) {
+    drops.push(new Drop(j));
+  }
+}
 
 // Position setup for the answers including the OOP
 function OOPSetup(){
@@ -224,6 +256,19 @@ function secret(){
 
 //Matrix rain
 function theMatrix(){
+  drops.forEach(drop => {
+  drop.update();
+  drop.brightenCell();
+  });
+
+cells.forEach(row => {
+  row.forEach(cell => {
+    cell.draw(GREEN_COLOR);
+    cell.update();
+
+    });
+  });
+typewriter.display();
 
 }
 
@@ -466,7 +511,10 @@ And I'll show you how deep the rabbit hole goes... The choice is yours.`,
     }
     //Picked the RED pill
     else if(morpheusLine === 12){
-      state = `theMatrix`
+      state = `theMatrix`;
+      typewriter.typewrite(`THE END?`, width/2, height/2-240/2, 0, 0, 240, BOLD, CENTER);
+      //SFX
+      digitalSound.play();
     }
   }
 }
