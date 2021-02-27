@@ -31,15 +31,31 @@ let answerD = undefined;
 let answerDy = undefined;
 let answerDText = ``;
 
-let question = 4;
+let question = 8;
 
-//Morpheus calls
+//Secret button
+let secretX = undefined;
+let secretY = undefined;
+let secretWidth = 250;
+let secretHeight = 100;
+
+//Call
 let call;
 let callImage = undefined;
 //Line #
-let morpheusLine = 1;
+let morpheusLine = 4;
+//Morpheus
+let morpheusImage = undefined;
+let redPillImage = undefined;
+let bluePillImage = undefined;
+let morpheusImageOpacity = 0;
+let redPillImageOpacity = 0;
+let bluePillImageOpacity = 0;
 
 let typewriter;
+
+//Timer
+let timer = 0;
 
 //Colors
 let bg = 255;
@@ -51,7 +67,12 @@ let state = `intro`;
 Description of preload
 *//////////////////////////////////////////////////////////////////////////////
 function preload() {
+  //Images
   callImage = loadImage(`assets/images/call.jpg`);
+  morpheusImage = loadImage(`assets/images/morpheus.png`);
+  redPillImage = loadImage(`assets/images/redPill.png`);
+  bluePillImage = loadImage(`assets/images/bluePill.png`);
+
 }//preload() end
 
 
@@ -95,8 +116,6 @@ Description of draw()
 function draw() {
   background(bg);
 
-  call.display();
-
   if(state === `intro`){
     intro();
   }
@@ -111,6 +130,12 @@ function draw() {
   }
   else if(state === `end`){
     end();
+  }
+  else if(state === `secret`){
+    secret();
+  }
+  else if(state === `theMatrix`){
+    theMatrix();
   }
 
 }//draw() end
@@ -144,6 +169,15 @@ function questions(){
   typewriter.display();
   answerSelection();
   answerText();
+  if(question === 10 && morpheusLine === 4){
+    timer++;
+    if(timer >= 60){
+      call.display();
+    }
+  }
+  else if(question === 10 && morpheusLine === 6){
+    theAnswer();
+  }
 }
 
 //Into the Matrix
@@ -157,10 +191,50 @@ function end(){
   typewriter.display();
 }
 
+//Secret
+function secret(){
+  morpheusAppears();
+  morpheusImageOpacity += 2.5;
+    if(morpheusLine === 9){
+      bluePillImageOpacity += 2.5;
+    }
+    else if(morpheusLine === 10){
+      redPillImageOpacity += 2.5;
+    }
+  typewriter.display();
+}
+
+//Matrix rain
+function theMatrix(){
+
+}
+
 /******************************************************************************
 This section contains additional functions such as key presses,
 display functions, etc.
 *//////////////////////////////////////////////////////////////////////////////
+
+// Displays images
+function morpheusAppears(){
+  //Morpheus
+  push();
+  imageMode(CENTER);
+  tint(255, morpheusImageOpacity);
+  image(morpheusImage, width/2, height/2);
+  pop();
+  //Blue pill
+  push();
+  imageMode(CENTER);
+  tint(255, bluePillImageOpacity);
+  image(bluePillImage, width/2, height/2);
+  pop();
+  //Red pill
+  push();
+  imageMode(CENTER);
+  tint(255, redPillImageOpacity);
+  image(redPillImage, width/2, height/2);
+  pop();
+}
 
 // Allows the user to select their answer
 function answerSelection(){
@@ -252,11 +326,6 @@ function answerText(){
   }
 }
 
-//Incoming call from an unknown
-function callIncoming(){
-
-}
-
 //Function to type your own input
 function keyTyped(){
   if(keyCode === 13){
@@ -322,11 +391,71 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       typewriter.typewrite(`Where did you run off to?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
     }
   }
+  //Any KEY presses
+  if(state === `secret`){
+    if(morpheusLine === 7){
+      morpheusLine++;
+      typewriter.typewrite(`Unfortunately, I cannot tell you what it is exactly...
+But I can show you. There won't be any turning back after this however.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
+  responsiveVoice.speak(`Unfortunately, I cannot tell you what it is exactly. But I can show you. There won't be any turning back after this however.`
+  , "UK English Male", {
+    pitch: 0.75,
+    rate: 1
+  });
+    }
+    else if(morpheusLine === 8){
+      morpheusLine++;
+      typewriter.typewrite(`You can take the blue pill. You go back and believe
+whatever you want to believe... `,
+  width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
+  responsiveVoice.speak(`You take the blue pill. You go back and believe whatever you want to believe...`
+  , "UK English Male", {
+    pitch: 0.75,
+    rate: 1
+  });
+    }
+    else if(morpheusLine === 9){
+      morpheusLine++;
+      typewriter.typewrite(`You can take the red pill. You stay in wonderland.
+And I'll show you how deep the rabbit hole goes... The choice is yours.`,
+  width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
+  responsiveVoice.speak(`You can take the red pill. You stay in wonderland. And I'll show you how deep the rabbit hole goes...The choice is yours.`
+  , "UK English Male", {
+    pitch: 0.75,
+    rate: 1
+  });
+    }
+    //Picked the BLUE pill
+    else if(morpheusLine === 11){
+      typewriter.typewrite(`Q10. Do you believe everything around you is real?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+      question = 10;
+      state = `questions`
+    }
+    //Picked the RED pill
+    else if(morpheusLine === 12){
+      state = `theMatrix`
+    }
+  }
 }
 
 //Mouse press function
 function mousePressed(){
-    call.mousePressed();
+  // Call arrives
+    if(morpheusLine === 4){
+      call.mousePressed();
+      //Answer the call
+      if(call.callAccepted){
+        morpheusLine++;
+        responsiveVoice.speak(`Hello, ${userName}. Listen to me carefully. If you wish to make it out of here with your own free will, select "no".
+         `, "UK English Male", {
+          pitch: 0.75,
+          rate: 1
+        });
+      }
+      else if(call.callDeclined){
+        morpheusLine--;
+      }
+    }
 
 // Answer selection
   if(state === `questions`){
@@ -458,7 +587,7 @@ function mousePressed(){
     //Question 10
     else if(question === 10){
       if(answerA.selected){
-        state = `end`
+        state = `end`;
         typewriter.typewrite(`Congratulations!
 
   You completed the questionnaire.
@@ -467,14 +596,76 @@ function mousePressed(){
   You can freely go on about your day now.
   Thank you :)`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       }
-      else if(answerB.selected){
-
+      else if(answerB.selected && morpheusLine === 5){
+        morpheusLine++
+        typewriter.typewrite(`That was not the correct answer...`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        responsiveVoice.speak(`Good. Now, click on the word "answer" to find the answers that you seek.
+         `, "UK English Male", {
+          pitch: 0.75,
+          rate: 1
+        });
       }
-      else if(answerC.selected || answerD.selected){
+      else if(answerB.selected || answerC.selected || answerD.selected){
         warning()
       }
     }
   }
+
+  //Unlock secret ending
+  if(mouseX >= secretX-secretWidth &&
+    mouseX <= secretX+secretWidth &&
+    mouseY >= secretY-secretHeight &&
+    mouseY <= secretY+secretHeight && morpheusLine === 6){
+    morpheusLine++
+    state = `secret`;
+    bg = 0;
+    typewriter.typewrite(`Hello again, ${userName}. We finally meet. I know you have a lot of questions
+about what the Matrix is.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
+    responsiveVoice.speak(`Hello again, ${userName}. We finally meet. I know you have a lot of questions about what the Matrix is.`,
+      "UK English Male", {
+      pitch: 0.75,
+      rate: 1
+    });
+  }
+
+  // Red pill or blue pill
+  if(state === `secret` && morpheusLine === 10){
+    //Picks BLUE PILL
+    if(mouseX < width/2){
+      morpheusLine++;
+      redPillImageOpacity = 0;
+      typewriter.typewrite(`Farewell then, ${userName}.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
+      responsiveVoice.speak(`Farewell then, ${userName}.`,
+        "UK English Male", {
+        pitch: 0.75,
+        rate: 1
+      });
+    }
+    //Picks RED PILL
+    else{
+      morpheusLine = 12;
+      bluePillImageOpacity = 0;
+      typewriter.typewrite(`Follow me then...`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
+      responsiveVoice.speak(`Follow me then.`,
+        "UK English Male", {
+        pitch: 0.75,
+        rate: 1
+      });
+    }
+  }
+}
+
+//Secret button
+function theAnswer(){
+  secretX = width/4*2.75;
+  secretY = height/6*1.25;
+
+  push();
+  noFill();
+  noStroke();
+  rectMode(CENTER);
+  rect(secretX, secretY, secretWidth, secretHeight);
+  pop();
 }
 
 //Alert to say you picked the wrong answer
