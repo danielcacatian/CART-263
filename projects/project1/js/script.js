@@ -268,7 +268,8 @@ cells.forEach(row => {
 
     });
   });
-typewriter.display();
+  displayText(`TO BE
+CONTINUED`, width/2, height/2, 200, CENTER, CENTER, BOLD, 0);
 
 }
 
@@ -512,9 +513,6 @@ And I'll show you how deep the rabbit hole goes... The choice is yours.`,
     //Picked the RED pill
     else if(morpheusLine === 12){
       state = `theMatrix`;
-      typewriter.typewrite(`THE END?`, width/2, height/2-240/2, 0, 0, 240, BOLD, CENTER);
-      //SFX
-      digitalSound.play();
     }
   }
 }
