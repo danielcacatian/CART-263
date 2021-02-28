@@ -47,10 +47,12 @@ let morpheusLine = 1;
 //Morpheus
 let morpheusImage = undefined;
 let redPillImage = undefined;
+let redPillPicked = false;
 let bluePillImage = undefined;
+let bluePillPicked = false;
 let morpheusImageOpacity = 0;
-let redPillImageOpacity = 0;
-let bluePillImageOpacity = 0;
+let redPillImageOpacity = 255;
+let bluePillImageOpacity = 255;
 
 let typewriter;
 
@@ -84,7 +86,7 @@ let digitalSound = undefined;
 
 
 /******************************************************************************
-Description of preload
+PRELOADS ALL THE IMAGES AND SOUNDS USED IN THIS PROJECT
 *//////////////////////////////////////////////////////////////////////////////
 function preload() {
   //Images
@@ -103,7 +105,8 @@ function preload() {
 
 
 /******************************************************************************
-Description of setup
+CONTAINS THE CANVAS PROPERTIES AND THE STARTING SETUP FOR THE OBJECT-
+ORIENTATED-PROGRAMS
 *//////////////////////////////////////////////////////////////////////////////
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -156,7 +159,7 @@ function OOPSetup(){
 }
 
 /******************************************************************************
-Description of draw()
+CONTAINS THE BACKGROUND AND CALLS THE STATE FUNCTIONS
 *//////////////////////////////////////////////////////////////////////////////
 function draw() {
   background(bg);
@@ -245,11 +248,13 @@ function end(){
 function secret(){
   morpheusAppears();
   morpheusImageOpacity += 2.5;
-    if(morpheusLine === 9){
-      bluePillImageOpacity += 2.5;
+    //Blue pill is displayed
+    if(morpheusLine >= 10){
+      bluePill();
     }
-    else if(morpheusLine === 10){
-      redPillImageOpacity += 2.5;
+    //Red pill is displayed
+    if(morpheusLine >= 11){
+      redPill();
     }
   typewriter.display();
 }
@@ -268,17 +273,16 @@ cells.forEach(row => {
 
     });
   });
-  displayText(`TO BE
-CONTINUED`, width/2, height/2, 200, CENTER, CENTER, BOLD, 0);
+  displayText(`THE END?`, width/2, height/2, 200, CENTER, CENTER, BOLD, 0);
 
 }
 
 /******************************************************************************
-This section contains additional functions such as key presses,
-display functions, etc.
+THIS SECTION CONTAINS FUNCTIONS USED TO DISPLAY DIFFERENT
+SPECIFIC ELEMENTS TO PREVENT CLUTTER
 *//////////////////////////////////////////////////////////////////////////////
 
-// Displays images
+// Displays Morpheus (images)
 function morpheusAppears(){
   //Morpheus
   push();
@@ -286,18 +290,26 @@ function morpheusAppears(){
   tint(255, morpheusImageOpacity);
   image(morpheusImage, width/2, height/2);
   pop();
-  //Blue pill
-  push();
-  imageMode(CENTER);
-  tint(255, bluePillImageOpacity);
-  image(bluePillImage, width/2, height/2);
-  pop();
-  //Red pill
-  push();
-  imageMode(CENTER);
-  tint(255, redPillImageOpacity);
-  image(redPillImage, width/2, height/2);
-  pop();
+}
+
+// Displays the blue pill
+function bluePill(){
+  if(!redPillPicked){
+    push();
+    imageMode(CENTER);
+    image(bluePillImage, width/2, height/2);
+    pop();
+  }
+}
+
+//Displays the red pill
+function redPill(){
+  if(!bluePillPicked){
+    push();
+    imageMode(CENTER);
+    image(redPillImage, width/2, height/2);
+    pop();
+  }
 }
 
 // Allows the user to select their answer
@@ -390,8 +402,43 @@ function answerText(){
   }
 }
 
+//Display secret button to reach secret ending
+function theAnswer(){
+  secretX = width/4*2.75;
+  secretY = height/6*1.25;
+
+  push();
+  noFill();
+  noStroke();
+  rectMode(CENTER);
+  rect(secretX, secretY, secretWidth, secretHeight);
+  pop();
+}
+
+//Alert to say you picked the wrong answer
+function warning(){
+  alert(`Please pick the correct answer.`);
+}
+
+//Function to easily add text
+function displayText(string, x, y, size, align1, align2, style, color) {
+  push();
+  textStyle(style);
+  textFont(`Courier`);
+  textAlign(align1, align2);
+  textSize(size);
+  fill(color);
+  text(string, x, y);
+  pop();
+}
+
+/******************************************************************************
+THIS SECTION CONTAINS THE KEY PRESSES AND MOUSE CLICK FUNCTIONS
+*//////////////////////////////////////////////////////////////////////////////
+
 //Function to type your own input
 function keyTyped(){
+  //Excludes ENTER key
   if(keyCode === 13){
   }
   else{
@@ -417,12 +464,12 @@ This questionnaire will determine
 if you're compliant. It is absolutely
 necessary for you to answer them correctly.
 
-Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
+Press 'ENTER' to begin.`, width/2, height/4, 0, 54, NORMAL, CENTER);
   }
-    // First question
+    // Questionnaire begins
     else if(state === `instructions`){
       state = `questions`;
-      typewriter.typewrite(`Q1. What is 2+2?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+      typewriter.typewrite(`Q1. What is 2+2?`, width/2, height/6, 0, 54, NORMAL, CENTER);
     }
     //Reply to unknown (line 2)
     else if(state === `unknown` && morpheusLine === 1){
@@ -430,7 +477,7 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       morpheusLine++;
       typewriter.typewrite(`The Matrix has you...
 
->`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+>`, 100, 100, GREEN_COLOR, 32, BOLD, LEFT);
       //SFX
       digitalSound.play();
     }
@@ -440,7 +487,7 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       morpheusLine++;
       typewriter.typewrite(`Follow the white rabbit.
 
->`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+>`, 100, 100, GREEN_COLOR, 32, BOLD, LEFT);
     //SFX
     digitalSound.play();
     }
@@ -449,7 +496,7 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       bg = 255;
       state = `questions`;
       question = 6;
-      typewriter.typewrite(`Q6. How many hours are there in a day?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+      typewriter.typewrite(`Q6. How many hours are there in a day?`, width/2, height/6, 0, 54, NORMAL, CENTER);
     }
     //Reply to unknown (line 4)
     else if(state === `unknown` && morpheusLine === 4){
@@ -457,7 +504,7 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       morpheusLine++;
       typewriter.typewrite(`But we will be in touch soon...
 
->`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+>`, 100, 100, GREEN_COLOR, 32, BOLD, LEFT);
     //SFX
     digitalSound.play();
     }
@@ -466,52 +513,65 @@ Press 'ENTER' to begin.`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
       bg = 255;
       state = `questions`;
       question = 7.2;
-      typewriter.typewrite(`Where did you run off to?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+      typewriter.typewrite(`Where did you run off to?`, width/2, height/6, 0, 54, NORMAL, CENTER);
     }
   }
   //Any KEY presses
   if(state === `secret`){
-    if(morpheusLine === 7){
+    if(morpheusLine === 8){
       morpheusLine++;
       typewriter.typewrite(`Unfortunately, I cannot tell you what it is exactly...
-But I can show you. There won't be any turning back after this however.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
+But I can show you. There won't be any turning back after this however.`, width/2, 50, GREEN_COLOR, 32, BOLD, CENTER);
   responsiveVoice.speak(`Unfortunately, I cannot tell you what it is exactly. But I can show you. There won't be any turning back after this however.`
   , "UK English Male", {
     pitch: 0.75,
     rate: 1
   });
     }
-    else if(morpheusLine === 8){
+    //Blue pill appears
+    else if(morpheusLine === 9){
       morpheusLine++;
-      typewriter.typewrite(`You can take the blue pill. You go back and believe
-whatever you want to believe... `,
-  width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
-  responsiveVoice.speak(`You take the blue pill. You go back and believe whatever you want to believe...`
+      typewriter.typewrite(`You can take the blue pill. You go back and
+believe whatever you want to believe...`,
+  width/2, 50, GREEN_COLOR, 32, BOLD, CENTER);
+  responsiveVoice.speak(`You can take the blue pill. You go back and believe whatever you want to believe...`
   , "UK English Male", {
     pitch: 0.75,
     rate: 1
   });
     }
-    else if(morpheusLine === 9){
+    //Red pill appears
+    else if(morpheusLine === 10){
       morpheusLine++;
-      typewriter.typewrite(`You can take the red pill. You stay in wonderland.
-And I'll show you how deep the rabbit hole goes... The choice is yours.`,
-  width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
-  responsiveVoice.speak(`You can take the red pill. You stay in wonderland. And I'll show you how deep the rabbit hole goes...The choice is yours.`
+      typewriter.typewrite(`Or you take the red pill. You stay in wonderland.
+And I'll show you how deep the rabbit hole goes.`,
+  width/2, 50, GREEN_COLOR, 32, BOLD, CENTER);
+  responsiveVoice.speak(`Or you take the red pill. You stay in wonderland. And I'll show you how deep the rabbit hole goes.`
+  , "UK English Male", {
+    pitch: 0.75,
+    rate: 1
+  });
+    }
+    //The choice is yours
+    else if(morpheusLine === 11){
+      morpheusLine++;
+      typewriter.typewrite(`The choice is yours...`,
+  width/2, 50, GREEN_COLOR, 32, BOLD, CENTER);
+  responsiveVoice.speak(`The choice is yours...`
   , "UK English Male", {
     pitch: 0.75,
     rate: 1
   });
     }
     //Picked the BLUE pill
-    else if(morpheusLine === 11){
-      typewriter.typewrite(`Q10. Do you believe everything around you is real?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+    else if(morpheusLine === 13){
+      typewriter.typewrite(`Q10. Do you believe everything around you is real?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       question = 10;
       state = `questions`;
       bg = 255;
     }
     //Picked the RED pill
-    else if(morpheusLine === 12){
+    else if(morpheusLine === 14){
       state = `theMatrix`;
     }
   }
@@ -553,7 +613,7 @@ function mousePressed(){
     if(question === 1){
       if(answerC.selected){
         question++;
-        typewriter.typewrite(`Q2. What color is the sky?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q2. What color is the sky?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerD.selected){
         warning();
@@ -563,7 +623,7 @@ function mousePressed(){
     else if(question === 2){
       if(answerD.selected){
         question++;
-        typewriter.typewrite(`Q3. What matter is water?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q3. What matter is water?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
         warning();
@@ -573,7 +633,7 @@ function mousePressed(){
     else if(question === 3){
       if(answerD.selected){
         question++;
-        typewriter.typewrite(`Q4. What force brings objects to fall downwards?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q4. What force brings objects to fall downwards?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
         warning();
@@ -583,7 +643,7 @@ function mousePressed(){
     else if(question === 4){
       if(answerA.selected){
         question++;
-        typewriter.typewrite(`Q5. What force brings objects to fall naturally?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q5. What force brings objects to fall naturally?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerB.selected || answerC.selected || answerD.selected){
         warning();
@@ -593,7 +653,7 @@ function mousePressed(){
     else if(question === 5){
       if(answerC.selected){
         question = 5.2;
-        typewriter.typewrite(`Q6. How man̷̲͛ỵ̴͠ ̶̀`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q6. How man̷̲͛ỵ̴͠ ̶̀`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerD.selected){
         warning();
@@ -606,7 +666,7 @@ function mousePressed(){
       bg = 0;
       typewriter.typewrite(`Hello, ${userName}...
 
->`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+>`, 100, 100, GREEN_COLOR, 32, BOLD, LEFT);
       //SFX
       digitalSound.play();
     }
@@ -614,7 +674,7 @@ function mousePressed(){
     else if(question === 6){
       if(answerB.selected){
         question++;
-        typewriter.typewrite(`Q7. What animal has claws and a long tail?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q7. What animal has claws and a long tail?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerC.selected || answerD.selected){
         warning()
@@ -624,7 +684,7 @@ function mousePressed(){
     else if(question === 7){
       if(answerD.selected){
         question++;
-        typewriter.typewrite(`Q8. What do humans breath?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q8. What do humans breath?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerB.selected){
         state = `unknown`;
@@ -633,7 +693,7 @@ function mousePressed(){
         bg = 0;
         typewriter.typewrite(`We don't have much time. You're in danger...
 
->`, 100, 100, 200, GREEN_COLOR, 32, BOLD, LEFT);
+>`, 100, 100, GREEN_COLOR, 32, BOLD, LEFT);
         //SFX
         digitalSound.play();
       }
@@ -645,14 +705,14 @@ function mousePressed(){
     else if(question === 7.2){
       if(answerA.selected || answerB.selected || answerC.selected || answerD.selected){
         question = 8;
-        typewriter.typewrite(`Q8. What do humans breath?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q8. What do humans breath?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
     }
     //Question 8
     else if(question === 8){
       if(answerD.selected){
         question++;
-        typewriter.typewrite(`Q9. Do you believe you're dreaming?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q9. Do you believe you're dreaming?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
         warning()
@@ -662,7 +722,7 @@ function mousePressed(){
     else if(question === 9){
       if(answerB.selected){
         question++;
-        typewriter.typewrite(`Q10. Do you believe everything around you is real?`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`Q10. Do you believe everything around you is real?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerC.selected || answerD.selected){
         warning()
@@ -678,11 +738,11 @@ function mousePressed(){
   We have all the data we need.
 
   You can freely go on about your day now.
-  Thank you :)`, width/2, height/4, 60, 0, 54, NORMAL, CENTER);
+  Thank you :)`, width/2, height/4, 0, 54, NORMAL, CENTER);
       }
       else if(answerB.selected && morpheusLine === 6){
         morpheusLine++
-        typewriter.typewrite(`That was not the correct answer...`, width/2, height/6, 75, 0, 54, NORMAL, CENTER);
+        typewriter.typewrite(`That was not the correct answer...`, width/2, height/6, 0, 54, NORMAL, CENTER);
         responsiveVoice.speak(`Good. Now, click on the word "answer" to find the answers that you seek.
          `, "UK English Male", {
           pitch: 0.75,
@@ -704,7 +764,7 @@ function mousePressed(){
     state = `secret`;
     bg = 0;
     typewriter.typewrite(`Hello again, ${userName}. We finally meet. I know you have a lot of questions
-about what the Matrix is.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
+about what the Matrix is.`, width/2, 50, GREEN_COLOR, 32, BOLD, CENTER);
     responsiveVoice.speak(`Hello again, ${userName}. We finally meet. I know you have a lot of questions about what the Matrix is.`,
       "UK English Male", {
       pitch: 0.75,
@@ -713,12 +773,12 @@ about what the Matrix is.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
   }
 
   // Red pill or blue pill
-  if(state === `secret` && morpheusLine === 10){
+  if(state === `secret` && morpheusLine === 12){
     //Picks BLUE PILL
     if(mouseX < width/2){
       morpheusLine++;
-      redPillImageOpacity = 0;
-      typewriter.typewrite(`Farewell then, ${userName}.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
+      bluePillPicked = true;
+      typewriter.typewrite(`Farewell then, ${userName}.`, width/2, 50, GREEN_COLOR, 32, BOLD, CENTER);
       responsiveVoice.speak(`Farewell then, ${userName}.`,
         "UK English Male", {
         pitch: 0.75,
@@ -727,10 +787,10 @@ about what the Matrix is.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
     }
     //Picks RED PILL
     else{
-      morpheusLine = 12;
-      bluePillImageOpacity = 0;
-      typewriter.typewrite(`Follow me then...`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
-      responsiveVoice.speak(`Follow me then.`,
+      morpheusLine = 14;
+      redPillPicked = true;
+      typewriter.typewrite(`Follow me then. Down the rabbit hole we go.`, width/2, 50, GREEN_COLOR, 32, BOLD, CENTER);
+      responsiveVoice.speak(`Follow me then. Down the rabbit hole we go.`,
         "UK English Male", {
         pitch: 0.75,
         rate: 1
@@ -739,36 +799,18 @@ about what the Matrix is.`, width/2, 50, 0, GREEN_COLOR, 32, BOLD, CENTER);
   }
 }
 
-//Typewriter function
-function typedText(string){
+/******************************************************************************
+THIS SECTION CONTAINS FUNCTIONS USED DURING KEY PRESSES OR
+MOUSE CLICKS (PREVENTS CLUTTER AND CONFUSION)
+*//////////////////////////////////////////////////////////////////////////////
+function selfWrittenText(string){
+  typewriter.typewrite(string, width/2, 50, GREEN_COLOR, 32, BOLD, CENTER);
 }
 
-//Secret button
-function theAnswer(){
-  secretX = width/4*2.75;
-  secretY = height/6*1.25;
-
-  push();
-  noFill();
-  noStroke();
-  rectMode(CENTER);
-  rect(secretX, secretY, secretWidth, secretHeight);
-  pop();
-}
-
-//Alert to say you picked the wrong answer
-function warning(){
-  alert(`Please pick the correct answer.`);
-}
-
-//Function to easily add text
-function displayText(string, x, y, size, align1, align2, style, color) {
-  push();
-  textStyle(style);
-  textFont(`Courier`);
-  textAlign(align1, align2);
-  textSize(size);
-  fill(color);
-  text(string, x, y);
-  pop();
+function morpheusVoice(string){
+  responsiveVoice.speak(string,
+    "UK English Male", {
+    pitch: 0.75,
+    rate: 1
+  });
 }
