@@ -602,87 +602,81 @@ function mousePressed(){
       }
     }
 
-// Answer selection
+// Answer selection during questions state
   if(state === `questions`){
     answerA.mousePressed();
     answerB.mousePressed();
     answerC.mousePressed();
     answerD.mousePressed();
 
-    //Question 1
-    if(question === 1){
-      if(answerC.selected){
+    switch(question){
+      //Question 1
+      case 1: if(answerC.selected){
         question++;
         typewriter.typewrite(`Q2. What color is the sky?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerD.selected){
         warning();
       }
-    }
-    //Question 2
-    else if(question === 2){
-      if(answerD.selected){
+          break;
+      //Question 2
+      case 2: if(answerD.selected){
         question++;
         typewriter.typewrite(`Q3. What matter is water?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
         warning();
       }
-    }
-    //Question 3
-    else if(question === 3){
-      if(answerD.selected){
+          break;
+      //Question 3
+      case 3: if(answerD.selected){
         question++;
         typewriter.typewrite(`Q4. What force brings objects to fall downwards?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
         warning();
       }
-    }
-    //Question 4
-    else if(question === 4){
-      if(answerA.selected){
+          break;
+      //Question 4
+      case 4: if(answerA.selected){
         question++;
         typewriter.typewrite(`Q5. What force brings objects to fall naturally?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerB.selected || answerC.selected || answerD.selected){
         warning();
       }
-    }
-    //Question 5
-    else if(question === 5){
-      if(answerC.selected){
+          break;
+      //Question 5
+      case 5: if(answerC.selected){
         question = 5.2;
         typewriter.typewrite(`Q6. How man̷̲͛ỵ̴͠ ̶̀`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerD.selected){
         warning();
       }
-    }
-    //Question 5.2 (glitched)
-    else if(question === 5.2){
-      state = `unknown`;
-      currentInput = ``;
-      bg = 0;
-      typewriter.typewrite(`Hello, ${userName}...
+          break;
+      //Question 5.2 (glitched)
+      case 5.2:
+        state = `unknown`;
+        currentInput = ``;
+        bg = 0;
+        typewriter.typewrite(`Hello, ${userName}...
 
 >`, 100, 100, GREEN_COLOR, 32, BOLD, LEFT);
-      //SFX
-      digitalSound.play();
-    }
-    //Question 6
-    else if(question === 6){
-      if(answerB.selected){
+        //SFX
+        digitalSound.play();
+          break;
+      //Question 6
+      case 6: if(answerB.selected){
         question++;
         typewriter.typewrite(`Q7. What animal has claws and a long tail?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerC.selected || answerD.selected){
-        warning()
+        warning();
       }
-    }
-    //Question 7
-    else if(question === 7){
-      if(answerD.selected){
+          break;
+      //Question 7
+      case 7: if(answerD.selected){
         question++;
         typewriter.typewrite(`Q8. What do humans breath?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
@@ -700,45 +694,41 @@ function mousePressed(){
       else if(answerA.selected || answerC.selected){
         warning()
       }
-    }
-    //Question 7.2
-    else if(question === 7.2){
-      if(answerA.selected || answerB.selected || answerC.selected || answerD.selected){
+          break;
+      //Question 7.2
+      case 7.2: if(answerA.selected || answerB.selected || answerC.selected || answerD.selected){
         question = 8;
         typewriter.typewrite(`Q8. What do humans breath?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
-    }
-    //Question 8
-    else if(question === 8){
-      if(answerD.selected){
+          break;
+      //Question 8
+      case 8: if(answerD.selected){
         question++;
         typewriter.typewrite(`Q9. Do you believe you're dreaming?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerB.selected || answerC.selected){
-        warning()
+        warning();
       }
-    }
-    //Question 9
-    else if(question === 9){
-      if(answerB.selected){
+          break;
+      //Question 9
+      case 9: if(answerB.selected){
         question++;
         typewriter.typewrite(`Q10. Do you believe everything around you is real?`, width/2, height/6, 0, 54, NORMAL, CENTER);
       }
       else if(answerA.selected || answerC.selected || answerD.selected){
-        warning()
+        warning();
       }
-    }
-    //Question 10
-    else if(question === 10){
-      if(answerA.selected){
+          break;
+      //Question 10 (last)
+      case 10: if(answerA.selected){
         state = `end`;
         typewriter.typewrite(`Congratulations!
 
-  You completed the questionnaire.
-  We have all the data we need.
+You completed the questionnaire.
+We have all the data we need.
 
-  You can freely go on about your day now.
-  Thank you :)`, width/2, height/4, 0, 54, NORMAL, CENTER);
+You can freely go on about your day now.
+Thank you :)`, width/2, height/4, 0, 54, NORMAL, CENTER);
       }
       else if(answerB.selected && morpheusLine === 6){
         morpheusLine++
