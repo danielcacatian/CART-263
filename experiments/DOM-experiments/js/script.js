@@ -1,54 +1,99 @@
-//DOM EVENTS//////////////////////////////////////////////////////////////////
-let paragraph = document.getElementById(`paragraph`);
-let mainHeading = document.getElementById(`main-heading`);
-let subHeading = document.getElementById(`sub-heading`);
+//DOM FORM INPUT//////////////////////////////////////////////////////////////////
+// regular button
+let button = document.getElementById(`example-button`);
 
-let originalText = paragraph.innerText;
-let opacity = 1;
-
-// fadeOut();
-
-// requestAnimationFrame uses the framerate of the browser (avoid setInterval and setTimeout)
-// function fadeOut(){
-//   opacity -= 0.01;
-//   paragraph.style[`opacity`] = opacity;
-//   if (opacity > 0){
-//     requestAnimationFrame(fadeOut);
-//   }
-// }
-
-//addEventListener
-//(`click`) when the mouse is clicked
-mainHeading.addEventListener(`click`, setRedTextColor);
-subHeading.addEventListener(`click`, setRedTextColor);
-
-function setRedTextColor(event){
-  //event.target => only activates when the specific element is clicked
-  event.target.style[`color`] = `#ff0000`;
-}
-
-//(`contextmenu`) right clicked with the mouse
-paragraph.addEventListener(`contextmenu`, function(event){
-  paragraph.innerText = `SECRET MESSAGE!!! TOAST IS GREAT!!!`;
-})
-
-//(`mouseleave`) mouse leaves over the element => opposite is `mouseeneter`
-paragraph.addEventListener(`mouseleave`, function(event){
-  paragraph.innerText = originalText;
-})
-
-//(`keydown`) when a key is pressed down
-document.addEventListener(`keydown`, function(event){
-  if(event.keyCode === 32){
-    paragraph.style[`color`] = `#ff0000`;
-  }
-  paragraph.innerText = paragraph.innerText + event.key;
+button.addEventListener(`click`, function(event){
+  event.target.style[`display`] = `none`;
 });
 
-//(`offline`) when there is no wifi
-window.addEventListener(`offline`, function(event){
-  mainHeading.innerText = `:(`;
+// text input
+let textInput = document.getElementById(`example-text-input`);
+let submitButton = document.getElementById(`submit-button`);
+
+submitButton.addEventListener(`click`, function(event){
+  let input = textInput.value;
+  alert(input);
+});
+
+textInput.addEventListener(`keydown`, function(event){
+  if (event.keyCode === 13){
+    let input = textInput.value;
+    alert(input);
+  }
+});
+
+// slider
+let slider = document.getElementById(`example-slider`);
+let sliderButton = document.getElementById(`check-button`);
+
+sliderButton.addEventListener(`click`, function(event){
+  let value = slider.value;
+  alert(value);
+});
+
+slider.addEventListener(`change`, function(event){
+  alert(slider.value);
 })
+
+// color picker
+let picker = document.getElementById(`color-picker`);
+
+picker.addEventListener(`input`, function(event){
+  let color = picker.value;
+  document.body.style[`background-color`] = color;
+})
+
+//DOM EVENTS//////////////////////////////////////////////////////////////////
+// let paragraph = document.getElementById(`paragraph`);
+// let mainHeading = document.getElementById(`main-heading`);
+// let subHeading = document.getElementById(`sub-heading`);
+//
+// let originalText = paragraph.innerText;
+// let opacity = 1;
+//
+// // fadeOut();
+//
+// // requestAnimationFrame uses the framerate of the browser (avoid setInterval and setTimeout)
+// // function fadeOut(){
+// //   opacity -= 0.01;
+// //   paragraph.style[`opacity`] = opacity;
+// //   if (opacity > 0){
+// //     requestAnimationFrame(fadeOut);
+// //   }
+// // }
+//
+// //addEventListener
+// //(`click`) when the mouse is clicked
+// mainHeading.addEventListener(`click`, setRedTextColor);
+// subHeading.addEventListener(`click`, setRedTextColor);
+//
+// function setRedTextColor(event){
+//   //event.target => only activates when the specific element is clicked
+//   event.target.style[`color`] = `#ff0000`;
+// }
+//
+// //(`contextmenu`) right clicked with the mouse
+// paragraph.addEventListener(`contextmenu`, function(event){
+//   paragraph.innerText = `SECRET MESSAGE!!! TOAST IS GREAT!!!`;
+// })
+//
+// //(`mouseleave`) mouse leaves over the element => opposite is `mouseeneter`
+// paragraph.addEventListener(`mouseleave`, function(event){
+//   paragraph.innerText = originalText;
+// })
+//
+// //(`keydown`) when a key is pressed down
+// document.addEventListener(`keydown`, function(event){
+//   if(event.keyCode === 32){
+//     paragraph.style[`color`] = `#ff0000`;
+//   }
+//   paragraph.innerText = paragraph.innerText + event.key;
+// });
+//
+// //(`offline`) when there is no wifi
+// window.addEventListener(`offline`, function(event){
+//   mainHeading.innerText = `:(`;
+// })
 
 
 // setTimeout(function() {
