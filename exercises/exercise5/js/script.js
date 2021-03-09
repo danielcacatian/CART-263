@@ -668,6 +668,7 @@ let title = document.getElementById(`haiku-title`);
 let line1P = document.getElementById(`line-1`);
 let line2P = document.getElementById(`line-2`);
 let line3P = document.getElementById(`line-3`);
+let caption = document.getElementById(`instructions`);
 
 title.innerText = header;
 line1P.innerText = line1;
@@ -752,3 +753,12 @@ function random(array){
   let index = Math.floor(Math.random() * array.length);
   return array[index];
 }
+
+//Secret haiku appears when offline
+window.addEventListener(`offline`, function(event){
+  title.innerText = `adapt`;
+  line1P.innerText = `No haiku knowledge`;
+  line2P.innerText = `Seven syllable sentence`;
+  line3P.innerText = `Am I good or what `;
+  caption.innerText = `by Daniel Cacatian`;
+});
