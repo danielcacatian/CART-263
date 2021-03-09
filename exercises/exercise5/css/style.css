@@ -63,3 +63,8 @@ body{
     opacity: 1;
   }
 }
+
+p#instructions {
+  color: white;
+  margin-top: 50px;
+}

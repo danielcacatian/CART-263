@@ -659,17 +659,17 @@ let sevenSyllableLines = [
   `They will not come back again`
 ];
 
-let title = random(haikuTitles);
+let header = random(haikuTitles);
 let line1 = random(fiveSyllableLines);
 let line2 = random(sevenSyllableLines);
 let line3 = random(fiveSyllableLines);
 
-let header = document.getElementById(`haiku-title`);
+let title = document.getElementById(`haiku-title`);
 let line1P = document.getElementById(`line-1`);
 let line2P = document.getElementById(`line-2`);
 let line3P = document.getElementById(`line-3`);
 
-header.innerText = title;
+title.innerText = header;
 line1P.innerText = line1;
 line2P.innerText = line2;
 line3P.innerText = line3;
@@ -689,8 +689,17 @@ line1P.addEventListener(`mouseleave`, noHover);
 line2P.addEventListener(`mouseleave`, noHover);
 line3P.addEventListener(`mouseleave`, noHover);
 
+//Keydown event
+document.addEventListener(`keydown`, spacePressed);
+
 function lineClicked(event){
   fadeOut(event.target, 1);
+}
+
+function spacePressed(event){
+  if(event.keyCode === 32){
+    fadeOut(title, 1);
+  }
 }
 
 //Hover change
@@ -701,6 +710,7 @@ function noHover(event){
   event.target.style[`color`] = `black`;
 }
 
+//Fade out
 function fadeOut(element, opacity){
   opacity -= 0.01;
   element.style[`opacity`] = opacity;
@@ -715,6 +725,7 @@ function fadeOut(element, opacity){
   }
 }
 
+//Fade in
 function fadeIn(element, opacity){
   opacity += 0.01;
   element.style[`opacity`] = opacity;
@@ -731,6 +742,9 @@ function setNewLine(element){
   }
   else if(element === line2P){
     element.innerText = random(sevenSyllableLines);
+  }
+  else if(element === title){
+    element.innerText = random(haikuTitles);
   }
 }
 
