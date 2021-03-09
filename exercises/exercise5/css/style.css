@@ -7,11 +7,34 @@ using the CSS Grid.
 
 **********************************************/
 body{
-  background-color: #abcbab;
+  background: radial-gradient(#abcbab, #55a355);
+  height: 100vh;
+  overflow: hidden;
+  font-family: Georgia, serif;
+  text-align: center;
+  font-style: italic;
 }
 
 #haiku {
-  font-family: Helvetica, sans-serif;
-  font-size: 2rem;
-  font-weight: bold;
+  background-color: white;
+  position: relative;
+  top: 25%;
+  font-size: 4rem;
+  border: black 10pt double;
+  margin-left: 25%;
+  margin-right: 25%;
+  box-shadow:  25px 25px 10px #4d6b4d;
+  animation: animHaiku 2s;
+}
+
+@keyframes animHaiku {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+
+  to {
+    top: 25%;
+    opacity: 1;
+  }
 }
