@@ -40,9 +40,24 @@ line1P.addEventListener(`click`, lineClicked);
 line2P.addEventListener(`click`, lineClicked);
 line3P.addEventListener(`click`, lineClicked);
 
+line1P.addEventListener(`mouseenter`, hover);
+line2P.addEventListener(`mouseenter`, hover);
+line3P.addEventListener(`mouseenter`, hover);
+
+line1P.addEventListener(`mouseleave`, noHover);
+line2P.addEventListener(`mouseleave`, noHover);
+line3P.addEventListener(`mouseleave`, noHover);
 
 function lineClicked(event){
   fadeOut(event.target, 1);
+}
+
+function hover(event){
+  event.target.style[`color`] = `#55a355`;
+}
+
+function noHover(event){
+  event.target.style[`color`] = `black`;
 }
 
 function fadeOut(element, opacity){

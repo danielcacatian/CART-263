@@ -20,11 +20,12 @@ body{
   position: relative;
   top: 25%;
   font-size: 4rem;
-  border: black 10pt double;
+  border: #4d6b4d 10pt double;
   margin-left: 25%;
   margin-right: 25%;
   box-shadow:  25px 25px 10px #4d6b4d;
   animation: animHaiku 2s;
+  transition: 1s;
 }
 
 @keyframes animHaiku {
