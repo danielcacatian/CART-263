@@ -7,7 +7,7 @@ using the CSS Grid.
 
 **********************************************/
 body{
-  background: radial-gradient(#abcbab, #55a355);
+  background: radial-gradient(#abcbab, #205420);
   height: 100vh;
   overflow: hidden;
   font-family: Georgia, serif;
@@ -15,14 +15,39 @@ body{
   font-style: italic;
 }
 
+.container{
+  position: relative;
+  padding: 50px;
+}
+
+#haiku-title{
+  position: relative;
+  top: 0;
+  font-size: 6rem;
+  margin-top: 0;
+  color: white;
+  animation: animTitle 1s;
+}
+
+@keyframes animTitle {
+  from {
+    top: 100px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
 #haiku {
   background-color: white;
   position: relative;
-  top: 25%;
   font-size: 4rem;
   border: #4d6b4d 10pt double;
-  margin-left: 25%;
-  margin-right: 25%;
+  margin-left: 22%;
+  margin-right: 22%;
+  padding: 50px;
   box-shadow:  25px 25px 10px #4d6b4d;
   animation: animHaiku 2s;
   transition: 1s;
@@ -33,7 +58,6 @@ body{
     top: 0;
     opacity: 0;
   }
-
   to {
     top: 25%;
     opacity: 1;
