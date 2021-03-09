@@ -737,6 +737,7 @@ function fadeIn(element, opacity){
   }
 }
 
+//Changes the line/title
 function setNewLine(element){
   if(element === line1P || element === line3P){
     element.innerText = random(fiveSyllableLines);
