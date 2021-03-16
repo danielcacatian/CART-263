@@ -1,32 +1,49 @@
 "use strict";
 
-// JQUERY EVENTS /////////////////////////////////////////////////////////////
-// addEventListener = on()
-$(`#main-heading`).on(`click`, function(event) {
-  // $(this) = whatever has been clicked/being called
-  // $(this).remove();
-});
+// JQUERY FORM INPUT /////////////////////////////////////////////////////////////
 
-// Adding HTML elements
-$(`section`).on(`click`, function(event){
-  $(this).append(`<p>This will be added on EVERY click.</p>`);
+// Button
+$(`#example-button`).on(`click`, function(event){
+  // Text field val() = value
+  let input = $(`#example-text-input`).val();
+  alert(input);
 })
-// one() = executes on only the FIRST click
-$(`section`).one(`click`, function(event){
-  $(this).append(`<p>This will be added on the FIRST click.</p>`);
-});
 
-// Alternative
-$(`#main-heading`).click(function(event){
-  // $(this).remove();
-});
+// Range slider
+// Not `click`, but `change` for sliders
+$(`#range-slider`).on(`change`, function(event){
+  let sliderInput = $(this).val();
+  alert(sliderInput);
+})
 
-// Stop/remove an event
-$(`.header`).on(`click`, function(event) {
-  $(this).css(`color`, `red`);
-  //off() = stops paying attention
-  $(`.header`).off(`click`);
-});
+// JQUERY EVENTS /////////////////////////////////////////////////////////////
+//
+// // addEventListener = on()
+// $(`#main-heading`).on(`click`, function(event) {
+//   // $(this) = whatever has been clicked/being called
+//   // $(this).remove();
+// });
+//
+// // Adding HTML elements
+// $(`section`).on(`click`, function(event){
+//   $(this).append(`<p>This will be added on EVERY click.</p>`);
+// })
+// // one() = executes on only the FIRST click
+// $(`section`).one(`click`, function(event){
+//   $(this).append(`<p>This will be added on the FIRST click.</p>`);
+// });
+//
+// // Alternative
+// $(`#main-heading`).click(function(event){
+//   // $(this).remove();
+// });
+//
+// // Stop/remove an event
+// $(`.header`).on(`click`, function(event) {
+//   $(this).css(`color`, `red`);
+//   //off() = stops paying attention
+//   $(`.header`).off(`click`);
+// });
 
 // JQUERY OVERVIEW /////////////////////////////////////////////////////////////
 //
