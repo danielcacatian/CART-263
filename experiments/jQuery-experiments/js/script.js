@@ -1,20 +1,96 @@
 "use strict";
 
+// JQUERY FORM EXTRAS /////////////////////////////////////////////////////////////
+
+// Each
+// each(function) = Changes each of the elements selected
+$(`.header`).each(function(){
+  let reverseText = $(this).text().split(``).reverse().join(``);
+  $(this).text(reverseText);
+})
+
+// Animations
+$(`#button`).on(`click`, function(event){
+  // animate() --> transitions to the change attributes in the parentheses
+  // $(`.header`).animate({
+  //   "opacity": 0.5,
+  //   "font-size": "3rem"
+  // }, 2000, function(){
+  //   $(this).text("ANIMATED!!!");
+  // })
+  // Cannot animate certain CSS attributes such as color, transform, etc.
+
+  // Alternative for animate (instead of adding millisecondes)
+  $(`.header`).animate({
+    "opacity": 0.1,
+    "height": `200px`
+  },{
+    duration: 2000,
+    complete: function(){
+      $(this).text("ANIMATED!!!");
+    },
+    // Type of animation
+    easing: `linear`
+  })
+  });
+
+// Add/remove class from elements
+// addClass(`class name`) *no dot
+$(`.header`).addClass(`highlight`);
+// removeClass
+$(`.header`).on(`click`, function(event){
+  $(this).removeClass(`highlight`);
+})
+
+// Togle on/off
+setInterval(function(){
+  $(`.header`).toggleClass(`highlight`);
+}, 500);
+
+// Hide/show an element
+// $(`#button`).on(`click`, function(event){
+//   // fadeOut(millisecondes, function) --> calls after the element finished fading out
+//   $(`.header`).fadeOut(2500, function(){
+//     $(this).fadeIn(2500);
+//
+//   // Also fadeToggle()
+//   // $(`.header`).fadeToggle(2500);
+//   });
+
+// slideUp,In,Down,etc.
+// $(`#button`).on(`click`, function(event){
+//   // fadeOut(millisecondes, function) --> calls after the element finished fading out
+//   $(`.header`).slideUp(2500, function(){
+//     $(this).slideDown(500);
+
+  // Also fadeToggle()
+  // $(`.header`).fadeToggle(2500);
+  // });
+
+// // hide()
+  // $(`#main-heading`).hide();
+  // setTimeout(function(){
+  //   //show()
+  //   $(`.header`).show();
+  // }, 2000);
+// });
+
+
 // JQUERY FORM INPUT /////////////////////////////////////////////////////////////
-
-// Button
-$(`#example-button`).on(`click`, function(event){
-  // Text field val() = value
-  let input = $(`#example-text-input`).val();
-  alert(input);
-})
-
-// Range slider
-// Not `click`, but `change` for sliders
-$(`#range-slider`).on(`change`, function(event){
-  let sliderInput = $(this).val();
-  alert(sliderInput);
-})
+//
+// // Button
+// $(`#example-button`).on(`click`, function(event){
+//   // Text field val() = value
+//   let input = $(`#example-text-input`).val();
+//   alert(input);
+// })
+//
+// // Range slider
+// // Not `click`, but `change` for sliders
+// $(`#range-slider`).on(`change`, function(event){
+//   let sliderInput = $(this).val();
+//   alert(sliderInput);
+// })
 
 // JQUERY EVENTS /////////////////////////////////////////////////////////////
 //
