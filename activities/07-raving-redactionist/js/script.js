@@ -1,32 +1,21 @@
 "use strict";
 
-/**
-Title of Project
-Author Name
+$(`.top-secret`).on(`click`,redact);
+setInterval(revelation, 500);
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
-*/
-
-/**
-Description of preload
-*/
-function preload() {
-
+function redact(event){
+  $(this).removeClass(`revealed`);
+  $(this).addClass(`redacted`);
 }
 
-
-/**
-Description of setup
-*/
-function setup() {
-
+function revelation(){
+  $(`.redacted`).each(attemptReveal);
 }
 
-
-/**
-Description of draw()
-*/
-function draw() {
-
+function attemptReveal(){
+  let r = Math.random();
+  if (r < 0.1) {
+    $(this).removeClass(`redacted`);
+    $(this).addClass(`revealed`);
+  }
 }
