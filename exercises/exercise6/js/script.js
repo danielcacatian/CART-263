@@ -3,6 +3,7 @@
 let secretsRevealed = 0;
 let end = false;
 
+// Simulation
 $(`.top-secret`).on(`click`,redact);
 setInterval(revelation, 500);
 
@@ -48,8 +49,9 @@ function draw(){
   }
 }
 
-// Press [Space] to retry if you lose
+// Key presses
 function keyPressed() {
+  // Restart if player won/loss
   if (keyCode === 32 && end === true) {
     location.reload();
   }

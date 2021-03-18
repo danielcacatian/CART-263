@@ -1,6 +1,8 @@
 /*********************************************
 
-Here is a description of any special CSS used.
+Contains CSS properties that modified text mostly.
+Also use CSS to change placements of sections so
+that they all fit one screen.
 
 **********************************************/
 
@@ -19,18 +21,20 @@ body {
   padding: 50px;
 }
 
+#instructions {
+  font-family: monospace;
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  width: 30vh;
+  color: white;
+  font-size: 2rem;
+}
+
 #text {
   position: absolute;
   top: 40%;
   width: 100%;
-}
-
-#lose {
-  z-index: 1;
-}
-
-#win {
-  z-index: 2;
 }
 
 .end-screen {
@@ -52,13 +56,11 @@ body {
   text-decoration: underline;
 }
 
-.bold {
-  font-weight: bold;
-}
-
 .signature {
   margin-top:10vh;
 }
+
+/* TEXT STYLES ***********************************/
 
 h1 {
   color: white;
@@ -80,4 +82,12 @@ h3 {
 
 p.right-aligned {
   text-align: right;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.underline {
+  text-decoration: underline;
 }
