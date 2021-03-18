@@ -2,6 +2,7 @@
 
 let secretsRevealed = 0;
 let end = false;
+let bgMusic = $(`#bg-music`);
 
 // Simulation
 $(`.top-secret`).on(`click`,redact);
@@ -56,3 +57,8 @@ function keyPressed() {
     location.reload();
   }
 }
+
+// Background music
+$(document).ready(function(){
+  $(bgMusic) [0].play();
+});
