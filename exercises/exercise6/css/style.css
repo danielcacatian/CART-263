@@ -4,11 +4,19 @@ Here is a description of any special CSS used.
 
 **********************************************/
 
+body {
+  background-color: black;
+  overflow-y: hidden;
+}
+
 #secret-document {
+  background-color: white;
   font-family: monospace;
   font-size: 1.5rem;
   width: 60vh;
+  height: 100vh;
   margin: auto;
+  padding: 50px;
 }
 
 .redacted {
@@ -16,7 +24,23 @@ Here is a description of any special CSS used.
   user-select: none;
 }
 
-.revealed{
+.revealed {
   color: red;
   text-decoration: underline;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.signature {
+  margin-top:10vh;
+}
+
+h2 {
+  text-align: center;
+}
+
+p.right-aligned {
+  text-align: right;
 }
