@@ -1,6 +1,7 @@
 "use strict";
 
 let secretsRevealed = 0;
+let end = false;
 
 $(`.top-secret`).on(`click`,redact);
 setInterval(revelation, 500);
@@ -26,12 +27,30 @@ function attemptReveal(){
   }
 }
 
+// Win screen pops up
+$(`#win`).hide();
+setTimeout(function (){
+  $(`#win`).show();
+  $(`#lose`).hide();
+  end = true;
+}, 20000) // If user hides the redacted info for 20secs, they WIN
+
 //Lose screen pops up
 function draw(){
-  if(secretsRevealed <= 10){
-    $(`#lose-screen`).hide();
+  if(secretsRevealed <= 8){
+    $(`#lose`).hide();
   }
   else {
-    $(`#lose-screen`).show();
+    $(`#lose`).show();
+    $(`#win`).hide();
+    $(`#secret-document`).hide();
+    end = true;
+  }
+}
+
+// Press [Space] to retry if you lose
+function keyPressed() {
+  if (keyCode === 32 && end === true) {
+    location.reload();
   }
 }
