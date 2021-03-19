@@ -2,7 +2,11 @@
 
 let secretsRevealed = 0;
 let end = false;
-let bgMusic = $(`#bg-music`);
+let bgMusic = undefined;
+
+function preload(){
+  bgMusic = loadSound(`assets/sounds/bgMusic.mp3`)
+}
 
 // Simulation
 $(`.top-secret`).on(`click`,redact);
@@ -37,8 +41,8 @@ setTimeout(function (){
   end = true;
 }, 20000) // If user hides the redacted info for 20secs, they WIN
 
-//Lose screen pops up
 function draw(){
+  //Lose screen pops up
   if(secretsRevealed <= 8){
     $(`#lose`).hide();
   }
@@ -47,6 +51,12 @@ function draw(){
     $(`#win`).hide();
     $(`#secret-document`).hide();
     end = true;
+  }
+
+  //Song plays
+  if (!bgMusic.isPlaying()) {
+    bgMusic.play();
+    bgMusic.loop();
   }
 }
 
