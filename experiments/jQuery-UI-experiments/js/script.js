@@ -1,21 +1,40 @@
 "use strict";
 
-// JQUERY UI EFFECTS /////////////////////////////////////////////////////
-// effect()
-// give a specific effect to an element
+// JQUERY UI WIDGETS /////////////////////////////////////////////////////
+// dialogue()
+// creates a dialogue box out of the HTML element and comes with basic features such as resizing for example.
+$(`#introduction-dialog`).dialog({
+  modal: true, // cant interact with the page till the dialog box is gone
+  resizable: false, // cant resize
+  buttons: { // adds buttons to the dialog box
+    "Imagination": function() { // what happens when you click on the specific button
+      // Disable the walls
+      $(`#prisoner`).draggable(`option`, `containment`, `none`); // removes containment
+      $(this).dialog(`close`);
+    },
+    "Escape tunnel": function() {
+      $(`#escape-tunnel`).show({
+        effect: `blind`,
+        duration: 500,
+      });
+      $(this).dialog(`close`);
+    }
+  }
+});
+
+$(`#escape-tunnel`).hide();
+
 $(`#prisoner`).effect({
-  effect: `shake`, // shake; shakes the element
-  duration: 2000, // duration of the animation (milliseconds)
-  times: 15, // how many times it shakes
-  distance: 5, //distance it shakes from left to right (pixels)
-  complete: makePrisonerDraggable // after the effect finishes
+  effect: `shake`,
+  duration: 2000,
+  times: 15,
+  distance: 5,
+  complete: makePrisonerDraggable
 });
 
 $(`#escape-tunnel`).droppable({
   drop: function (event, ui){
     ui.draggable.remove();
-// hide()
-// hides and can be combined with effect()
     $(this).hide({
       effect: `blind`,
       duration: 500,
@@ -28,8 +47,6 @@ function makePrisonerDraggable(){
     containment: `#prison`,
     start: function() {
       $(this).css(`text-decoration`, `underline`);
-  // animate() or addClass()
-  // transitions to the CSS changes
       $(this).addClass(`prisoner-dragging`, 750);
     },
     stop: function() {
@@ -37,6 +54,44 @@ function makePrisonerDraggable(){
     }
   });
 }
+
+// JQUERY UI EFFECTS /////////////////////////////////////////////////////
+// // effect()
+// // give a specific effect to an element
+// $(`#prisoner`).effect({
+//   effect: `shake`, // shake; shakes the element
+//   duration: 2000, // duration of the animation (milliseconds)
+//   times: 15, // how many times it shakes
+//   distance: 5, //distance it shakes from left to right (pixels)
+//   complete: makePrisonerDraggable // after the effect finishes
+// });
+//
+// $(`#escape-tunnel`).droppable({
+//   drop: function (event, ui){
+//     ui.draggable.remove();
+// // hide()
+// // hides and can be combined with effect()
+//     $(this).hide({
+//       effect: `blind`,
+//       duration: 500,
+//     });
+//   }
+// });
+//
+// function makePrisonerDraggable(){
+//   $(`#prisoner`).draggable({
+//     containment: `#prison`,
+//     start: function() {
+//       $(this).css(`text-decoration`, `underline`);
+//   // animate() or addClass()
+//   // transitions to the CSS changes
+//       $(this).addClass(`prisoner-dragging`, 750);
+//     },
+//     stop: function() {
+//       $(this).removeClass(`prisoner-dragging`, 750);
+//     }
+//   });
+// }
 
 // JQUERY UI INTERACTIONS /////////////////////////////////////////////////////
 // // draggable()
