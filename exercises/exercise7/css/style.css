@@ -3,3 +3,17 @@
 Here is a description of any special CSS used.
 
 **********************************************/
+
+#poem {
+  font-size: 1.2rem;
+}
+
+#answer {
+  width: 10rem;
+  height: 2rem;
+  border: 2px dashed black;
+}
+
+.found {
+  color: red;
+}
