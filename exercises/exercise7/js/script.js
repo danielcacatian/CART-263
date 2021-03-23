@@ -31,7 +31,7 @@ $(`#answer`).droppable({
     ui.draggable.draggable(`disable`);
     ui.draggable.removeClass(`found`, 500);
     // Check if they got it
-    if ($(this).text() === `Theremin`) {
+    if ($(this).text() === `Temptation`) {
       $(`#solved-dialog`).dialog(`open`);
     }
   }
