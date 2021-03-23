@@ -36,7 +36,6 @@ Here is a description of any special CSS used.
 #container {
   position: relative;
   width: 50%;
-  height: 100px;
   margin: auto;
 }
 
@@ -55,4 +54,9 @@ Here is a description of any special CSS used.
 
 .underline {
   text-decoration: underline;
+}
+
+.hint {
+  text-align: center;
+  font-style: italic;
 }

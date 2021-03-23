@@ -44,6 +44,7 @@ $(`#answer`).droppable({
     // Check if they got it
     if ($(this).text() === `Temptation`) {
       $(`#solved-dialog`).dialog(`open`);
+      $(`#correct-SFX`) [0].play();
     }
   }
 });
