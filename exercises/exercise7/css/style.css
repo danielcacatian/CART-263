@@ -9,6 +9,7 @@ Here is a description of any special CSS used.
   font-size: 2rem;
   margin: auto;
   text-align: center;
+  cursor: default;
 }
 
 #lines {
@@ -28,6 +29,14 @@ Here is a description of any special CSS used.
   text-align: center;
 }
 
+#instructions-dialog {
+  font-size: 1.5rem;
+}
+
 .found {
   color: red;
+}
+
+.underline {
+  text-decoration: underline;
 }

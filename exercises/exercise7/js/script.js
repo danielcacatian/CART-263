@@ -8,6 +8,7 @@ Da Vinki???
 Add-on to Activity 8: Code Taker created by Pippin Barr.
 */
 
+// Solved dialog
 $(`#solved-dialog`).dialog({
   autoOpen: false,
   buttons: {
@@ -17,12 +18,23 @@ $(`#solved-dialog`).dialog({
   }
 });
 
-$(`.secret`).one(`mouseover`, function(event){
+// Instructions dialog
+$(`#instructions-dialog`).dialog({
+  buttons: {
+    "Understood": function() {
+      $(this).dialog(`close`);
+      $(`.secret`).one(`mouseover`, clue);
+    }
+  },
+  width: 400
+});
+
+function clue(){
   $(this).addClass(`found`, 500);
   $(`.secret`).draggable({
     helper: `clone`
   });
-});
+}
 
 $(`#answer`).droppable({
   drop: function(event, ui){
