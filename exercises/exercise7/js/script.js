@@ -23,7 +23,7 @@ $(`#instructions-dialog`).dialog({
   buttons: {
     "Understood": function() {
       $(this).dialog(`close`);
-      $(`.secret`).one(`mouseover`, clue);
+      $(`.secret`).one(`click`, clue);
     }
   },
   width: 400
@@ -41,10 +41,14 @@ $(`#answer`).droppable({
     let letter = ui.draggable.text();
     $(this).append(letter);
     ui.draggable.draggable(`disable`);
-    ui.draggable.removeClass(`found`, 500);
     // Check if they got it
     if ($(this).text() === `Temptation`) {
       $(`#solved-dialog`).dialog(`open`);
     }
   }
+});
+
+$(`#reset-button`).on(`click`, function(event, ui){
+  $(`#answer`).empty();
+  $(`.secret`).draggable(`enable`);
 });
