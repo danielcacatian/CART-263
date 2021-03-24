@@ -29,13 +29,6 @@ $(`#instructions-dialog`).dialog({
   width: 400
 });
 
-function clue(){
-  $(this).addClass(`found`, 500);
-  $(`.secret`).draggable({
-    helper: `clone`
-  });
-}
-
 $(`#answer`).droppable({
   drop: function(event, ui){
     let letter = ui.draggable.text();
@@ -44,12 +37,22 @@ $(`#answer`).droppable({
     // Check if they got it
     if ($(this).text() === `Temptation`) {
       $(`#solved-dialog`).dialog(`open`);
+      // Plays SFX
       $(`#correct-SFX`) [0].play();
     }
   }
 });
 
+// Reset button (clears the dropped letters)
 $(`#reset-button`).on(`click`, function(event, ui){
   $(`#answer`).empty();
   $(`.secret`).draggable(`enable`);
 });
+
+// When you find a clue
+function clue(){
+  $(this).addClass(`found`, 500);
+  $(`.secret`).draggable({
+    helper: `clone`
+  });
+}
