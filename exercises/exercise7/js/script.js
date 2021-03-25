@@ -34,6 +34,7 @@ $(`#answer`).droppable({
     let letter = ui.draggable.text();
     $(this).append(letter);
     ui.draggable.draggable(`disable`);
+    ui.draggable.addClass(`used`, 250);
     // Check if they got it
     if ($(this).text() === `Temptation`) {
       $(`#solved-dialog`).dialog(`open`);
@@ -47,11 +48,12 @@ $(`#answer`).droppable({
 $(`#reset-button`).on(`click`, function(event, ui){
   $(`#answer`).empty();
   $(`.secret`).draggable(`enable`);
+  $(`.secret`).removeClass(`used`, 250);
 });
 
 // When you find a clue
 function clue(){
-  $(this).addClass(`found`, 500);
+  $(this).addClass(`found`, 250);
   $(`.secret`).draggable({
     helper: `clone`
   });

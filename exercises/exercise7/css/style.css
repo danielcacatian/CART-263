@@ -54,6 +54,10 @@ styles that change the color or font.
   color: red;
 }
 
+.used {
+  color: limegreen;
+}
+
 .underline {
   text-decoration: underline;
 }
