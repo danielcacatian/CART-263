@@ -8,16 +8,30 @@ class Play extends Phaser.Scene {
 
   create(){
     // Create the avatar
-    this.avatar = this.physics.add.sprite(400, 300, `avatar`);
+    this.avatar = this.physics.add.sprite(100, 300, `avatar`);
     this.avatar.setCollideWorldBounds(true);
 
-    let x = Math.random() * this.sys.canvas.width;
-    let y = Math.random() * this.sys.canvas.height;
+    // Create the thumbs-down
+    let x = 700;
+    let y = Math.random() * this.sys.canvas.height-5;
     this.sadness = this.physics.add.sprite(x, y, `thumbs-down`);
+
+    // Obstacles
+    this.walls = this.physics.add.group({
+      key: `wall`,
+      immovable: true,
+      quantity: 50,
+    });
+    this.walls.children.each(function(wall){
+      let x = Math.random() * this.sys.canvas.width;
+      let y = Math.random() * this.sys.canvas.height;
+      wall.setPosition(x, y);
+      wall.setTint(0xdd3333);
+    }, this);
 
     this.happiness = this.physics.add.group({
       key: `thumbs-up`,
-      quantity: 120,
+      quantity: 2,
       bounceX: 0.5,
       bounceY: 0.5,
       collideWorldBounds: true,
@@ -30,6 +44,8 @@ class Play extends Phaser.Scene {
     this.physics.add.collider(this.avatar, this.happiness);
     this.physics.add.collider(this.sadness, this.happiness);
     this.physics.add.collider(this.happiness, this.happiness);
+    this.physics.add.collider(this.avatar, this.walls); //cant go through walls
+
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
