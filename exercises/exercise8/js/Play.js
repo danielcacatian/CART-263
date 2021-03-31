@@ -10,50 +10,47 @@ class Play extends Phaser.Scene {
     // Create the avatar
     this.avatar = this.physics.add.sprite(100, 300, `avatar`);
     this.avatar.setCollideWorldBounds(true);
+    // Avatar animation
+    this.anims.create({
+      key: `avatar-flying`,
+      frames: this.anims.generateFrameNumbers(`avatar`, {
+        start: 0,
+        end: 3
+      }),
+      frameRate: 12,
+      repeat: -1
+    });
+    // Play animation
+    this.avatar.play(`avatar-flying`);
 
-    // Create the thumbs-down
+    // Create the earth (destination)
     let x = 700;
     let y = Math.random() * this.sys.canvas.height-5;
-    this.sadness = this.physics.add.sprite(x, y, `thumbs-down`);
+    this.earth = this.physics.add.sprite(x, y, `earth`);
 
     // Obstacles
-    this.walls = this.physics.add.group({
-      key: `wall`,
+    this.asteroids = this.physics.add.group({
+      key: `asteroid`,
       immovable: true,
       quantity: 50,
     });
-    this.walls.children.each(function(wall){
+    this.asteroids.children.each(function(wall){
       let x = Math.random() * this.sys.canvas.width;
       let y = Math.random() * this.sys.canvas.height;
       wall.setPosition(x, y);
-      wall.setTint(0xdd3333);
     }, this);
 
-    this.happiness = this.physics.add.group({
-      key: `thumbs-up`,
-      quantity: 2,
-      bounceX: 0.5,
-      bounceY: 0.5,
-      collideWorldBounds: true,
-      dragX: 50,
-      dragY: 50
-    });
-    Phaser.Actions.RandomRectangle(this.happiness.getChildren(), this.physics.world.bounds);
-
-    this.physics.add.overlap(this.avatar, this.sadness, this.getSad, null, this);
-    this.physics.add.collider(this.avatar, this.happiness);
-    this.physics.add.collider(this.sadness, this.happiness);
-    this.physics.add.collider(this.happiness, this.happiness);
-    this.physics.add.collider(this.avatar, this.walls); //cant go through walls
+    this.physics.add.overlap(this.avatar, this.earth, this.getSad, null, this);
+    this.physics.add.collider(this.avatar, this.asteroids); //cant go through asteroids
 
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
-  getSad(avatar, sadness){
+  getSad(avatar, earth){
     let x = Math.random() * this.sys.canvas.width;
     let y = Math.random() * this.sys.canvas.height;
-    this.sadness.setPosition(x, y);
+    this.earth.setPosition(x, y);
   }
 
   update(){
