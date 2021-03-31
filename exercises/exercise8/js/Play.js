@@ -40,20 +40,37 @@ class Play extends Phaser.Scene {
       wall.setPosition(x, y);
     }, this);
 
-    this.physics.add.overlap(this.avatar, this.earth, this.getSad, null, this);
+    this.physics.add.overlap(this.avatar, this.earth, this.arrived, null, this); // collide with the earth
     this.physics.add.collider(this.avatar, this.asteroids); //cant go through asteroids
 
 
+    // Register keyboard commands
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    let timerStyle = {
+      fontSize: `20px`,
+      color: `#ffff`,
+      fontStyle: `bold`
+    };
+    // Timer
+    this.oxygen = 100; // Starting oxygen level
+    this.timerText = this.add.text(20, 20, ``, timerStyle); // timer text
+    // Oxygen depletes by 1% every 100 millisecondes
+    this.timedEvent = this.time.addEvent({ delay: 100, callback: this.oxygenDepleting, callbackScope: this, loop: true });
   }
 
-  getSad(avatar, earth){
-    let x = Math.random() * this.sys.canvas.width;
-    let y = Math.random() * this.sys.canvas.height;
-    this.earth.setPosition(x, y);
+  // Arrived on Earth
+  arrived(avatar, earth){
+    this.scene.start(`you-win`);
+  }
+
+  // Oxygen depleting
+  oxygenDepleting(){
+    this.oxygen--;
   }
 
   update(){
+    // Keyboard controls
     if (this.cursors.left.isDown) {
       this.avatar.setAngularVelocity(-150);
     }
@@ -69,6 +86,12 @@ class Play extends Phaser.Scene {
     }
     else {
       this.avatar.setAcceleration(0);
+    }
+
+    // Timer text
+    this.timerText.setText(`Oxygen: `+ this.oxygen + `%`);
+    if(this.oxygen === 0){ // Oxygen reeaches 0 = Game Over
+      this.scene.start(`game-over`);
     }
   }
 

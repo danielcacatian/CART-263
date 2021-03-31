@@ -26,7 +26,8 @@ class Instructions extends Phaser.Scene {
 - LEFT/RIGHT ARROWS to change
   direction
 
-- Reach Earth before the time limit`;
+- Reach Earth before your oxygen
+  reaches 0%`;
 
     let pressStart = {
       fontFamily: `Monospace`,
