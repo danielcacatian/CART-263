@@ -19,6 +19,7 @@ Exercises
 
 -[Exercise 7](https://danielcacatian.github.io/CART-263/exercises/exercise7/)
 
+-[Exercise 8](https://danielcacatian.github.io/CART-263/exercises/exercise8/)
 
 Projects
 
