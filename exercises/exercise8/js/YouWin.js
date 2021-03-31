@@ -1,12 +1,12 @@
 class YouWin extends Phaser.Scene {
 
-  constructor(){
+  constructor() {
     super({
       key: `you-win`
     });
   }
 
-  create(){
+  create() {
     let youWinStyle = {
       fontFamily: `Monospace`,
       fontSize: `70px`,
@@ -30,13 +30,13 @@ if you wish`;
     // You Win!
     this.add.text(screenCenterX, screenCenterY, youWinText, youWinStyle).setOrigin(0.5);
     // Press SPACE to restart
-    this.add.text(screenCenterX, screenCenterY+100, restartText, restartStyle).setOrigin(0.5);
+    this.add.text(screenCenterX, screenCenterY + 100, restartText, restartStyle).setOrigin(0.5);
 
     // register keyboard commands
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
-  update(){
+  update() {
     // Press SPACE to check instructions
     if (this.cursors.space.isDown) {
       this.scene.start(`instructions`);

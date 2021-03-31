@@ -1,12 +1,12 @@
 class Play extends Phaser.Scene {
 
-  constructor(){
+  constructor() {
     super({
       key: `play`
     });
   }
 
-  create(){
+  create() {
     // Create the avatar
     this.avatar = this.physics.add.sprite(100, 300, `avatar`);
     this.avatar.setCollideWorldBounds(true);
@@ -25,7 +25,7 @@ class Play extends Phaser.Scene {
 
     // Create the earth (destination)
     let x = 700;
-    let y = Math.random() * this.sys.canvas.height-5;
+    let y = Math.random() * this.sys.canvas.height - 5;
     this.earth = this.physics.add.sprite(x, y, `earth`);
 
     // Obstacles
@@ -34,7 +34,7 @@ class Play extends Phaser.Scene {
       immovable: true,
       quantity: 50,
     });
-    this.asteroids.children.each(function(wall){
+    this.asteroids.children.each(function(wall) {
       let x = Math.random() * this.sys.canvas.width;
       let y = Math.random() * this.sys.canvas.height;
       wall.setPosition(x, y);
@@ -56,41 +56,43 @@ class Play extends Phaser.Scene {
     this.oxygen = 100; // Starting oxygen level
     this.timerText = this.add.text(20, 20, ``, timerStyle); // timer text
     // Oxygen depletes by 1% every 100 millisecondes
-    this.timedEvent = this.time.addEvent({ delay: 100, callback: this.oxygenDepleting, callbackScope: this, loop: true });
+    this.timedEvent = this.time.addEvent({
+      delay: 100,
+      callback: this.oxygenDepleting,
+      callbackScope: this,
+      loop: true
+    });
   }
 
   // Arrived on Earth
-  arrived(avatar, earth){
+  arrived(avatar, earth) {
     this.scene.start(`you-win`);
   }
 
   // Oxygen depleting
-  oxygenDepleting(){
+  oxygenDepleting() {
     this.oxygen--;
   }
 
-  update(){
+  update() {
     // Keyboard controls
     if (this.cursors.left.isDown) {
       this.avatar.setAngularVelocity(-150);
-    }
-    else if (this.cursors.right.isDown) {
+    } else if (this.cursors.right.isDown) {
       this.avatar.setAngularVelocity(150);
-    }
-    else {
+    } else {
       this.avatar.setAngularVelocity(0);
     }
 
     if (this.cursors.up.isDown) {
       this.physics.velocityFromRotation(this.avatar.rotation, 200, this.avatar.body.acceleration);
-    }
-    else {
+    } else {
       this.avatar.setAcceleration(0);
     }
 
     // Timer text
-    this.timerText.setText(`Oxygen: `+ this.oxygen + `%`);
-    if(this.oxygen === 0){ // Oxygen reeaches 0 = Game Over
+    this.timerText.setText(`Oxygen: ` + this.oxygen + `%`);
+    if (this.oxygen === 0) { // Oxygen reeaches 0 = Game Over
       this.scene.start(`game-over`);
     }
   }

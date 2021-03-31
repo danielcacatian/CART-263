@@ -1,12 +1,12 @@
 class Title extends Phaser.Scene {
 
-  constructor(){
+  constructor() {
     super({
       key: `title`
     });
   }
 
-  create(){
+  create() {
     let titleStyle = {
       fontFamily: `Monospace`,
       fontSize: `70px`,
@@ -29,13 +29,13 @@ class Title extends Phaser.Scene {
     // Title
     this.add.text(screenCenterX, screenCenterY, gameTitle, titleStyle).setOrigin(0.5);
     // Press START
-    this.add.text(screenCenterX, screenCenterY+100, gamePressStart, pressStart).setOrigin(0.5);
+    this.add.text(screenCenterX, screenCenterY + 100, gamePressStart, pressStart).setOrigin(0.5);
 
     // to register keyboard commands
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
-  update(){
+  update() {
     // Press start to check instructions
     if (this.cursors.space.isDown) {
       this.scene.start(`instructions`);
