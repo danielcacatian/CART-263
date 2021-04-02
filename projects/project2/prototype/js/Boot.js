@@ -18,7 +18,9 @@ class Boot extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
-
+    this.load.image(`box`, `assets/images/box.png`);
+    this.load.image(`buttonS`, `assets/images/buttonS.png`);
+    this.load.image(`buttonT`, `assets/images/buttonT.png`);
     this.load.image(`platform`, `assets/images/platform.png`)
 
 
