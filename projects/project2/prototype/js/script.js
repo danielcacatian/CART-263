@@ -11,13 +11,13 @@ the finished project.
 
 let config = {
   type: Phaser.AUTO,
-  width: 1200,
-  height: 700,
+  width: 1100,
+  height: 600,
   physics: {
     default: `arcade`,
     arcade: {
-      gravity: { y: 300},
-      debug: false
+      gravity: { y: 600},
+      debug: true
     }
   },
   scene: [Boot, Play]
