@@ -7,6 +7,7 @@ class Play extends Phaser.Scene {
   }
 
   create(){
+
     // Boxxy & Conny
     this.boxxy = this.physics.add.sprite(100, 400, `boxxy`);
     this.conny = this.physics.add.sprite(200, 400, `conny`);
@@ -47,6 +48,16 @@ class Play extends Phaser.Scene {
     //Collisions
     // this.platforms.setCollisionByExclusion(-1, true);
 
+    // Instructions
+    this.add.text(800, 100, `Controls:
+- ARROW keys to move Boxxy
+- AWD keys to move Conny
+- SPACE to launch Conny with Boxxy
+- E to interact with objects`, {
+      fontSize: `20px`,
+      color: `#ffff`,
+      fontStyle: `bold`}).setOrigin(0.5);
+
     // register keyboard commands
     this.cursors = this.input.keyboard.createCursorKeys();
     this.keyboard = this.input.keyboard.addKeys(`W, A, D, E`);
@@ -54,8 +65,6 @@ class Play extends Phaser.Scene {
   }
 
   update(){
-
-
     // Boxxy controls
     this.boxxy.setVelocityX(0);
     // left & right
@@ -87,6 +96,8 @@ class Play extends Phaser.Scene {
     // Launch ability
     this.physics.add.overlap(this.boxxy, this.conny, this.launch, null, this);
     // Buttons are pressed at the same time
+    this.boxxyR = false;
+    this.connyR = false;
     this.physics.add.overlap(this.boxxy, this.buttonS, this.boxxyReady, null, this);
     this.physics.add.overlap(this.conny, this.buttonT, this.connyReady, null, this);
   }
@@ -98,18 +109,14 @@ class Play extends Phaser.Scene {
   }
 
   boxxyReady(boxxy, buttonS){
-    let boxxyR = true;
-    if(boxxyR && connyR && this.keyboard.E.isDown){
-      alert(`You completed the prototype!`);
-    }
+    this.boxxyR = true;
+    if(this.keyboard.E.isDown && this.connyR && this.boxxyR){
+      this.scene.start(`end`);
+    };
   }
 
   connyReady(conny, buttonT){
-    let connyR = true;
-    if(boxxyR && connyR && this.keyboard.E.isDown){
-      alert(`You completed the prototype!`);
-    }
-    console.log(connyR)
+    this.connyR = true;
   }
 
 }
