@@ -1,32 +1,24 @@
 "use strict";
 
 /**
-Title of Project
-Author Name
+The Perfect Pair
+Daniel Cacatian
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+A puzzle game where you control two players
 */
 
-/**
-Description of preload
-*/
-function preload() {
+let config = {
+  type: Phaser.AUTO,
+  width: 1100,
+  height: 600,
+  physics: {
+    default: `arcade`,
+    arcade: {
+      gravity: { y: 600},
+      debug: true
+    }
+  },
+  scene: [Boot, Play, End]
+};
 
-}
-
-
-/**
-Description of setup
-*/
-function setup() {
-
-}
-
-
-/**
-Description of draw()
-*/
-function draw() {
-
-}
+let game = new Phaser.Game(config);
