@@ -18,19 +18,19 @@ class Boot extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+    // Door
+    this.load.spritesheet(`door`, `assets/images/door.png`, {
+      frameWidth: 128,
+      frameHeight: 128,
+    });
     this.load.image(`box`, `assets/images/box.png`);
     this.load.image(`buttonS`, `assets/images/buttonS.png`);
     this.load.image(`buttonT`, `assets/images/buttonT.png`);
-    this.load.image(`platform`, `assets/images/platform.png`)
-
-
-    // // Tileset images for the tilemap
-    // this.load.image(`tiles`, `assets/images/tiles.png`);
-    // // Load tilemap (Tiled JSON)
-    // this.load.tilemapTiledJSON(`prototype-map`, `assets/maps/prototype-map.json`);
+    this.load.image(`platformH`, `assets/images/platformH.png`)
+    this.load.image(`platformV`, `assets/images/platformV.png`)
 
     this.load.on(`complete`, () => {
-      this.scene.start(`play`);
+      this.scene.start(`level1`);
     })
   }
 

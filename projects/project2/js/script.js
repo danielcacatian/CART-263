@@ -9,8 +9,8 @@ A puzzle game where you control two players
 
 let config = {
   type: Phaser.AUTO,
-  width: 1100,
-  height: 600,
+  width: 1400,
+  height: 750,
   physics: {
     default: `arcade`,
     arcade: {
@@ -18,7 +18,7 @@ let config = {
       debug: true
     }
   },
-  scene: [Boot, Play, End]
+  scene: [Boot, Level1, Level2 , End]
 };
 
 let game = new Phaser.Game(config);
