@@ -69,7 +69,7 @@ class Level1 extends Phaser.Scene {
 
 
     // Screenwipe //
-    this.transitionStart = this.add.sprite(this.centerX, this.centerY*3, `platformH`).setScale(12);
+    this.transitionStart = this.add.sprite(this.centerX, this.centerY, `platformH`).setScale(12);
     this.transitionEnd = this.add.sprite(this.centerX, this.centerY*3, `platformH`).setScale(12);
 
     // register keyboard commands
@@ -98,7 +98,7 @@ class Level1 extends Phaser.Scene {
       this.boxxy.setVelocityY(-300);
     }
     // idle
-    if (this.boxxy.body.velocity.x === 0 || this.boxxy.body.velocity.y === 0) {
+    if (this.boxxy.body.velocity.x === 0) {
       this.boxxy.play(`boxxy-idle`, true);
     }
 
@@ -130,7 +130,6 @@ class Level1 extends Phaser.Scene {
 
     // Buttons are pressed at the same time
     this.boxxyR = false;
-    this.buttonPushed = false;
     this.physics.add.overlap(this.boxxy, this.buttonS, this.boxxyReady, null, this);
 
   }// update() end
@@ -140,6 +139,7 @@ class Level1 extends Phaser.Scene {
   boxxyReady(){
     if(!this.buttonPushed){
       this.boxxyR = true;
+      this.buttonPushed = false;
       if(this.keyboard.E.isDown && this.boxxyR){
         this.buttonPushed = true;
         this.door.play(`door-open`);
@@ -173,7 +173,7 @@ class Level1 extends Phaser.Scene {
       key: `boxxy-moving-right`,
       frames: this.anims.generateFrameNumbers(`boxxy`, {
         start: 2,
-        end: 4
+        end: 3
       }),
       frameRate: 10,
       repeat: -1
@@ -182,8 +182,8 @@ class Level1 extends Phaser.Scene {
     this.anims.create({
       key: `boxxy-moving-left`,
       frames: this.anims.generateFrameNumbers(`boxxy`, {
-        start: 5,
-        end: 8
+        start: 4,
+        end: 5
       }),
       frameRate: 10,
       repeat: -1

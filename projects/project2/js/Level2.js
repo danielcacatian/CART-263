@@ -13,6 +13,9 @@ class Level2 extends Phaser.Scene {
     // Boxxy
     this.boxxyX = 125; //Boxxy's spawnpoint (X)
     this.boxxyY = 625; //Boxxy's spawnpoint (y)
+    // Conny
+    this.connyX = 175; //Conny's spawnpoint (X)
+    this.connyY = 625; //Conny's spawnpoint (y)
     // Box
     this.boxX = 400;
     this.boxY = 625;
@@ -47,29 +50,31 @@ class Level2 extends Phaser.Scene {
     this.boxxy = this.physics.add.sprite(this.boxxyX, this.boxxyY, `boxxy`);
     this.boxxy.setCollideWorldBounds(true);
     this.boxxy.setBounce(0.2);
+    // Conny //
+    this.conny = this.physics.add.sprite(this.connyX, this.connyY, `conny`);
+    this.conny.setCollideWorldBounds(true);
+    this.conny.setBounce(0.2);
 
     // Platforms //
     // Horizontal
     this.platformsH = this.physics.add.staticGroup();
     this.platformsH.create(this.floorX, this.floorY, `platformH`).setScale(this.floorScale).refreshBody(); //floor
-    this.platformsH.create(-775, 190, `platformH`).setScale(6).refreshBody();
-    this.platformsH.create(1400, 675, `platformH`).setScale(3).refreshBody();
+
     // Vertical
     this.platformsV = this.physics.add.staticGroup();
-    this.platformsV.create(this.boxX, 125, `platformV`);
-    this.platformsV.create(this.boxX, 435, `platformV`);
 
     // Collision //
-    // Boxxy collisions
     this.physics.add.collider(this.boxxy, this.platformsH);
     this.physics.add.collider(this.boxxy, this.platformsV);
+    this.physics.add.collider(this.conny, this.platformsH);
+    this.physics.add.collider(this.conny, this.platformsV);
     this.physics.add.collider(this.box, this.platformsH);
     this.physics.add.collider(this.door, this.platformsH);
     this.physics.add.collider(this.boxxy, this.box);
-
+    this.physics.add.collider(this.conny, this.box);
 
     // Screenwipe //
-    this.transitionStart = this.add.sprite(this.centerX, this.centerY*3, `platformH`).setScale(12);
+    this.transitionStart = this.add.sprite(this.centerX, this.centerY, `platformH`).setScale(12);
     this.transitionEnd = this.add.sprite(this.centerX, this.centerY*3, `platformH`).setScale(12);
 
     // register keyboard commands
@@ -84,22 +89,35 @@ class Level2 extends Phaser.Scene {
     // Controls //
     // Boxxy
     this.boxxy.setVelocityX(0);
-    // left & right
-    if(this.keyboard.A.isDown){
+    if(this.keyboard.A.isDown){ // left
       this.boxxy.setVelocityX(-200);
       this.boxxy.play(`boxxy-moving-left`, true);
     }
-    else if(this.keyboard.D.isDown){
+    else if(this.keyboard.D.isDown){ // right
       this.boxxy.setVelocityX(200);
       this.boxxy.play(`boxxy-moving-right`, true);
     }
-    // jump
-    if(this.keyboard.W.isDown && this.boxxy.body.onFloor()){
+    if(this.keyboard.W.isDown && this.boxxy.body.onFloor()){ // jump
       this.boxxy.setVelocityY(-300);
     }
-    // idle
-    if (this.boxxy.body.velocity.x === 0 || this.boxxy.body.velocity.y === 0) {
+    if (this.boxxy.body.velocity.x === 0) { // idle
       this.boxxy.play(`boxxy-idle`, true);
+    }
+    // Conny
+    this.conny.setVelocityX(0);
+    if(this.cursors.left.isDown){ // left
+      this.conny.setVelocityX(-200);
+      this.conny.play(`conny-moving-left`, true);
+    }
+    else if(this.cursors.right.isDown){ // right
+      this.conny.setVelocityX(200);
+      this.conny.play(`conny-moving-right`, true);
+    }
+    if(this.cursors.up.isDown && this.conny.body.onFloor()){ // jump
+      this.conny.setVelocityY(-300);
+    }
+    if (this.conny.body.velocity.x === 0) { // idle
+      this.conny.play(`conny-idle`, true);
     }
 
     // Level started //
@@ -114,7 +132,7 @@ class Level2 extends Phaser.Scene {
       this.transitionEnd.y -= 25;
     }
     if(this.transitionEnd.y === this.centerY){
-      this.scene.start(`level3`);
+      this.scene.start(`level2`);
     }
     // Level restart //
     if(this.keyboard.R.isDown){
@@ -130,7 +148,6 @@ class Level2 extends Phaser.Scene {
 
     // Buttons are pressed at the same time
     this.boxxyR = false;
-    this.buttonPushed = false;
     this.physics.add.overlap(this.boxxy, this.buttonS, this.boxxyReady, null, this);
 
   }// update() end
@@ -140,6 +157,7 @@ class Level2 extends Phaser.Scene {
   boxxyReady(){
     if(!this.buttonPushed){
       this.boxxyR = true;
+      this.buttonPushed = false;
       if(this.keyboard.E.isDown && this.boxxyR){
         this.buttonPushed = true;
         this.door.play(`door-open`);
@@ -173,7 +191,7 @@ class Level2 extends Phaser.Scene {
       key: `boxxy-moving-right`,
       frames: this.anims.generateFrameNumbers(`boxxy`, {
         start: 2,
-        end: 4
+        end: 3
       }),
       frameRate: 10,
       repeat: -1
@@ -182,8 +200,37 @@ class Level2 extends Phaser.Scene {
     this.anims.create({
       key: `boxxy-moving-left`,
       frames: this.anims.generateFrameNumbers(`boxxy`, {
-        start: 5,
-        end: 8
+        start: 4,
+        end: 5
+      }),
+      frameRate: 10,
+      repeat: -1
+    });
+    // Conny animation
+    this.anims.create({
+      key: `conny-idle`,
+      frames: this.anims.generateFrameNumbers(`conny`, {
+        start: 0,
+        end: 1
+      }),
+      frameRate: 2,
+    });
+
+    this.anims.create({
+      key: `conny-moving-right`,
+      frames: this.anims.generateFrameNumbers(`conny`, {
+        start: 2,
+        end: 3
+      }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: `conny-moving-left`,
+      frames: this.anims.generateFrameNumbers(`conny`, {
+        start: 4,
+        end: 5
       }),
       frameRate: 10,
       repeat: -1
