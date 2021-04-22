@@ -30,11 +30,6 @@ class Level1 extends Phaser.Scene {
     this.doorX = 1200;
     this.doorY = 500;
 
-    // Boxxy //
-    this.boxxy = this.physics.add.sprite(this.boxxyX, this.boxxyY, `boxxy`);
-    this.boxxy.setCollideWorldBounds(true);
-    this.boxxy.setBounce(0.2);
-
     // Box //
     this.box = this.physics.add.sprite(this.boxX, this.boxY, `box`);
     this.box.setCollideWorldBounds(true);
@@ -47,6 +42,11 @@ class Level1 extends Phaser.Scene {
     // Door //
     this.door = this.physics.add.sprite(this.doorX, this.doorY, `door`);
     this.createAnimations();
+
+    // Boxxy //
+    this.boxxy = this.physics.add.sprite(this.boxxyX, this.boxxyY, `boxxy`);
+    this.boxxy.setCollideWorldBounds(true);
+    this.boxxy.setBounce(0.2);
 
     // Platforms //
     // Horizontal
@@ -87,13 +87,19 @@ class Level1 extends Phaser.Scene {
     // left & right
     if(this.keyboard.A.isDown){
       this.boxxy.setVelocityX(-200);
+      this.boxxy.play(`boxxy-moving-left`, true);
     }
     else if(this.keyboard.D.isDown){
       this.boxxy.setVelocityX(200);
+      this.boxxy.play(`boxxy-moving-right`, true);
     }
     // jump
     if(this.keyboard.W.isDown && this.boxxy.body.onFloor()){
       this.boxxy.setVelocityY(-300);
+    }
+    // idle
+    if (this.boxxy.body.velocity.x === 0 || this.boxxy.body.velocity.y === 0) {
+      this.boxxy.play(`boxxy-idle`, true);
     }
 
     // Level started //
@@ -126,6 +132,7 @@ class Level1 extends Phaser.Scene {
     this.boxxyR = false;
     this.buttonPushed = false;
     this.physics.add.overlap(this.boxxy, this.buttonS, this.boxxyReady, null, this);
+
   }// update() end
 
 // MISCELLANEOUS FUNCTIONS /////////////////////////////////////////////////////
@@ -152,6 +159,37 @@ class Level1 extends Phaser.Scene {
 
 // Create animations
   createAnimations(){
+    // Boxxy animation
+    this.anims.create({
+      key: `boxxy-idle`,
+      frames: this.anims.generateFrameNumbers(`boxxy`, {
+        start: 0,
+        end: 1
+      }),
+      frameRate: 2,
+    });
+
+    this.anims.create({
+      key: `boxxy-moving-right`,
+      frames: this.anims.generateFrameNumbers(`boxxy`, {
+        start: 2,
+        end: 4
+      }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: `boxxy-moving-left`,
+      frames: this.anims.generateFrameNumbers(`boxxy`, {
+        start: 5,
+        end: 8
+      }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    // Door animation
     this.anims.create({
       key: `door-open`,
       frames: this.anims.generateFrameNumbers(`door`, {
