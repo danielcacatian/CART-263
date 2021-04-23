@@ -29,6 +29,13 @@
     // Door
     this.doorX = 1200;
     this.doorY = 500;
+    // Instructions
+    let instructionsStyle = {
+      fontFamily: `monospace`,
+      fontSize: `20px`,
+      color: `#ffff`,
+      align: `center`
+    };
 
     // Box ////////////////////////////////////////////////////////////
     this.box = this.physics.add.sprite(this.boxX, this.boxY, `box`);
@@ -71,6 +78,21 @@
     // Screenwipe ////////////////////////////////////////////////////////////
     this.transitionStart = this.add.sprite(this.centerX, this.centerY, `platformH`).setScale(12);
     this.transitionEnd = this.add.sprite(this.centerX, this.centerY*3, `platformH`).setScale(12);
+
+    // Instructions ////////////////////////////////////////////////////////////
+    this.moveInstructions = this.add.text(175, 500, `Use WAD to control
+Boxxy`, instructionsStyle).setOrigin(0.5);
+    this.interactInstructions = this.add.text(this.buttonSX, 450, `Use E to interact
+and exit`, instructionsStyle).setOrigin(0.5);
+    this.exitText = this.add.text(this.doorX, 400, `↓EXIT↓`, {
+      fontSize: `30px`,
+      color: `#ffff`,
+      align: `center`,
+      fontStyle: `bold`
+    }).setOrigin(0.5);
+    this.moveInstructions.alpha = 0;
+    this.interactInstructions.alpha = 0;
+    this.exitText.alpha = 0;
 
     // register keyboard commands
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -124,6 +146,7 @@
     // Entered door
     if(this.doorOpen){
       this.exitOpen = true;
+      this.exitText.alpha = 1;
     }
     this.doorOpen = false;
     this.physics.add.overlap(this.boxxy, this.door, this.exit, null, this);
@@ -131,6 +154,20 @@
     // Buttons are pressed at the same time
     this.boxxyR = false;
     this.physics.add.overlap(this.boxxy, this.buttonS, this.boxxyReady, null, this);
+
+    // Instructions ////////////////////////////////////////////////////////////
+    if(this.boxxy.x < this.boxX){
+      this.moveInstructions.alpha = 1;
+    }
+    else {
+      this.moveInstructions.alpha = 0;
+    }
+    if(this.boxxy.x > this.centerX && this.boxxy.x < 1100){
+      this.interactInstructions.alpha = 1;
+    }
+    else {
+      this.interactInstructions.alpha = 0;
+    }
 
   }// update() end
 

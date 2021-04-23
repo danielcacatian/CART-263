@@ -34,6 +34,13 @@ class Level2 extends Phaser.Scene {
     this.doorY = 500;
     // Dialogue
     this.connyDialogue = `You freed me! Thank you!`;
+    // Instructions
+    let instructionsStyle = {
+      fontFamily: `monospace`,
+      fontSize: `20px`,
+      color: `#ffff`,
+      align: `center`
+    };
 
     // Box ////////////////////////////////////////////////////////////
     this.box = this.physics.add.sprite(this.boxX, this.boxY, `box`);
@@ -95,6 +102,21 @@ class Level2 extends Phaser.Scene {
     this.dialogueBox.alpha = 0;
     this.connyText.alpha = 0;
 
+    // Instructions ////////////////////////////////////////////////////////////
+    this.moveInstructions = this.add.text(this.connyX, 550, `Use ARROWkeys to control
+Conny`, instructionsStyle).setOrigin(0.5);
+    this.interactInstructions = this.add.text(this.connyX, 550, `Use E to talk
+to Conny`, instructionsStyle).setOrigin(0.5);
+    this.exitText = this.add.text(this.doorX, 400, `↓EXIT↓`, {
+      fontSize: `30px`,
+      color: `#ffff`,
+      align: `center`,
+      fontStyle: `bold`
+    }).setOrigin(0.5);
+    this.moveInstructions.alpha = 0;
+    this.interactInstructions.alpha = 0;
+    this.exitText.alpha = 0;
+
     // register keyboard commands
     this.cursors = this.input.keyboard.createCursorKeys();
     this.keyboard = this.input.keyboard.addKeys(`W, A, S, D, E, R`);
@@ -154,11 +176,18 @@ class Level2 extends Phaser.Scene {
       this.transitionEnd.y -= 25;
     }
     if(this.transitionEnd.y === this.centerY){
-      this.scene.start(`level1`);
+      this.scene.start(`level3`);
     }
     // Level restart ////////////////////////////////////////////////////////////
     if(this.keyboard.R.isDown){
       this.scene.restart();
+    }
+    // Instructions ////////////////////////////////////////////////////////////
+    if(this.conny.x > 500 && this.conny.x < 800 && this.connyFreed){
+      this.moveInstructions.alpha = 1;
+    }
+    else{
+      this.moveInstructions.alpha = 0;
     }
 
     // Overlap //////////////////////////////////////////////////////////////////
@@ -166,6 +195,8 @@ class Level2 extends Phaser.Scene {
     if(this.doorOpen){
       this.exitOpen = true;
       this.dissapearingPlatform.destroy();
+      this.exitText.alpha = 1;
+      this.interactInstructions.alpha = 1;
     }
     this.doorOpen = false;
     this.connyR = false;
@@ -235,6 +266,7 @@ class Level2 extends Phaser.Scene {
 // Talking to Conny
   talk(){
     if(this.keyboard.E.isDown && !this.talking && !this.connyR){
+      this.interactInstructions.alpha = 0;
       this.talking = true;
       this.connyFreed = true;
       }
