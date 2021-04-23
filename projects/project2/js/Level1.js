@@ -1,4 +1,4 @@
-class Level1 extends Phaser.Scene {
+ class Level1 extends Phaser.Scene {
 
   constructor(){
     super({
@@ -9,7 +9,7 @@ class Level1 extends Phaser.Scene {
 // CREATE FUNCTION ////////////////////////////////////////////////////////////
 // Contains the setup of different sprites
   create(){
-    // Variables //
+    // Variables ////////////////////////////////////////////////////////////
     // Boxxy
     this.boxxyX = 125; //Boxxy's spawnpoint (X)
     this.boxxyY = 625; //Boxxy's spawnpoint (y)
@@ -30,25 +30,25 @@ class Level1 extends Phaser.Scene {
     this.doorX = 1200;
     this.doorY = 500;
 
-    // Box //
+    // Box ////////////////////////////////////////////////////////////
     this.box = this.physics.add.sprite(this.boxX, this.boxY, `box`);
     this.box.setCollideWorldBounds(true);
     this.box.setDragX(1000);
 
-    // Button //
+    // Button ////////////////////////////////////////////////////////////
     this.buttons = this.physics.add.staticGroup();
     this.buttonS = this.buttons.create(this.buttonSX, this.buttonSY, `buttonS`); //square button (for Boxxy)
 
-    // Door //
+    // Door ////////////////////////////////////////////////////////////
     this.door = this.physics.add.sprite(this.doorX, this.doorY, `door`);
     this.createAnimations();
 
-    // Boxxy //
+    // Boxxy ////////////////////////////////////////////////////////////
     this.boxxy = this.physics.add.sprite(this.boxxyX, this.boxxyY, `boxxy`);
     this.boxxy.setCollideWorldBounds(true);
     this.boxxy.setBounce(0.2);
 
-    // Platforms //
+    // Platforms ////////////////////////////////////////////////////////////
     // Horizontal
     this.platformsH = this.physics.add.staticGroup();
     this.platformsH.create(this.floorX, this.floorY, `platformH`).setScale(this.floorScale).refreshBody(); //floor
@@ -59,7 +59,7 @@ class Level1 extends Phaser.Scene {
     this.platformsV.create(this.boxX, 125, `platformV`);
     this.platformsV.create(this.boxX, 435, `platformV`);
 
-    // Collision //
+    // Collision ////////////////////////////////////////////////////////////
     // Boxxy collisions
     this.physics.add.collider(this.boxxy, this.platformsH);
     this.physics.add.collider(this.boxxy, this.platformsV);
@@ -68,20 +68,20 @@ class Level1 extends Phaser.Scene {
     this.physics.add.collider(this.boxxy, this.box);
 
 
-    // Screenwipe //
+    // Screenwipe ////////////////////////////////////////////////////////////
     this.transitionStart = this.add.sprite(this.centerX, this.centerY, `platformH`).setScale(12);
     this.transitionEnd = this.add.sprite(this.centerX, this.centerY*3, `platformH`).setScale(12);
 
     // register keyboard commands
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.keyboard = this.input.keyboard.addKeys(`W, A, D, E, R`);
+    this.keyboard = this.input.keyboard.addKeys(`W, A, S, D, E, R`);
 
   }// create() end
 
 // UPDATE FUNCTION /////////////////////////////////////////////////////
 // Contains the controls and events for the game
   update(){
-    // Controls //
+    // Controls ////////////////////////////////////////////////////////////
     // Boxxy
     this.boxxy.setVelocityX(0);
     // left & right
@@ -102,21 +102,21 @@ class Level1 extends Phaser.Scene {
       this.boxxy.play(`boxxy-idle`, true);
     }
 
-    // Level started //
+    // Level started ////////////////////////////////////////////////////////////
     if(!this.levelCompleted){
       this.transitionStart.y -= 25;
     }
     if(this.transitionStart.y === -1000){
       this.transitionStart.destroy();
     }
-    // Level completed //
+    // Level completed ////////////////////////////////////////////////////////////
     if(this.levelCompleted){
       this.transitionEnd.y -= 25;
     }
     if(this.transitionEnd.y === this.centerY){
       this.scene.start(`level2`);
     }
-    // Level restart //
+    // Level restart ////////////////////////////////////////////////////////////
     if(this.keyboard.R.isDown){
       this.scene.restart();
     }

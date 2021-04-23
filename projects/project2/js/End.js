@@ -14,7 +14,6 @@ class End extends Phaser.Scene {
       color: `#ffff`,
       textAlign: `center`,
       fontStyle: `bold`}).setOrigin(0.5);
-
   }
 
   update() {
