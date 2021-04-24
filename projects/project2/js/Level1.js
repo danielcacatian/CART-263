@@ -83,11 +83,12 @@
 Boxxy`, instructionsStyle).setOrigin(0.5);
     this.interactInstructions = this.add.text(this.buttonSX, 450, `Use E to interact
 and exit`, instructionsStyle).setOrigin(0.5);
-    this.exitText = this.add.text(this.doorX, 400, `↓EXIT↓`, {
+    this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,
-      fontStyle: `bold`
+      fontStyle: `bold`,
+      lineSpacing: 10
     }).setOrigin(0.5);
     this.moveInstructions.alpha = 0;
     this.interactInstructions.alpha = 0;

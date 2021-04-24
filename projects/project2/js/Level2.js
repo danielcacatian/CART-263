@@ -97,6 +97,7 @@ class Level2 extends Phaser.Scene {
       fontSize: `30px`,
       color: `#ffff`,
       fontStyle: `bold`,
+      lineSpacing: 10
     });
     this.dialogueClose = this.add.text(this.centerX + 200, 320, `Press 'S' to close`, {
       fontSize: `20px`,
@@ -111,7 +112,7 @@ class Level2 extends Phaser.Scene {
 Conny`, instructionsStyle).setOrigin(0.5);
     this.interactInstructions = this.add.text(this.connyX, 550, `Use E to talk
 to Conny`, instructionsStyle).setOrigin(0.5);
-    this.exitText = this.add.text(this.doorX, 400, `↓EXIT↓`, {
+    this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,

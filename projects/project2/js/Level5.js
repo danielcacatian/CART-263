@@ -1,8 +1,8 @@
-class Level3 extends Phaser.Scene {
+class Level5 extends Phaser.Scene {
 
   constructor(){
     super({
-      key: `level3`
+      key: `level5`
     });
   }
 
@@ -16,10 +16,7 @@ class Level3 extends Phaser.Scene {
     // Conny
     this.connyX = this.cameras.main.worldView.x + this.cameras.main.width / 2 + 50; //Conny's spawnpoint (X)
     this.connyY = 625; //Conny's spawnpoint (y)
-    this.connyJump = -300;
-    // Box
-    this.boxX = 350;
-    this.boxY = 550;
+    this.connyJump = -400;
     // Floor
     this.floorX = 100;
     this.floorY = 950;
@@ -28,17 +25,18 @@ class Level3 extends Phaser.Scene {
     this.centerX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     this.centerY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
     // Button
-    this.buttonSX = 1200; // square
-    this.buttonSY = 590;
-    this.buttonTX = 250;  // triangle
-    this.buttonTY = 525;
+    this.buttonSX = 1300; // square
+    this.buttonSY = 475;
+    this.buttonTX = 1300;  // triangle
+    this.buttonTY = 175;
     // Door
-    this.doorX = 100;
-    this.doorY = 500;
+    this.doorX = 450;
+    this.doorY = 625;
     // Dialogue
-    this.connyDialogue = `You can't reach the
-button? Don't worry, I'll
-jump higher for you!`;
+    this.connyDialogue = `You don't talk much huh?
+That's alright. I hope
+you enjoy my company
+atleast.`;
     // Instructions
     let instructionsStyle = {
       fontSize: `20px`,
@@ -56,9 +54,12 @@ jump higher for you!`;
     this.createAnimations();
 
     // Box ////////////////////////////////////////////////////////////
-    this.box = this.physics.add.sprite(this.boxX, this.boxY, `box`);
-    this.box.setCollideWorldBounds(true);
-    this.box.setDragX(1000);
+    this.box = this.physics.add.group({
+      collideWorldBounds: true,
+      dragX: 1000,
+    });
+    this.box.create(850, 200, `box`);
+    this.box.create(1000, 600, `box`);
 
     // Boxxy ////////////////////////////////////////////////////////////
     this.boxxy = this.physics.add.sprite(this.boxxyX, this.boxxyY, `boxxy`);
@@ -73,8 +74,13 @@ jump higher for you!`;
     // Horizontal
     this.platformsH = this.physics.add.staticGroup();
     this.platformsH.create(this.floorX, this.floorY, `platformH`).setScale(this.floorScale).refreshBody(); //floor
-    this.platformsH.create(100, 650, `platformH`).setScale(2).refreshBody();
-    this.platformsH.create(1400, 700, `platformH`).setScale(2).refreshBody();
+    this.platformsH.create(1600, 600, `platformH`).setScale(2).refreshBody();
+    this.platformsH.create(1300, 700, `platformH`).setScale(2).refreshBody();
+    this.platformsH.create(-650, 540, `platformH`).setScale(5).refreshBody();
+    this.platformsH.create(500, 350, `platformH`).setScale(0.5).refreshBody();
+    this.platformsH.create(800, 250, `platformH`).setScale(0.5).refreshBody();
+    this.platformsH.create(1200, 250, `platformH`).setScale(0.5).refreshBody();
+    this.platformsH.create(1350, 250, `platformH`).setScale(0.5).refreshBody();
 
     // Vertical
     this.platformsV = this.physics.add.staticGroup();
@@ -85,10 +91,10 @@ jump higher for you!`;
     this.physics.add.collider(this.conny, this.platformsH);
     this.physics.add.collider(this.conny, this.platformsV);
     this.physics.add.collider(this.box, this.platformsH);
+    this.physics.add.collider(this.box, this.box);
     this.physics.add.collider(this.door, this.platformsH);
     this.physics.add.collider(this.boxxy, this.box);
     this.physics.add.collider(this.conny, this.box);
-
 
     // Screenwipe ////////////////////////////////////////////////////////////
     this.transitionStart = this.add.sprite(this.centerX, this.centerY, `platformH`).setScale(12);
@@ -111,16 +117,12 @@ jump higher for you!`;
     this.connyText.alpha = 0;
 
     // Instructions ////////////////////////////////////////////////////////////
-    this.moveInstructions = this.add.text(this.centerX, 550, `If you are stuck,
-press R to reset
-or talk to Conny for help`, instructionsStyle).setOrigin(0.5);
     this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,
       fontStyle: `bold`
     }).setOrigin(0.5);
-    this.moveInstructions.alpha = 0;
     this.exitText.alpha = 0;
 
     // register keyboard commands
@@ -153,9 +155,6 @@ or talk to Conny for help`, instructionsStyle).setOrigin(0.5);
     }
     // Conny
     this.conny.setVelocityX(0);
-    if(this.connyMotivated){
-      this.connyJump = -400;
-    }
     if(!this.talking){
       if(this.cursors.left.isDown){ // left
         this.conny.setVelocityX(-200);
@@ -172,6 +171,8 @@ or talk to Conny for help`, instructionsStyle).setOrigin(0.5);
     if (this.conny.body.velocity.x === 0) { // idle
       this.conny.play(`conny-idle`, true);
     }
+    // Launch ability
+    this.physics.add.overlap(this.boxxy, this.conny, this.launch, null, this);
 
     // Level started ////////////////////////////////////////////////////////////
     if(!this.levelCompleted){
@@ -190,13 +191,6 @@ or talk to Conny for help`, instructionsStyle).setOrigin(0.5);
     // Level restart ////////////////////////////////////////////////////////////
     if(this.keyboard.R.isDown){
       this.scene.restart();
-    }
-    // Instructions ////////////////////////////////////////////////////////////
-    if(this.conny.x > 500 && this.conny.x < 800){
-      this.moveInstructions.alpha = 1;
-    }
-    else{
-      this.moveInstructions.alpha = 0;
     }
 
     // Overlap //////////////////////////////////////////////////////////////////
@@ -230,10 +224,8 @@ or talk to Conny for help`, instructionsStyle).setOrigin(0.5);
       this.dialogueBox.alpha = 0;
       this.dialogueClose.alpha = 0;
       this.connyText.alpha = 0;
-      this.connyText.setText(`I believe both buttons
-need to be pressed at
-the same time for the
-door to open.`);
+      this.connyText.setText(`We make a pretty great
+team don't you think?`);
     }
     else if(this.keyboard.S.isDown && !this.connyR){
       this.talking = false;
@@ -244,6 +236,13 @@ door to open.`);
   }// update() end
 
 // MISCELLANEOUS FUNCTIONS /////////////////////////////////////////////////////
+// The ability to launch Conny in the air
+launch(){
+  if(this.cursors.space.isDown && this.conny.body.onFloor()){
+    this.conny.setVelocityY(-600);
+  }
+}
+
 // When the SQUARE button is pushed
   boxxyReady(){
     if(!this.buttonPushed){

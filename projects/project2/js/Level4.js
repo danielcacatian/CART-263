@@ -20,6 +20,9 @@ class Level4 extends Phaser.Scene {
     // Box
     this.boxX = 200;
     this.boxY = 400;
+    // Plate
+    this.plateX = 450;
+    this.plateY = 650;
     // Floor
     this.floorX = 100;
     this.floorY = 950;
@@ -42,7 +45,7 @@ SPACEBAR`;
     };
 
     // Plate ////////////////////////////////////////////////////////////
-    this.plate = this.physics.add.sprite(450, 600, `plate`);
+    this.plate = this.physics.add.sprite(this.plateX, this.plateY, `plate`);
 
     // Door ////////////////////////////////////////////////////////////
     this.door = this.physics.add.sprite(this.doorX, this.doorY, `door`);
@@ -67,7 +70,7 @@ SPACEBAR`;
     this.platformsH = this.physics.add.staticGroup();
     this.platformsH.create(this.floorX, this.floorY, `platformH`).setScale(this.floorScale).refreshBody(); //floor
     this.platformsH.create(1300, 650, `platformH`).setScale(2).refreshBody();
-    this.platformsH.create(-650, 600, `platformH`).setScale(5).refreshBody();
+    this.platformsH.create(150, 475, `platformH`);
 
     // Vertical
     this.platformsV = this.physics.add.staticGroup();
@@ -94,6 +97,7 @@ SPACEBAR`;
       fontSize: `30px`,
       color: `#ffff`,
       fontStyle: `bold`,
+      lineSpacing: 10
     });
     this.dialogueClose = this.add.text(this.centerX + 200, 320, `Press 'S' to close`, {
       fontSize: `20px`,
@@ -104,16 +108,12 @@ SPACEBAR`;
     this.connyText.alpha = 0;
 
     // Instructions ////////////////////////////////////////////////////////////
-    this.moveInstructions = this.add.text(this.centerX, 550, `If you are stuck,
-press R to reset
-or talk to Conny for help`, instructionsStyle).setOrigin(0.5);
-    this.exitText = this.add.text(this.doorX, 400, `↓EXIT↓`, {
+    this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,
       fontStyle: `bold`
     }).setOrigin(0.5);
-    this.moveInstructions.alpha = 0;
     this.exitText.alpha = 0;
 
     // register keyboard commands

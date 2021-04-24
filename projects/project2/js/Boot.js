@@ -37,7 +37,7 @@ class Boot extends Phaser.Scene {
     this.load.image(`dialogue`, `assets/images/dialogue.png`);
 
     this.load.on(`complete`, () => {
-      this.scene.start(`level4`);
+      this.scene.start(`level5`);
     })
   }
 
