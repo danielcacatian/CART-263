@@ -23,6 +23,12 @@ class Boot extends Phaser.Scene {
       frameWidth: 128,
       frameHeight: 128,
     });
+    // Plate
+    this.load.spritesheet(`plate`, `assets/images/plate.png`, {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
     this.load.image(`box`, `assets/images/box.png`);
     this.load.image(`buttonS`, `assets/images/buttonS.png`);
     this.load.image(`buttonT`, `assets/images/buttonT.png`);
@@ -31,7 +37,7 @@ class Boot extends Phaser.Scene {
     this.load.image(`dialogue`, `assets/images/dialogue.png`);
 
     this.load.on(`complete`, () => {
-      this.scene.start(`level2`);
+      this.scene.start(`level4`);
     })
   }
 

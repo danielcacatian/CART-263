@@ -31,7 +31,6 @@
     this.doorY = 500;
     // Instructions
     let instructionsStyle = {
-      fontFamily: `monospace`,
       fontSize: `20px`,
       color: `#ffff`,
       align: `center`
