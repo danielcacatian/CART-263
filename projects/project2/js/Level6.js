@@ -1,8 +1,8 @@
-class Level5 extends Phaser.Scene {
+class Level6 extends Phaser.Scene {
 
   constructor(){
     super({
-      key: `level5`
+      key: `level6`
     });
   }
 
@@ -17,6 +17,12 @@ class Level5 extends Phaser.Scene {
     this.connyX = this.cameras.main.worldView.x + this.cameras.main.width / 2 + 50; //Conny's spawnpoint (X)
     this.connyY = 625; //Conny's spawnpoint (y)
     this.connyJump = -400;
+    // Box
+    this.boxX = 450;
+    this.boxY = 400;
+    // Plate
+    this.plateX = 1325;
+    this.plateY = 525;
     // Floor
     this.floorX = 100;
     this.floorY = 950;
@@ -24,19 +30,13 @@ class Level5 extends Phaser.Scene {
     // Platforms
     this.centerX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     this.centerY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
-    // Button
-    this.buttonSX = 1300; // square
-    this.buttonSY = 475;
-    this.buttonTX = 1300;  // triangle
-    this.buttonTY = 175;
     // Door
-    this.doorX = 450;
-    this.doorY = 625;
+    this.doorX = 100;
+    this.doorY = 600;
     // Dialogue
-    this.connyDialogue = `You don't talk much huh?
-That's alright. I hope
-you enjoy my company
-atleast.`;
+    this.connyDialogue = `Seems like this one
+will require both our
+cooperation.`;
     // Instructions
     let instructionsStyle = {
       fontSize: `20px`,
@@ -44,22 +44,17 @@ atleast.`;
       align: `center`
     };
 
-    // Button ////////////////////////////////////////////////////////////
-    this.buttons = this.physics.add.staticGroup();
-    this.buttonS = this.buttons.create(this.buttonSX, this.buttonSY, `buttonS`); //square button (for Boxxy)
-    this.buttonT = this.buttons.create(this.buttonTX, this.buttonTY, `buttonT`); //triangle button (for Boxxy)
+    // Plate ////////////////////////////////////////////////////////////
+    this.plate = this.physics.add.sprite(this.plateX, this.plateY, `plate`);
 
     // Door ////////////////////////////////////////////////////////////
     this.door = this.physics.add.sprite(this.doorX, this.doorY, `door`);
     this.createAnimations();
 
     // Box ////////////////////////////////////////////////////////////
-    this.box = this.physics.add.group({
-      collideWorldBounds: true,
-      dragX: 1000,
-    });
-    this.box.create(850, 200, `box`);
-    this.box.create(1000, 600, `box`);
+    this.box = this.physics.add.sprite(this.boxX, this.boxY, `box`);
+    this.box.setCollideWorldBounds(true);
+    this.box.setDragX(1000);
 
     // Boxxy ////////////////////////////////////////////////////////////
     this.boxxy = this.physics.add.sprite(this.boxxyX, this.boxxyY, `boxxy`);
@@ -74,13 +69,10 @@ atleast.`;
     // Horizontal
     this.platformsH = this.physics.add.staticGroup();
     this.platformsH.create(this.floorX, this.floorY, `platformH`).setScale(this.floorScale).refreshBody(); //floor
-    this.platformsH.create(1600, 600, `platformH`).setScale(2).refreshBody();
-    this.platformsH.create(1300, 700, `platformH`).setScale(2).refreshBody();
-    this.platformsH.create(-650, 540, `platformH`).setScale(5).refreshBody();
-    this.platformsH.create(500, 350, `platformH`).setScale(0.5).refreshBody();
-    this.platformsH.create(800, 250, `platformH`).setScale(0.5).refreshBody();
-    this.platformsH.create(1200, 250, `platformH`).setScale(0.5).refreshBody();
-    this.platformsH.create(1350, 250, `platformH`).setScale(0.5).refreshBody();
+    this.platformsH.create(1600, 640, `platformH`).setScale(2).refreshBody();
+    this.platformsH.create(1025, 590, `platformH`).setScale(0.5).refreshBody();
+    this.platformsH.create(725, 590, `platformH`).setScale(0.5).refreshBody();
+    this.platformsH.create(425, 590, `platformH`).setScale(0.5).refreshBody();
 
     // Vertical
     this.platformsV = this.physics.add.staticGroup();
@@ -91,10 +83,11 @@ atleast.`;
     this.physics.add.collider(this.conny, this.platformsH);
     this.physics.add.collider(this.conny, this.platformsV);
     this.physics.add.collider(this.box, this.platformsH);
-    this.physics.add.collider(this.box, this.box);
+    this.physics.add.collider(this.plate, this.platformsH);
     this.physics.add.collider(this.door, this.platformsH);
     this.physics.add.collider(this.boxxy, this.box);
     this.physics.add.collider(this.conny, this.box);
+
 
     // Screenwipe ////////////////////////////////////////////////////////////
     this.transitionStart = this.add.sprite(this.centerX, this.centerY, `platformH`).setScale(12);
@@ -172,8 +165,9 @@ atleast.`;
       this.conny.play(`conny-idle`, true);
     }
     // Launch ability
-    this.physics.add.overlap(this.boxxy, this.conny, this.launch, null, this);
-
+    if(this.connyMotivated){
+      this.physics.add.overlap(this.boxxy, this.conny, this.launch, null, this);
+    }
     // Level started ////////////////////////////////////////////////////////////
     if(!this.levelCompleted){
       this.transitionStart.y -= 25;
@@ -186,7 +180,7 @@ atleast.`;
       this.transitionEnd.y -= 25;
     }
     if(this.transitionEnd.y === this.centerY){
-      this.scene.start(`level6`);
+      this.scene.start(`level7`);
     }
     // Level restart ////////////////////////////////////////////////////////////
     if(this.keyboard.R.isDown){
@@ -196,20 +190,28 @@ atleast.`;
     // Overlap //////////////////////////////////////////////////////////////////
     // Entered door
     if(this.doorOpen){
+      this.door.play(`door-closed`);
       this.exitOpen = true;
       this.exitText.alpha = 1;
-      this.connyText.setText(`We're unstoppable
-together!`);
+      this.connyText.setText(`I knew we could do it.
+Good job us!`);
+    }
+    else{
+      this.door.play(`door-open`);
+      this.exitOpen = false;
+      this.exitText.alpha = 0;
     }
     this.doorOpen = false;
     this.connyR = false;
     this.physics.add.overlap(this.boxxy, this.door, this.exit, null, this);
     this.physics.add.overlap(this.conny, this.door, this.atDoor, null, this);
 
-    // Buttons are pressed at the same time
+    // Plate is being activated
     this.boxxyR = false;
-    this.physics.add.overlap(this.boxxy, this.buttonS, this.boxxyReady, null, this);
-    this.physics.add.overlap(this.conny, this.buttonT, this.atButton, null, this);
+    this.doorOpen = false;
+    this.physics.add.overlap(this.boxxy, this.plate, this.onPlate, null, this);
+    this.physics.add.overlap(this.conny, this.plate, this.onPlate, null, this);
+    this.physics.add.overlap(this.box, this.plate, this.onPlate, null, this);
 
     // Talk to Conny
     if(this.talking){
@@ -226,8 +228,8 @@ together!`);
       this.dialogueBox.alpha = 0;
       this.dialogueClose.alpha = 0;
       this.connyText.alpha = 0;
-      this.connyText.setText(`We make a pretty great
-team don't you think?`);
+      this.connyText.setText(`Teamwork makes the
+dream work!`);
     }
     else if(this.keyboard.S.isDown && !this.connyR){
       this.talking = false;
@@ -245,24 +247,16 @@ launch(){
   }
 }
 
-// When the SQUARE button is pushed
-  boxxyReady(){
-    if(!this.buttonPushed){
+// Activates the door
+  onPlate(){
+    if(!this.doorOpen){
       this.boxxyR = true;
-      this.buttonPushed = false;
-      if(this.keyboard.E.isDown && this.boxxyR && this.connyButton){
-        this.buttonPushed = true;
-        this.door.play(`door-open`);
-        this.doorOpen = true;
-      }
+      this.doorOpen = true;
     }
   }
 
   atDoor(){
     this.connyR = true;
-  }
-  atButton(){
-    this.connyButton = true;
   }
 
 // Door opens
@@ -356,6 +350,15 @@ launch(){
       frames: this.anims.generateFrameNumbers(`door`, {
         start: 0, // 1st frame
         end: 4 // last frame
+      }),
+      frameRate: 10,
+    });
+
+    this.anims.create({
+      key: `door-closed`,
+      frames: this.anims.generateFrameNumbers(`door`, {
+        start: 4,
+        end: 9
       }),
       frameRate: 10,
     });

@@ -204,6 +204,8 @@ or talk to Conny for help`, instructionsStyle).setOrigin(0.5);
     if(this.doorOpen){
       this.exitOpen = true;
       this.exitText.alpha = 1;
+      this.connyText.setText(`We make a pretty great
+team don't you think?`);
     }
     this.doorOpen = false;
     this.connyR = false;

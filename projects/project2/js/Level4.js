@@ -191,6 +191,9 @@ SPACEBAR`;
       this.door.play(`door-closed`);
       this.exitOpen = true;
       this.exitText.alpha = 1;
+      this.connyText.setText(`I thought you had to
+leave me to proceed. I
+was getting scared.`);
     }
     else{
       this.door.play(`door-open`);
