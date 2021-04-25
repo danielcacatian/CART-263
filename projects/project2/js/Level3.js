@@ -190,6 +190,7 @@ or talk to Conny for help`, instructionsStyle).setOrigin(0.5);
     // Level restart ////////////////////////////////////////////////////////////
     if(this.keyboard.R.isDown){
       this.scene.restart();
+      this.exitOpen = false;
     }
     // Instructions ////////////////////////////////////////////////////////////
     if(this.conny.x > 500 && this.conny.x < 800){
@@ -248,9 +249,9 @@ door to open.`);
 // MISCELLANEOUS FUNCTIONS /////////////////////////////////////////////////////
 // When the SQUARE button is pushed
   boxxyReady(){
+    this.buttonPushed = false;
     if(!this.buttonPushed){
       this.boxxyR = true;
-      this.buttonPushed = false;
       if(this.keyboard.E.isDown && this.boxxyR && this.connyButton){
         this.buttonPushed = true;
         this.door.play(`door-open`);

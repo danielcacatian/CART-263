@@ -191,6 +191,7 @@ atleast.`;
     // Level restart ////////////////////////////////////////////////////////////
     if(this.keyboard.R.isDown){
       this.scene.restart();
+      this.exitOpen = false;
     }
 
     // Overlap //////////////////////////////////////////////////////////////////
@@ -247,9 +248,9 @@ launch(){
 
 // When the SQUARE button is pushed
   boxxyReady(){
+    this.buttonPushed = false;
     if(!this.buttonPushed){
       this.boxxyR = true;
-      this.buttonPushed = false;
       if(this.keyboard.E.isDown && this.boxxyR && this.connyButton){
         this.buttonPushed = true;
         this.door.play(`door-open`);
