@@ -38,12 +38,6 @@ class Level7 extends Phaser.Scene {
     this.connyDialogue = `Seems like you need to
 boost me. Launch me, you
 got this!`;
-    // Instructions
-    let instructionsStyle = {
-      fontSize: `20px`,
-      color: `#ffff`,
-      align: `center`
-    };
 
     // Button ////////////////////////////////////////////////////////////
     this.buttons = this.physics.add.staticGroup();
@@ -102,14 +96,15 @@ got this!`;
     // Dialogue ////////////////////////////////////////////////////////////
     this.dialogueBox = this.add.image(this.centerX, this.centerY - 200, `dialogue`);
     this.connyText = this.add.text(this.centerX - 100, this.centerY - 275, this.connyDialogue,{
-      fontSize: `30px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `40px`,
       color: `#ffff`,
       fontStyle: `bold`,
       lineSpacing: 10
     });
     this.dialogueClose = this.add.text(this.centerX + 200, 320, `Press 'S' to close`, {
-      fontSize: `20px`,
-      fontStyle: `bold`,
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
     })
     this.dialogueBox.alpha = 0;
     this.dialogueClose.alpha = 0;
@@ -117,6 +112,7 @@ got this!`;
 
     // Instructions ////////////////////////////////////////////////////////////
     this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
+      fontFamily: `EnterCommand`,
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,

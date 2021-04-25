@@ -37,12 +37,6 @@ class Level4 extends Phaser.Scene {
     this.connyDialogue = `Maybe you can boost me
 up to that box. Try using
 SPACEBAR`;
-    // Instructions
-    let instructionsStyle = {
-      fontSize: `20px`,
-      color: `#ffff`,
-      align: `center`
-    };
 
     // Plate ////////////////////////////////////////////////////////////
     this.plate = this.physics.add.sprite(this.plateX, this.plateY, `plate`);
@@ -94,14 +88,15 @@ SPACEBAR`;
     // Dialogue ////////////////////////////////////////////////////////////
     this.dialogueBox = this.add.image(this.centerX, this.centerY - 200, `dialogue`);
     this.connyText = this.add.text(this.centerX - 100, this.centerY - 275, this.connyDialogue,{
-      fontSize: `30px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `40px`,
       color: `#ffff`,
       fontStyle: `bold`,
       lineSpacing: 10
     });
     this.dialogueClose = this.add.text(this.centerX + 200, 320, `Press 'S' to close`, {
-      fontSize: `20px`,
-      fontStyle: `bold`,
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
     })
     this.dialogueBox.alpha = 0;
     this.dialogueClose.alpha = 0;
@@ -109,6 +104,7 @@ SPACEBAR`;
 
     // Instructions ////////////////////////////////////////////////////////////
     this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
+      fontFamily: `EnterCommand`,
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,
@@ -192,9 +188,9 @@ SPACEBAR`;
       this.door.play(`door-closed`);
       this.exitOpen = true;
       this.exitText.alpha = 1;
-      this.connyText.setText(`I thought you had to
-leave me to proceed. I
-was getting scared.`);
+      this.connyText.setText(`I thought you had to leave
+me to proceed. I was
+getting scared.`);
     }
     else{
       this.door.play(`door-open`);
@@ -228,9 +224,8 @@ was getting scared.`);
       this.dialogueBox.alpha = 0;
       this.dialogueClose.alpha = 0;
       this.connyText.alpha = 0;
-      this.connyText.setText(`Seems like something
-needs to stay on
-the plate for the
+      this.connyText.setText(`Seems like something needs
+to stay on the plate for the
 door to open.`);
     }
     else if(this.keyboard.S.isDown && !this.connyR){
@@ -267,11 +262,6 @@ launch(){
       if(this.keyboard.E.isDown && this.connyR){
         this.talking = false;
         this.levelCompleted = true;
-      }
-      // At the exit without conny
-      else if(this.keyboard.E.isDown && !this.connyR){
-        this.talking = true;
-        this.connyText.setText(`Wait for me!`);
       }
     }
   }

@@ -34,15 +34,8 @@ class Level5 extends Phaser.Scene {
     this.doorY = 625;
     // Dialogue
     this.connyDialogue = `You don't talk much huh?
-That's alright. I hope
-you enjoy my company
-atleast.`;
-    // Instructions
-    let instructionsStyle = {
-      fontSize: `20px`,
-      color: `#ffff`,
-      align: `center`
-    };
+That's alright. I hope you
+enjoy my company at least.`;
 
     // Button ////////////////////////////////////////////////////////////
     this.buttons = this.physics.add.staticGroup();
@@ -103,14 +96,15 @@ atleast.`;
     // Dialogue ////////////////////////////////////////////////////////////
     this.dialogueBox = this.add.image(this.centerX, this.centerY - 200, `dialogue`);
     this.connyText = this.add.text(this.centerX - 100, this.centerY - 275, this.connyDialogue,{
-      fontSize: `30px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `40px`,
       color: `#ffff`,
       fontStyle: `bold`,
       lineSpacing: 10
     });
     this.dialogueClose = this.add.text(this.centerX + 200, 320, `Press 'S' to close`, {
-      fontSize: `20px`,
-      fontStyle: `bold`,
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
     })
     this.dialogueBox.alpha = 0;
     this.dialogueClose.alpha = 0;
@@ -118,6 +112,7 @@ atleast.`;
 
     // Instructions ////////////////////////////////////////////////////////////
     this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
+      fontFamily: `EnterCommand`,
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,
@@ -199,8 +194,7 @@ atleast.`;
     if(this.doorOpen){
       this.exitOpen = true;
       this.exitText.alpha = 1;
-      this.connyText.setText(`We're unstoppable
-together!`);
+      this.connyText.setText(`We're unstoppable together!`);
     }
     this.doorOpen = false;
     this.connyR = false;

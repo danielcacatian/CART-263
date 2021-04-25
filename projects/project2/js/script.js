@@ -4,7 +4,8 @@
 The Perfect Pair
 Daniel Cacatian
 
-A puzzle game where you control two players
+A puzzle game where you control two players that
+also includes a small narrative experience.
 */
 
 let config = {
@@ -15,10 +16,10 @@ let config = {
     default: `arcade`,
     arcade: {
       gravity: { y: 600},
-      debug: true
+      debug: false
     }
   },
-  scene: [Boot, Level1, Level2, Level3, Level4, Level5, Level6, Level7, Level8, End]
+  scene: [Boot, Title, Context, Level1, Level2, Level3, Level4, Level5, Level6, Level7, Level8, End]
 };
 
 let game = new Phaser.Game(config);

@@ -36,7 +36,8 @@ class Level2 extends Phaser.Scene {
     this.connyDialogue = `You freed me! Thank you!`;
     // Instructions
     let instructionsStyle = {
-      fontSize: `20px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
       color: `#ffff`,
       align: `center`
     };
@@ -94,14 +95,15 @@ class Level2 extends Phaser.Scene {
     // Dialogue ////////////////////////////////////////////////////////////
     this.dialogueBox = this.add.image(this.centerX, this.centerY - 200, `dialogue`);
     this.connyText = this.add.text(this.centerX - 100, this.centerY - 275, this.connyDialogue,{
-      fontSize: `30px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `40px`,
       color: `#ffff`,
       fontStyle: `bold`,
       lineSpacing: 10
     });
     this.dialogueClose = this.add.text(this.centerX + 200, 320, `Press 'S' to close`, {
-      fontSize: `20px`,
-      fontStyle: `bold`,
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
     })
     this.dialogueBox.alpha = 0;
     this.dialogueClose.alpha = 0;
@@ -113,6 +115,7 @@ Conny`, instructionsStyle).setOrigin(0.5);
     this.interactInstructions = this.add.text(this.connyX, 550, `Use E to talk
 to Conny`, instructionsStyle).setOrigin(0.5);
     this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
+      fontFamily: `EnterCommand`,
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,

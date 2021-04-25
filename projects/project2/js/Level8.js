@@ -39,6 +39,7 @@ the way out. We're almost
 there!`;
     // Instructions
     let instructionsStyle = {
+      fontFamily: `EnterCommand`,
       fontSize: `20px`,
       color: `#ffff`,
       align: `center`
@@ -91,15 +92,16 @@ there!`;
     // Dialogue ////////////////////////////////////////////////////////////
     this.dialogueBox = this.add.image(this.centerX, this.centerY - 200, `dialogue`);
     this.connyText = this.add.text(this.centerX - 100, this.centerY - 275, this.connyDialogue,{
-      fontSize: `30px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `40px`,
       color: `#ffff`,
       fontStyle: `bold`,
       lineSpacing: 10
     });
     // Multiple choice
-    this.dialogueClose = this.add.text(this.centerX + 200, 320, `Press 'S' to close`, {
-      fontSize: `20px`,
-      fontStyle: `bold`,
+    this.dialogueClose = this.add.text(this.centerX - 400, 320, `Press 'S' to close`, {
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
     })
     this.dialogueBox.alpha = 0;
     this.dialogueClose.alpha = 0;
@@ -107,6 +109,7 @@ there!`;
 
     // Instructions ////////////////////////////////////////////////////////////
     this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
+      fontFamily: `EnterCommand`,
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,
@@ -231,8 +234,8 @@ there!`;
       this.talking = false;
       this.dialogueBox.alpha = 0;
       this.connyText.alpha = 0;
-      this.connyText.setText(`How can we reach the
-exit together...?`);
+      this.connyText.setText(`How can we reach the exit
+together...?`);
     }
     else if(this.keyboard.Y.isDown && !this.connyR){
       this.talking = false;

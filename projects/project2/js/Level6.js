@@ -34,15 +34,8 @@ class Level6 extends Phaser.Scene {
     this.doorX = 100;
     this.doorY = 600;
     // Dialogue
-    this.connyDialogue = `Seems like this one
-will require both our
-cooperation.`;
-    // Instructions
-    let instructionsStyle = {
-      fontSize: `20px`,
-      color: `#ffff`,
-      align: `center`
-    };
+    this.connyDialogue = `Seems like this one will
+require both our cooperation.`;
 
     // Plate ////////////////////////////////////////////////////////////
     this.plate = this.physics.add.sprite(this.plateX, this.plateY, `plate`);
@@ -96,14 +89,15 @@ cooperation.`;
     // Dialogue ////////////////////////////////////////////////////////////
     this.dialogueBox = this.add.image(this.centerX, this.centerY - 200, `dialogue`);
     this.connyText = this.add.text(this.centerX - 100, this.centerY - 275, this.connyDialogue,{
-      fontSize: `30px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `40px`,
       color: `#ffff`,
       fontStyle: `bold`,
       lineSpacing: 10
     });
     this.dialogueClose = this.add.text(this.centerX + 200, 320, `Press 'S' to close`, {
-      fontSize: `20px`,
-      fontStyle: `bold`,
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
     })
     this.dialogueBox.alpha = 0;
     this.dialogueClose.alpha = 0;
@@ -111,6 +105,7 @@ cooperation.`;
 
     // Instructions ////////////////////////////////////////////////////////////
     this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
+      fontFamily: `EnterCommand`,
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,
@@ -194,8 +189,8 @@ cooperation.`;
       this.door.play(`door-closed`);
       this.exitOpen = true;
       this.exitText.alpha = 1;
-      this.connyText.setText(`I knew we could do it.
-Good job us!`);
+      this.connyText.setText(`Hold on! Please don't leave
+without me!`);
     }
     else{
       this.door.play(`door-open`);
@@ -266,11 +261,6 @@ launch(){
       if(this.keyboard.E.isDown && this.connyR){
         this.talking = false;
         this.levelCompleted = true;
-      }
-      // At the exit without conny
-      else if(this.keyboard.E.isDown && !this.connyR){
-        this.talking = true;
-        this.connyText.setText(`Wait for me!`);
       }
     }
   }

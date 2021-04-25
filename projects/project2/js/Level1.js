@@ -31,7 +31,8 @@
     this.doorY = 500;
     // Instructions
     let instructionsStyle = {
-      fontSize: `20px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
       color: `#ffff`,
       align: `center`
     };
@@ -84,6 +85,7 @@ Boxxy`, instructionsStyle).setOrigin(0.5);
     this.interactInstructions = this.add.text(this.buttonSX, 450, `Use E to interact
 and exit`, instructionsStyle).setOrigin(0.5);
     this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
+      fontFamily: `EnterCommand`,
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,

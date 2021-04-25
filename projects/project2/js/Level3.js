@@ -36,12 +36,13 @@ class Level3 extends Phaser.Scene {
     this.doorX = 100;
     this.doorY = 500;
     // Dialogue
-    this.connyDialogue = `You can't reach the
-button? Don't worry, I'll
-jump higher for you!`;
+    this.connyDialogue = `You can't reach the button?
+Don't worry, I'll jump higher
+for you!`;
     // Instructions
     let instructionsStyle = {
-      fontSize: `20px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
       color: `#ffff`,
       align: `center`
     };
@@ -97,14 +98,15 @@ jump higher for you!`;
     // Dialogue ////////////////////////////////////////////////////////////
     this.dialogueBox = this.add.image(this.centerX, this.centerY - 200, `dialogue`);
     this.connyText = this.add.text(this.centerX - 100, this.centerY - 275, this.connyDialogue,{
-      fontSize: `30px`,
+      fontFamily: `EnterCommand`,
+      fontSize: `40px`,
       color: `#ffff`,
       fontStyle: `bold`,
       lineSpacing: 10
     });
     this.dialogueClose = this.add.text(this.centerX + 200, 320, `Press 'S' to close`, {
-      fontSize: `20px`,
-      fontStyle: `bold`,
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
     })
     this.dialogueBox.alpha = 0;
     this.dialogueClose.alpha = 0;
@@ -115,6 +117,7 @@ jump higher for you!`;
 press R to reset
 or talk to Conny for help`, instructionsStyle).setOrigin(0.5);
     this.exitText = this.add.text(this.doorX, this.doorY - 100, `↓EXIT↓`, {
+      fontFamily: `EnterCommand`,
       fontSize: `30px`,
       color: `#ffff`,
       align: `center`,
@@ -233,10 +236,9 @@ team don't you think?`);
       this.dialogueBox.alpha = 0;
       this.dialogueClose.alpha = 0;
       this.connyText.alpha = 0;
-      this.connyText.setText(`I believe both buttons
-need to be pressed at
-the same time for the
-door to open.`);
+      this.connyText.setText(`I believe both buttons need
+to be pressed at the same
+time for the door to open.`);
     }
     else if(this.keyboard.S.isDown && !this.connyR){
       this.talking = false;
