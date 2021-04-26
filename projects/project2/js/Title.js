@@ -53,6 +53,7 @@ Daniel Cacatian`, creditsStyle).setOrigin(0.5);
       this.bg.y -= 10;
       this.title.y -= 10;
       this.instructions.y -= 10;
+      this.madeBy.y -= 10;
     };
 
     // Start next scene
