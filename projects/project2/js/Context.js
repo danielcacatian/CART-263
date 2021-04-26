@@ -27,7 +27,7 @@ of the labyrinth by solving the puzzles and escaping.`, {
       align: `left`});
 
     // Screenwipe ////////////////////////////////////////////////////////////
-    this.transitionEnd = this.add.sprite(this.centerX, this.centerY*3, `platformH`).setScale(12);
+    this.transitionEnd = this.add.sprite(this.centerX, this.centerY*4, `platformH`).setScale(12);
 
     // Register keyboard inputs
     this.keyboard = this.input.keyboard.addKeys(`E`);

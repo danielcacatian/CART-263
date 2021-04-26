@@ -36,8 +36,8 @@ PAIR`, {
     // Credits
     this.madeBy = this.add.text(this.centerX, 50, `A game by
 Daniel Cacatian`, creditsStyle).setOrigin(0.5);
-    // this.musicBy = this.add.text(this.centerX, 700, `Music - `, creditsStyle).setOrigin(0.5);
-
+    this.musicBy = this.add.text(this.centerX, 700, `Music by Disasterpeace - Home
+FEZ Soundtrack `, creditsStyle).setOrigin(0.5);
 
     // Register keyboard inputs
     this.keyboard = this.input.keyboard.addKeys(`E`);
@@ -54,10 +54,11 @@ Daniel Cacatian`, creditsStyle).setOrigin(0.5);
       this.title.y -= 10;
       this.instructions.y -= 10;
       this.madeBy.y -= 10;
+      this.musicBy.y -= 10;
     };
 
     // Start next scene
-    if(this.instructions.y <= -50){
+    if(this.musicBy.y <= -50){
       this.scene.start(`context`);
     };
 

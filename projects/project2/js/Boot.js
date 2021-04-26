@@ -38,6 +38,8 @@ class Boot extends Phaser.Scene {
     this.load.image(`title`, `assets/images/title.png`);
     this.load.image(`good`, `assets/images/good.png`);
     this.load.image(`bad`, `assets/images/bad.png`);
+    // Sounds
+    this.load.audio(`bgMusic`, `assets/sounds/bgmusic.mp3`);
 
     this.load.on(`complete`, () => {
       this.scene.start(`title`);
@@ -45,7 +47,20 @@ class Boot extends Phaser.Scene {
   }
 
   create(){
+    this.centerX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+    this.centerY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
+    // Loading...
+    this.title = this.add.text(this.centerX, this.centerY, `Loading...`, {
+      fontFamily: `EnterCommand`,
+      fontSize: `120px`,
+      color: `#ffff`,
+      align: `center`}).setOrigin(0.5);
+
+    // Background music
+    this.bgMusic = this.sound.add(`bgMusic`);
+    this.bgMusic.loop = true;
+    this.bgMusic.play();
   }
 
   update(){
