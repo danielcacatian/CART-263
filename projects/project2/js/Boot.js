@@ -1,12 +1,12 @@
 class Boot extends Phaser.Scene {
 
-  constructor(){
+  constructor() {
     super({
       key: `boot`
     });
   }
 
-  preload(){
+  preload() {
     // Sprites
     // Boxxy
     this.load.spritesheet(`boxxy`, `assets/images/boxxy.png`, {
@@ -46,7 +46,7 @@ class Boot extends Phaser.Scene {
     })
   }
 
-  create(){
+  create() {
     this.centerX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     this.centerY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
@@ -55,7 +55,8 @@ class Boot extends Phaser.Scene {
       fontFamily: `EnterCommand`,
       fontSize: `120px`,
       color: `#ffff`,
-      align: `center`}).setOrigin(0.5);
+      align: `center`
+    }).setOrigin(0.5);
 
     // Background music
     this.bgMusic = this.sound.add(`bgMusic`);
@@ -63,7 +64,7 @@ class Boot extends Phaser.Scene {
     this.bgMusic.play();
   }
 
-  update(){
+  update() {
 
   }
 

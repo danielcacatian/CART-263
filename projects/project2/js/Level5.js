@@ -1,14 +1,14 @@
 class Level5 extends Phaser.Scene {
 
-  constructor(){
+  constructor() {
     super({
       key: `level5`
     });
   }
 
-// CREATE FUNCTION ////////////////////////////////////////////////////////////
-// Contains the setup of different sprites
-  create(){
+  // CREATE FUNCTION ////////////////////////////////////////////////////////////
+  // Contains the setup of different sprites
+  create() {
     // Variables ////////////////////////////////////////////////////////////
     // Boxxy
     this.boxxyX = 650; //Boxxy's spawnpoint (X)
@@ -27,7 +27,7 @@ class Level5 extends Phaser.Scene {
     // Button
     this.buttonSX = 1300; // square
     this.buttonSY = 475;
-    this.buttonTX = 1300;  // triangle
+    this.buttonTX = 1300; // triangle
     this.buttonTY = 175;
     // Door
     this.doorX = 450;
@@ -91,11 +91,11 @@ enjoy my company at least.`;
 
     // Screenwipe ////////////////////////////////////////////////////////////
     this.transitionStart = this.add.sprite(this.centerX, this.centerY, `platformH`).setScale(12);
-    this.transitionEnd = this.add.sprite(this.centerX, this.centerY*3, `platformH`).setScale(12);
+    this.transitionEnd = this.add.sprite(this.centerX, this.centerY * 3, `platformH`).setScale(12);
 
     // Dialogue ////////////////////////////////////////////////////////////
     this.dialogueBox = this.add.image(this.centerX, this.centerY - 200, `dialogue`);
-    this.connyText = this.add.text(this.centerX - 100, this.centerY - 275, this.connyDialogue,{
+    this.connyText = this.add.text(this.centerX - 100, this.centerY - 275, this.connyDialogue, {
       fontFamily: `EnterCommand`,
       fontSize: `40px`,
       color: `#ffff`,
@@ -124,24 +124,23 @@ enjoy my company at least.`;
     this.cursors = this.input.keyboard.createCursorKeys();
     this.keyboard = this.input.keyboard.addKeys(`W, A, S, D, E, R`);
 
-  }// create() end
+  } // create() end
 
-// UPDATE FUNCTION /////////////////////////////////////////////////////
-// Contains the controls and events for the game
-  update(){
+  // UPDATE FUNCTION /////////////////////////////////////////////////////
+  // Contains the controls and events for the game
+  update() {
     // Controls ////////////////////////////////////////////////////////////
     // Boxxy
     this.boxxy.setVelocityX(0);
-    if(!this.talking){
-      if(this.keyboard.A.isDown){ // left
+    if (!this.talking) {
+      if (this.keyboard.A.isDown) { // left
         this.boxxy.setVelocityX(-200);
         this.boxxy.play(`boxxy-moving-left`, true);
-      }
-      else if(this.keyboard.D.isDown){ // right
+      } else if (this.keyboard.D.isDown) { // right
         this.boxxy.setVelocityX(200);
         this.boxxy.play(`boxxy-moving-right`, true);
       }
-      if(this.keyboard.W.isDown && this.boxxy.body.onFloor()){ // jump
+      if (this.keyboard.W.isDown && this.boxxy.body.onFloor()) { // jump
         this.boxxy.setVelocityY(-300);
       }
     }
@@ -150,16 +149,15 @@ enjoy my company at least.`;
     }
     // Conny
     this.conny.setVelocityX(0);
-    if(!this.talking){
-      if(this.cursors.left.isDown){ // left
+    if (!this.talking) {
+      if (this.cursors.left.isDown) { // left
         this.conny.setVelocityX(-200);
         this.conny.play(`conny-moving-left`, true);
-      }
-      else if(this.cursors.right.isDown){ // right
+      } else if (this.cursors.right.isDown) { // right
         this.conny.setVelocityX(200);
         this.conny.play(`conny-moving-right`, true);
       }
-      if(this.cursors.up.isDown && this.conny.body.onFloor()){ // jump
+      if (this.cursors.up.isDown && this.conny.body.onFloor()) { // jump
         this.conny.setVelocityY(this.connyJump);
       }
     }
@@ -170,28 +168,28 @@ enjoy my company at least.`;
     this.physics.add.overlap(this.boxxy, this.conny, this.launch, null, this);
 
     // Level started ////////////////////////////////////////////////////////////
-    if(!this.levelCompleted){
+    if (!this.levelCompleted) {
       this.transitionStart.y -= 25;
     }
-    if(this.transitionStart.y === -1000){
+    if (this.transitionStart.y === -1000) {
       this.transitionStart.destroy();
     }
     // Level completed ////////////////////////////////////////////////////////////
-    if(this.levelCompleted){
+    if (this.levelCompleted) {
       this.transitionEnd.y -= 25;
     }
-    if(this.transitionEnd.y === this.centerY){
+    if (this.transitionEnd.y === this.centerY) {
       this.scene.start(`level6`);
     }
     // Level restart ////////////////////////////////////////////////////////////
-    if(this.keyboard.R.isDown){
+    if (this.keyboard.R.isDown) {
       this.scene.restart();
       this.exitOpen = false;
     }
 
     // Overlap //////////////////////////////////////////////////////////////////
     // Entered door
-    if(this.doorOpen){
+    if (this.doorOpen) {
       this.exitOpen = true;
       this.exitText.alpha = 1;
       this.connyText.setText(`We're unstoppable together!`);
@@ -207,45 +205,43 @@ enjoy my company at least.`;
     this.physics.add.overlap(this.conny, this.buttonT, this.atButton, null, this);
 
     // Talk to Conny
-    if(this.talking){
+    if (this.talking) {
       this.dialogueBox.alpha = 1;
       this.connyText.alpha = 1;
       this.dialogueClose.alpha = 1;
-    }
-    else{
+    } else {
       this.physics.add.overlap(this.boxxy, this.conny, this.talk, null, this);
     }
     // exit out of dialogue
-    if(this.keyboard.S.isDown && this.talking){
+    if (this.keyboard.S.isDown && this.talking) {
       this.talking = false;
       this.dialogueBox.alpha = 0;
       this.dialogueClose.alpha = 0;
       this.connyText.alpha = 0;
       this.connyText.setText(`We make a pretty great
 team don't you think?`);
-    }
-    else if(this.keyboard.S.isDown && !this.connyR){
+    } else if (this.keyboard.S.isDown && !this.connyR) {
       this.talking = false;
       this.dialogueBox.alpha = 0;
       this.connyText.alpha = 0;
     }
 
-  }// update() end
+  } // update() end
 
-// MISCELLANEOUS FUNCTIONS /////////////////////////////////////////////////////
-// The ability to launch Conny in the air
-launch(){
-  if(this.cursors.space.isDown && this.conny.body.onFloor()){
-    this.conny.setVelocityY(-600);
+  // MISCELLANEOUS FUNCTIONS /////////////////////////////////////////////////////
+  // The ability to launch Conny in the air
+  launch() {
+    if (this.cursors.space.isDown && this.conny.body.onFloor()) {
+      this.conny.setVelocityY(-600);
+    }
   }
-}
 
-// When the SQUARE button is pushed
-  boxxyReady(){
+  // When the SQUARE button is pushed
+  boxxyReady() {
     this.buttonPushed = false;
-    if(!this.buttonPushed){
+    if (!this.buttonPushed) {
       this.boxxyR = true;
-      if(this.keyboard.E.isDown && this.boxxyR && this.connyButton){
+      if (this.keyboard.E.isDown && this.boxxyR && this.connyButton) {
         this.buttonPushed = true;
         this.door.play(`door-open`);
         this.doorOpen = true;
@@ -253,39 +249,39 @@ launch(){
     }
   }
 
-  atDoor(){
+  atDoor() {
     this.connyR = true;
   }
-  atButton(){
+  atButton() {
     this.connyButton = true;
   }
 
-// Door opens
-  exit(){
-    if(this.exitOpen){
-      if(this.keyboard.E.isDown && this.connyR){
+  // Door opens
+  exit() {
+    if (this.exitOpen) {
+      if (this.keyboard.E.isDown && this.connyR) {
         this.talking = false;
         this.levelCompleted = true;
       }
       // At the exit without conny
-      else if(this.keyboard.E.isDown && !this.connyR){
+      else if (this.keyboard.E.isDown && !this.connyR) {
         this.talking = true;
         this.connyText.setText(`Wait for me!`);
       }
     }
   }
 
-// Talking to Conny
-  talk(){
-    if(this.keyboard.E.isDown && !this.talking && !this.connyR){
+  // Talking to Conny
+  talk() {
+    if (this.keyboard.E.isDown && !this.talking && !this.connyR) {
       this.talking = true;
       this.connyFreed = true;
       this.connyMotivated = true;
-      }
     }
+  }
 
-// Create animations
-  createAnimations(){
+  // Create animations
+  createAnimations() {
     // Boxxy animation
     this.anims.create({
       key: `boxxy-idle`,

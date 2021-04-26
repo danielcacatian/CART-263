@@ -26,13 +26,15 @@ PAIR`, {
       fontSize: `120px`,
       color: `#ffff`,
       align: `center`,
-      fontStyle: `bold`}).setOrigin(0.5);
+      fontStyle: `bold`
+    }).setOrigin(0.5);
     // Instructions
     this.instructions = this.add.text(this.centerX, this.centerY + 150, `Press 'E' to begin`, {
       fontFamily: `EnterCommand`,
       fontSize: `50px`,
       color: `#ffff`,
-      align: `center`}).setOrigin(0.5);
+      align: `center`
+    }).setOrigin(0.5);
     // Credits
     this.madeBy = this.add.text(this.centerX, 50, `A game by
 Daniel Cacatian`, creditsStyle).setOrigin(0.5);
@@ -41,15 +43,15 @@ FEZ Soundtrack `, creditsStyle).setOrigin(0.5);
 
     // Register keyboard inputs
     this.keyboard = this.input.keyboard.addKeys(`E`);
-  }// create() end
+  } // create() end
 
 
   update() {
     // Start game
-    if(this.keyboard.E.isDown){
+    if (this.keyboard.E.isDown) {
       this.gameStarted = true;
     };
-    if(this.gameStarted){
+    if (this.gameStarted) {
       this.bg.y -= 10;
       this.title.y -= 10;
       this.instructions.y -= 10;
@@ -58,10 +60,10 @@ FEZ Soundtrack `, creditsStyle).setOrigin(0.5);
     };
 
     // Start next scene
-    if(this.musicBy.y <= -50){
+    if (this.musicBy.y <= -50) {
       this.scene.start(`context`);
     };
 
-  }// update() end
+  } // update() end
 
 }

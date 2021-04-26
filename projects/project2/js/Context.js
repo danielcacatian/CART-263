@@ -18,48 +18,50 @@ of the labyrinth by solving the puzzles and escaping.`, {
       color: `#ffff`,
       align: `left`,
       lineSpacing: 10,
-      fontStyle: `bold`}).setOrigin(0.5);
+      fontStyle: `bold`
+    }).setOrigin(0.5);
     // Instructions
     this.instructions = this.add.text(125, this.centerY + 750, `Press 'E' to begin`, {
       fontFamily: `EnterCommand`,
       fontSize: `40px`,
       color: `#ffff`,
-      align: `left`});
+      align: `left`
+    });
 
     // Screenwipe ////////////////////////////////////////////////////////////
-    this.transitionEnd = this.add.sprite(this.centerX, this.centerY*4, `platformH`).setScale(12);
+    this.transitionEnd = this.add.sprite(this.centerX, this.centerY * 4, `platformH`).setScale(12);
 
     // Register keyboard inputs
     this.keyboard = this.input.keyboard.addKeys(`E`);
-  }// create() end
+  } // create() end
 
 
   update() {
     // Start game
-    if(this.keyboard.E.isDown){
+    if (this.keyboard.E.isDown) {
       this.begin = true;
     }
-    if(this.begin){
+    if (this.begin) {
       this.transitionEnd.y -= 25;
     }
-    if(this.transitionEnd.y === this.centerY){
+    if (this.transitionEnd.y === this.centerY) {
       this.scene.start(`level1`);
     }
 
     // Stop text
-    if(this.context.y === this.centerY){
+    if (this.context.y === this.centerY) {
       this.reading = true;
     }
-    if(!this.reading){
+    if (!this.reading) {
       this.context.y -= 10;
       this.instructions.y -= 10;
     }
 
     // Start next scene
-    if(this.instructions.y === -10){
+    if (this.instructions.y === -10) {
       this.scene.start(`context`);
     }
 
-  }// update() end
+  } // update() end
 
 }

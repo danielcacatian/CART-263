@@ -1,6 +1,6 @@
 # Project 2: The Perfect Pair
 
-The Perfect Pair is a puzzle-solving game with a narrative experience added to it. It is a game programmed with Phaser 3 and a bit of p5.js involved. You control two players: Boxxy & Conny. To solve the puzzles, you'll have to utilize their teamwork. It is no easy task, but luckily, you have Conny by your side! The link to the project is here: [Project 2: The Perfect Pair](https://danielcacatian.github.io/CART-263/projects/project2/)
+The Perfect Pair is a puzzle-solving game with a narrative experience added to it. It is a game programmed with Phaser 3. You control two players: Boxxy & Conny. To solve the puzzles, you'll have to utilize their teamwork. It is no easy task, but luckily, you have Conny by your side! The link to the project is here: [Project 2: The Perfect Pair](https://danielcacatian.github.io/CART-263/projects/project2/)
 
 ## Artist's statement
 
