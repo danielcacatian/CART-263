@@ -9,14 +9,15 @@ class Context extends Phaser.Scene {
   create() {
     this.centerY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
-    // Title
-    this.title = this.add.text(700, this.centerY + 600, `Your name is Boxxy, and although you don't know much,
+    // Context
+    this.context = this.add.text(700, this.centerY + 600, `Your name is Boxxy, and although you don't know much,
 all you do know is that you need to escape. Find your way out
-of the labrynth by solving the puzzles and escaping.`, {
+of the labyrinth by solving the puzzles and escaping.`, {
       fontFamily: `EnterCommand`,
       fontSize: `48px`,
       color: `#ffff`,
       align: `left`,
+      lineSpacing: 10,
       fontStyle: `bold`}).setOrigin(0.5);
     // Instructions
     this.instructions = this.add.text(125, this.centerY + 750, `Press 'E' to begin`, {
@@ -46,11 +47,11 @@ of the labrynth by solving the puzzles and escaping.`, {
     }
 
     // Stop text
-    if(this.title.y === this.centerY){
+    if(this.context.y === this.centerY){
       this.reading = true;
     }
     if(!this.reading){
-      this.title.y -= 10;
+      this.context.y -= 10;
       this.instructions.y -= 10;
     }
 

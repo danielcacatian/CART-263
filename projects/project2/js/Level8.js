@@ -181,11 +181,11 @@ there!`;
     }
     // Good ending
     if(this.transitionEndGood.y === this.centerY){
-      this.scene.start(`end`);
+      this.scene.start(`good`);
     }
     // Bad ending
     if(this.transitionEndBad.y === this.centerY){
-      this.scene.start(`level1`);
+      this.scene.start(`bad`);
     }
     // Level restart ////////////////////////////////////////////////////////////
     if(this.keyboard.R.isDown){
@@ -240,6 +240,7 @@ together...?`);
     else if(this.keyboard.Y.isDown && !this.connyR){
       this.talking = false;
       this.dialogueBox.alpha = 0;
+      this.dialogueClose.alpha = 0;
       this.connyText.alpha = 0;
       this.levelCompleted = true;
     }

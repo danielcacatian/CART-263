@@ -10,6 +10,13 @@ class Title extends Phaser.Scene {
     this.centerX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     this.centerY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
+    let creditsStyle = {
+      fontFamily: `EnterCommand`,
+      fontSize: `30px`,
+      color: `#ffff`,
+      align: `center`,
+    };
+
     // Background image
     this.bg = this.add.image(this.centerX, this.centerY, `title`);
     // Title
@@ -21,11 +28,16 @@ PAIR`, {
       align: `center`,
       fontStyle: `bold`}).setOrigin(0.5);
     // Instructions
-    this.instructions = this.add.text(this.centerX, this.centerY + 200, `Press 'E' to begin`, {
+    this.instructions = this.add.text(this.centerX, this.centerY + 150, `Press 'E' to begin`, {
       fontFamily: `EnterCommand`,
       fontSize: `50px`,
       color: `#ffff`,
       align: `center`}).setOrigin(0.5);
+    // Credits
+    this.madeBy = this.add.text(this.centerX, 50, `A game by
+Daniel Cacatian`, creditsStyle).setOrigin(0.5);
+    // this.musicBy = this.add.text(this.centerX, 700, `Music - `, creditsStyle).setOrigin(0.5);
+
 
     // Register keyboard inputs
     this.keyboard = this.input.keyboard.addKeys(`E`);
@@ -47,8 +59,6 @@ PAIR`, {
     if(this.instructions.y <= -50){
       this.scene.start(`context`);
     };
-
-    console.log(this.instructions.y);
 
   }// update() end
 

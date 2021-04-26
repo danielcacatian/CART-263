@@ -35,10 +35,12 @@ class Boot extends Phaser.Scene {
     this.load.image(`platformH`, `assets/images/platformH.png`);
     this.load.image(`platformV`, `assets/images/platformV.png`);
     this.load.image(`dialogue`, `assets/images/dialogue.png`);
-    this.load.image(`title`, `assets/images/title.png`)
+    this.load.image(`title`, `assets/images/title.png`);
+    this.load.image(`good`, `assets/images/good.png`);
+    this.load.image(`bad`, `assets/images/bad.png`);
 
     this.load.on(`complete`, () => {
-      this.scene.start(`context`);
+      this.scene.start(`title`);
     })
   }
 
